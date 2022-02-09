@@ -1,0 +1,12 @@
+{
+	"files.associations": {
+		"unistd.h": "c",
+		"ft_printf.h": "c",
+		"stdarg.h": "c",
+		"cstdio": "cpp",
+		"chrono": "c",
+		"locale": "c",
+		"complex": "c",
+		"__locale": "c"
+	}
+}
