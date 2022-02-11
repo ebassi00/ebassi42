@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 15:21:41 by ebassi            #+#    #+#             */
-/*   Updated: 2022/02/11 15:14:23 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/02/11 16:50:32 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 # define GET_NEXT_LINE_H
 
+# define BUFFER_SIZE 1
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>

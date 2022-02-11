@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 12:40:41 by ebassi            #+#    #+#             */
-/*   Updated: 2022/02/11 15:43:07 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/02/11 16:59:53 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,13 @@ void	create_map(t_data *root, char *parsing_map)
 	int		fd;
 	char	*res;
 
+	printf("ciao\n");
 	res = 0;
 	root->endian = 0;
 	fd = open(parsing_map, O_RDWR);
 	if (!res)
-	{
 		res = get_next_line(fd);
-		printf("%s\n", res);
-	}
+	printf("%s\n", res);
 	while (res != '\0')
 	{
 		res = get_next_line(fd);
@@ -74,7 +73,7 @@ t_data	*mlx_init_root(char *parsing_map)
 		create_map(root, parsing_map);
 	else
 	{
-		printf("Argomento non valido / mappa non valida\n");
+		printf("Non valid argument / non valid map\n");
 		exit (0);
 	}
 	return (root);

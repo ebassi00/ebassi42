@@ -6,13 +6,11 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 15:21:46 by ebassi            #+#    #+#             */
-/*   Updated: 2022/02/11 15:49:21 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/02/11 16:47:00 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-#define BUFFER_SIZE 1
 
 char	*get_next_line(int fd)
 {
