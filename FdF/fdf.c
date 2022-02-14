@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 12:14:59 by ebassi            #+#    #+#             */
-/*   Updated: 2022/02/14 16:46:55 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/02/14 16:57:57 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ int	deal_key(int key, t_game *game)
 		game->z_axis += 1;
 	if (key == 83)
 		game->z_axis -= 1;
+	if (key == 53)
+		exit (0);
 	if (key == 2)
 	{
 		if (!game->twod)
@@ -46,7 +48,7 @@ int	deal_key(int key, t_game *game)
 	mlx_clear_window(game->mlx_ptr, game->mlx_win);
 	draw(game);
 	mlx_string_put(game->mlx_ptr, game->mlx_win, 0, 0, 0xffffff, "Press UP DOWN RIGHT LEFT to move | Press D for 2D version");
-	mlx_string_put(game->mlx_ptr, game->mlx_win, 0, 20, 0xffffff, "Press PLUS MINUS to zoom IN/OUT");
+	mlx_string_put(game->mlx_ptr, game->mlx_win, 0, 20, 0xffffff, "Press PLUS MINUS to zoom IN/OUT | Press ESC to quit");
 	mlx_string_put(game->mlx_ptr, game->mlx_win, 0, 40, 0xffffff, "Press 8/7 to reangle");
 	mlx_string_put(game->mlx_ptr, game->mlx_win, 0, 60, 0xffffff, "Press 1/2 to move through z-axis");
 	return (0);
@@ -62,7 +64,7 @@ int main(int argc, char *argv[])
 	game->mlx_ptr = mlx_init();
 	game->mlx_win = mlx_new_window(game->mlx_ptr, 1000, 1000, "FdF");
 	mlx_string_put(game->mlx_ptr, game->mlx_win, 0, 0, 0xffffff, "Press UP DOWN RIGHT LEFT to move | Press D for 2D version");
-	mlx_string_put(game->mlx_ptr, game->mlx_win, 0, 20, 0xffffff, "Press PLUS MINUS to zoom IN/OUT");
+	mlx_string_put(game->mlx_ptr, game->mlx_win, 0, 20, 0xffffff, "Press PLUS MINUS to zoom IN/OUT | Press ESC to quit");
 	mlx_string_put(game->mlx_ptr, game->mlx_win, 0, 40, 0xffffff, "Press 8/7 to reangle");
 	mlx_string_put(game->mlx_ptr, game->mlx_win, 0, 60, 0xffffff, "Press 1/2 to move through z-axis");
 	game->zoom = 20;
