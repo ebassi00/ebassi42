@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 12:14:59 by ebassi            #+#    #+#             */
-/*   Updated: 2022/02/14 16:57:57 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/02/16 11:55:39 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ int	deal_key(int key, t_game *game)
 	if (key == 69)
 		game->zoom += 1;
 	if (key == 91)
-		game->angle += 0.1;
+		game->angle += 0.03;
 	if (key == 89)
-		game->angle -= 0.1;
+		game->angle -= 0.03;
 	if (key == 84)
 		game->z_axis += 1;
 	if (key == 83)
@@ -70,6 +70,7 @@ int main(int argc, char *argv[])
 	game->zoom = 20;
 	game->angle = 0.8;
 	game->twod = 0;
+	game->z_axis = 1;
 	draw(game);
 	mlx_key_hook(game->mlx_win, deal_key, game);
 	mlx_loop(game->mlx_ptr);

@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 15:15:47 by ebassi            #+#    #+#             */
-/*   Updated: 2022/02/14 17:04:28 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/02/15 17:15:23 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,19 @@ void	bresenham(float x, float y, float x1, float y1, t_game *game)
 	y *= game->zoom;
 	x1 *= game->zoom;
 	y1 *= game->zoom;
+	z *= game->z_axis;
+	z1 *= game->z_axis;
 
 	//-----color-----
-	game->color = (z || z1) ? 0xe80c0c : 0xffffff; //red || white
+	if (z || z1)
+		game->color = 0xe80c0c; //red
+	else
+		game->color = 0xffffff; //white
 
 	//-----3D-----
 	if (!game->twod)
 	{
-		isometric(&x, &y, z + game->z_axis, game);
+		isometric(&x, &y, z, game);
 		isometric(&x1, &y1, z1, game);
 	}
 	
@@ -101,8 +106,3 @@ void	draw(t_game *game)
 		y++;
 	}
 }
-
-/*
-comando per eseguire
-gcc *.c get_next_line/*.c libft/*.c -l mlx -framework openGL -framework AppKit && ./a.out test_maps/42.fdf
-*/
