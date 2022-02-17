@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 12:40:41 by ebassi            #+#    #+#             */
-/*   Updated: 2022/02/17 16:02:52 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/02/17 16:49:42 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ int	main(int argc, char *argv[])
 	fill_matrix(game, argv[1]);
 	game->mlx = mlx_init();
 	game->win = mlx_new_window(game->mlx, (game->width) * 64, (game->height) * 64, "so_long");
+	mlx_string_put(game->mlx, game->win, 32, 32, 0xffffff, "prova");
 	img_to_win(game);
 	mlx_key_hook(game->win, deal_key, game);
 	mlx_loop(game->mlx);
