@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 12:40:41 by ebassi            #+#    #+#             */
-/*   Updated: 2022/02/16 16:06:17 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/02/17 16:02:52 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,20 @@
 
 int	deal_key(int key, t_game *game)
 {
-	printf("%d\n", key);
+	// printf("%d\n", key);
 
 	if (key == 53)
 		exit (0);
+	if (key == 126)
+		game->img->player_x -= 64;
+	if (key == 125)
+		game->img->player_x += 64;
+	if (key == 123)
+		game->img->player_y -= 64;
+	if (key == 124)
+		game->img->player_y += 64;
+	mlx_clear_window(game->mlx, game->win);
+	img_to_win(game);
 	return (0);
 }
 
@@ -64,6 +74,8 @@ t_game	*mlx_init_game(char *parsing_map)
 	game->height = 0;
 	game->map = 0;
 	game->width = 0;
+	game->x_size = 0;
+	game->y_size = 0;
 	if (check_ber(parsing_map))
 	{
 		game->width = get_width(game, parsing_map);
@@ -80,6 +92,7 @@ t_game	*mlx_init_game(char *parsing_map)
 int	main(int argc, char *argv[])
 {
 	t_game	*game;
+	t_img	*img;
 	int		i;
 	int		j;
 
@@ -89,24 +102,12 @@ int	main(int argc, char *argv[])
 		return (0);
 	}
 	game = mlx_init_game(argv[1]);
+	img = img_init();
+	game->img = img;
 	printf("height: %d, width: %d\n", game->height, game->width);
 	fill_matrix(game, argv[1]);
-	/*i = 0;
-	while (i < game->height)
-	{
-		j = 0;
-		while (j < game->width)
-		{
-			printf("%c", game->map[i][j]);
-			j++;
-		}
-		printf("\n");
-		i++;
-	}*/
-	game->x_size = 64;
-	game->y_size = 64;
 	game->mlx = mlx_init();
-	game->win = mlx_new_window(game->mlx, (game->width + 1) * 64, (game->height + 1) * 64, "so_long");
+	game->win = mlx_new_window(game->mlx, (game->width) * 64, (game->height) * 64, "so_long");
 	img_to_win(game);
 	mlx_key_hook(game->win, deal_key, game);
 	mlx_loop(game->mlx);

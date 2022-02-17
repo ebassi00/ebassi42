@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 12:23:00 by ebassi            #+#    #+#             */
-/*   Updated: 2022/02/16 12:37:03 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/02/17 12:08:12 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	get_width(t_game *game, char *parsing_file)
 	if (!fd)
 		return (0);
 	res = get_next_line(fd);
-	width = ft_strlen(res);
+	width = ft_strlen(res) - 1;
 	close(fd);
 	return (width);
 }
