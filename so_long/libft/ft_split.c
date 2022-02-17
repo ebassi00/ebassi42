@@ -6,13 +6,13 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 11:33:51 by ebassi            #+#    #+#             */
-/*   Updated: 2022/01/19 16:54:51 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/02/16 12:24:06 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	ft_rowcount(char const *str, char c)
+int	ft_rowcount(char const *str, char c)
 {
 	int	i;
 	int	count;

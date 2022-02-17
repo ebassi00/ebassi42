@@ -6,37 +6,34 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 12:40:41 by ebassi            #+#    #+#             */
-/*   Updated: 2022/02/11 16:59:53 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/02/16 16:06:17 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
+int	deal_key(int key, t_game *game)
 {
-	char	*dst;
+	printf("%d\n", key);
 
-	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-	*(unsigned int*)dst = color;
+	if (key == 53)
+		exit (0);
+	return (0);
 }
 
-void	create_map(t_data *root, char *parsing_map)
+void	handle_map(char *res, t_game *game)
 {
-	int		fd;
-	char	*res;
+	int	row;
+	int	col;
+	int	len;
 
-	printf("ciao\n");
-	res = 0;
-	root->endian = 0;
-	fd = open(parsing_map, O_RDWR);
-	if (!res)
-		res = get_next_line(fd);
-	printf("%s\n", res);
-	while (res != '\0')
-	{
-		res = get_next_line(fd);
-		printf("%s\n", res);
-	}
+	row = 0;
+	col = 0;
+	len = ft_strlen(res);
+	if (!game->width)
+		game->width = len;
+	if (!game->height)
+		game->height = 0;
 }
 
 int		check_ber(char *parsing_map)
@@ -57,44 +54,60 @@ int		check_ber(char *parsing_map)
 	return (0);
 }
 
-t_data	*mlx_init_root(char *parsing_map)
+t_game	*mlx_init_game(char *parsing_map)
 {
-	t_data	*root;
+	t_game	*game;
 
-	root = malloc (sizeof(t_data));
-	root->addr = 0;
-	root->bits_per_pixel = 0;
-	root->endian = 0;
-	root->img = 0;
-	root->line_length = 0;
-	root->mlx = 0;
-	root->win = 0;
+	game = malloc (sizeof(t_game));
+	game->mlx = 0;
+	game->win = 0;
+	game->height = 0;
+	game->map = 0;
+	game->width = 0;
 	if (check_ber(parsing_map))
-		create_map(root, parsing_map);
+	{
+		game->width = get_width(game, parsing_map);
+		game->height = get_height(game, parsing_map);
+		return (game);		
+	}
 	else
 	{
 		printf("Non valid argument / non valid map\n");
 		exit (0);
 	}
-	return (root);
 }
 
 int	main(int argc, char *argv[])
 {
-	t_data	*root;
+	t_game	*game;
+	int		i;
+	int		j;
 
-
-	if (argc == 1)
+	if (argc == 1 || argc > 2)
 	{
 		printf("Invalid number of arguments\n");
 		return (0);
 	}
-	root = mlx_init_root(argv[1]);
-	root->mlx = mlx_init();
-	root->win = mlx_new_window(root->mlx, 1920, 1080, "so_long");
-	root->img = mlx_new_image(root->mlx, 1920, 1080);
-	root->addr = mlx_get_data_addr(root->img, &root->bits_per_pixel, &root->line_length,
-								&root->endian);
-	mlx_put_image_to_window(root->mlx, root->win, root->img, 0, 0);
-	mlx_loop(root->mlx);
+	game = mlx_init_game(argv[1]);
+	printf("height: %d, width: %d\n", game->height, game->width);
+	fill_matrix(game, argv[1]);
+	/*i = 0;
+	while (i < game->height)
+	{
+		j = 0;
+		while (j < game->width)
+		{
+			printf("%c", game->map[i][j]);
+			j++;
+		}
+		printf("\n");
+		i++;
+	}*/
+	game->x_size = 64;
+	game->y_size = 64;
+	game->mlx = mlx_init();
+	game->win = mlx_new_window(game->mlx, (game->width + 1) * 64, (game->height + 1) * 64, "so_long");
+	img_to_win(game);
+	mlx_key_hook(game->win, deal_key, game);
+	mlx_loop(game->mlx);
 }

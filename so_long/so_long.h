@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 12:40:47 by ebassi            #+#    #+#             */
-/*   Updated: 2022/02/11 16:46:35 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/02/16 16:11:18 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,26 +24,34 @@
 # include <stdio.h>
 # include <stdarg.h>
 
-typedef struct s_game {
-	int	**map;
-	int	width;
-	int	height;
-}				t_game;
-
-typedef struct	s_data {
+typedef struct	s_game {
+	char	**map;
+	int		width;
+	int		height;
 	void	*mlx;
 	void	*win;
-	void	*img;
-	t_game	*game;
-	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
-}				t_data;
+	int		x_size;
+	int		y_size;
+}				t_game;
 
-t_data	*mlx_init_root(char *parsing_map);
-void	create_map(t_data *root, char *parsing_map);
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
+typedef struct	s_img {
+	void	*xpm_image;
+	int		img_size_x;
+	int		img_size_y;
+	int		player_x;
+	int		player_y;
+	int		exit_x;
+	int		exit_y;
+	int		grass_x;
+	int		grass_y;
+}				t_img;
+
+t_game	*mlx_init_root(char *parsing_map);
+void	create_map(t_game *game, char *parsing_map);
 int		check_ber(char *parsing_map);
+int		get_width(t_game *game, char *parsing_file);
+int		get_height(t_game *game, char *parsing_file);
+void	fill_matrix(t_game *game, char *filename);
+void	img_to_win(t_game *game);
 
 #endif
