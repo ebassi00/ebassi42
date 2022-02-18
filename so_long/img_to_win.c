@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 14:55:23 by ebassi            #+#    #+#             */
-/*   Updated: 2022/02/17 16:44:37 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/02/18 14:58:50 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ void	img_to_win(t_game *game)
 				game->img->xpm_image = mlx_xpm_file_to_image(game->mlx, "./img/collectible.xpm", &game->img->img_size_x, &game->img->img_size_y);
 				mlx_put_image_to_window(game->mlx, game->win, game->img->xpm_image, game->img->exit_y, game->img->exit_x);
 			}
-			/*else if (game->map[i][j] == '0') 								//DECOMMENTARE SE SI VUOLE SFONDO
+			/*else if (game->map[i][j] == '0') 								//DECOMMENTARE SE SI VUOLE SFONDO SUGLI '0'
 			{
 				game->img->grass_x = (i) * 64;
 				game->img->grass_y = (j) * 64;
