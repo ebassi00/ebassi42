@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 12:40:41 by ebassi            #+#    #+#             */
-/*   Updated: 2022/02/18 14:10:18 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/02/18 15:30:53 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ int	deal_key(int key, t_game *game)
 
 	if (key == 53)
 		exit (0);
-	if (key == 126)
+	if (key == 13)
 		game->img->player_x -= 64;
-	if (key == 125)
+	if (key == 1)
 		game->img->player_x += 64;
-	if (key == 123)
+	if (key == 0)
 		game->img->player_y -= 64;
-	if (key == 124)
+	if (key == 2)
 		game->img->player_y += 64;
 	mlx_clear_window(game->mlx, game->win);
 	img_to_win(game);

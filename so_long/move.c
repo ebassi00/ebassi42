@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/17 14:35:27 by ebassi            #+#    #+#             */
-/*   Updated: 2022/02/17 16:21:30 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/02/19 01:20:42 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	move_up(t_game *game, int prev_x, int i, int j)
 		mlx_clear_window(game->mlx, game->win);
 		game->img->move++;
 		printf("Mosse: %d\n", game->img->move);
-		printf("HAI VINTO PORCODDIO");
+		printf("HAI VINTO!");
 		exit (0);
 	}
 	else if (game->map[i-1][j] == 'E' && game->img->collectible_count != 0)
@@ -80,7 +80,7 @@ void	move_down(t_game *game, int prev_x, int i, int j)
 		mlx_clear_window(game->mlx, game->win);
 		game->img->move++;
 		printf("Mosse: %d\n", game->img->move);
-		printf("HAI VINTO PORCODDIO");
+		printf("HAI VINTO!");
 		exit (0);
 	}
 	else if (game->map[i+1][j] == 'E' && game->img->collectible_count != 0)
@@ -124,7 +124,7 @@ void	move_left(t_game *game, int prev_y, int i, int j)
 		mlx_clear_window(game->mlx, game->win);
 		game->img->move++;
 		printf("Mosse: %d\n", game->img->move);
-		printf("HAI VINTO PORCODDIO");
+		printf("HAI VINTO!");
 		exit (0);
 	}
 	else if (game->map[i][j-1] == 'E' && game->img->collectible_count != 0)
@@ -168,7 +168,7 @@ void	move_right(t_game *game, int prev_y, int i, int j)
 		mlx_clear_window(game->mlx, game->win);
 		game->img->move++;
 		printf("Mosse: %d\n", game->img->move);
-		printf("HAI VINTO PORCODDIO");
+		printf("HAI VINTO!");
 		exit (0);
 	}
 	else if (game->map[i][j+1] == 'E' && game->img->collectible_count != 0)

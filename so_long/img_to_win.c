@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 14:55:23 by ebassi            #+#    #+#             */
-/*   Updated: 2022/02/18 14:58:50 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/02/18 15:09:24 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,23 +44,21 @@ void	img_to_win(t_game *game)
 	prev_y = game->img->player_y;
 	if (!game->img->xpm_image)
 		game->img->xpm_image = malloc (sizeof(char) * game->width + 1);
-	/*while (i < game->height)
+	if (!game->img->collectible_count)
 	{
-		j = 0;
-		while (j < game->width)
+		while (i < game->height)
 		{
-			if (game->map[i][j] == '1')
+			j = 0;
+			while (j < game->width)
 			{
-				game->img->xpm_image = mlx_xpm_file_to_image(game->mlx, "./img/wall.xpm", &game->img->img_size_x, &game->img->img_size_y);
-				mlx_put_image_to_window(game->mlx, game->win, game->img->xpm_image, game->x_size, game->y_size);
+				if (game->map[i][j] == 'C')
+					game->img->collectible_count++;
+				j++;
 			}
-			game->x_size += 64;
-			j++;
+			i++;
 		}
-		game->y_size += 64;
-		game->x_size = 0;
-		i++;
-	}*/
+	}
+	i = 0;
 	while (i < game->height)
 	{
 		j = 0;
@@ -105,13 +103,19 @@ void	img_to_win(t_game *game)
 			{
 				game->img->exit_x = (i) * 64;
 				game->img->exit_y = (j) * 64;
-				game->img->xpm_image = mlx_xpm_file_to_image(game->mlx, "./img/exit.xpm", &game->img->img_size_x, &game->img->img_size_y);
-				mlx_put_image_to_window(game->mlx, game->win, game->img->xpm_image, game->img->exit_y, game->img->exit_x);
+				if (game->img->collectible_count == 0)
+				{
+					game->img->xpm_image = mlx_xpm_file_to_image(game->mlx, "./img/exit_2.xpm", &game->img->img_size_x, &game->img->img_size_y);
+					mlx_put_image_to_window(game->mlx, game->win, game->img->xpm_image, game->img->exit_y, game->img->exit_x);
+				}
+				else
+				{
+					game->img->xpm_image = mlx_xpm_file_to_image(game->mlx, "./img/exit.xpm", &game->img->img_size_x, &game->img->img_size_y);
+					mlx_put_image_to_window(game->mlx, game->win, game->img->xpm_image, game->img->exit_y, game->img->exit_x);
+				}
 			}
 			else if (game->map[i][j] == 'C')
 			{
-				if (!game->img->collectible_count)
-					game->img->collectible_count++;
 				game->img->exit_x = (i) * 64;
 				game->img->exit_y = (j) * 64;
 				game->img->xpm_image = mlx_xpm_file_to_image(game->mlx, "./img/collectible.xpm", &game->img->img_size_x, &game->img->img_size_y);
