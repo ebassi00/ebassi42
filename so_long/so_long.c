@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 12:40:41 by ebassi            #+#    #+#             */
-/*   Updated: 2022/02/18 15:30:53 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/02/19 02:07:56 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,12 @@
 
 int	deal_key(int key, t_game *game)
 {
-	// printf("%d\n", key);
-
 	if (key == 53)
+	{
+		mlx_clear_window(game->mlx, game->win);
+		mlx_destroy_window(game->mlx, game->win);
 		exit (0);
+	}
 	if (key == 13)
 		game->img->player_x -= 64;
 	if (key == 1)
@@ -28,6 +30,9 @@ int	deal_key(int key, t_game *game)
 		game->img->player_y += 64;
 	mlx_clear_window(game->mlx, game->win);
 	img_to_win(game);
+	mlx_string_put(game->mlx, game->win, 0, 16, 0xc1ffc1, "Moves: ");
+	mlx_string_put(game->mlx, game->win, 68, 16, 0xc1ffc1, \
+					ft_itoa(game->img->move));
 	return (0);
 }
 
@@ -46,7 +51,7 @@ void	handle_map(char *res, t_game *game)
 		game->height = 0;
 }
 
-int		check_ber(char *parsing_map)
+int	check_ber(char *parsing_map)
 {
 	int	i;
 
@@ -80,7 +85,7 @@ t_game	*mlx_init_game(char *parsing_map)
 	{
 		game->width = get_width(game, parsing_map);
 		game->height = get_height(game, parsing_map);
-		return (game);		
+		return (game);
 	}
 	else
 	{
@@ -107,9 +112,12 @@ int	main(int argc, char *argv[])
 	printf("height: %d, width: %d\n", game->height, game->width);
 	fill_matrix(game, argv[1]);
 	game->mlx = mlx_init();
-	game->win = mlx_new_window(game->mlx, (game->width) * 64, (game->height) * 64, "so_long");
-	// mlx_string_put(game->mlx, game->win, 32, 32, 0xffffff, "prova");
+	game->win = mlx_new_window(game->mlx, (game->width) * 64, \
+								(game->height) * 64, "so_long");
 	img_to_win(game);
+	mlx_string_put(game->mlx, game->win, 0, 16, 0xc1ffc1, "Moves: ");
+	mlx_string_put(game->mlx, game->win, 68, 16, 0xc1ffc1, \
+					ft_itoa(game->img->move));
 	mlx_key_hook(game->win, deal_key, game);
 	mlx_loop(game->mlx);
 }

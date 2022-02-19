@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 12:40:47 by ebassi            #+#    #+#             */
-/*   Updated: 2022/02/18 15:31:04 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/02/19 01:43:54 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # include <stdio.h>
 # include <stdarg.h>
 
-typedef struct	s_img {
+typedef struct s_img {
 	void	*xpm_image;
 	int		img_size_x;
 	int		img_size_y;
@@ -39,7 +39,7 @@ typedef struct	s_img {
 	int		move;
 }				t_img;
 
-typedef struct	s_game {
+typedef struct s_game {
 	char	**map;
 	int		width;
 	int		height;
