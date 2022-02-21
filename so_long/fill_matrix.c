@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 12:24:57 by ebassi            #+#    #+#             */
-/*   Updated: 2022/02/19 01:43:02 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/02/21 16:56:48 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,13 @@ void	fill_matrix(t_game *game, char *filename)
 	}
 	fd = open(filename, O_RDONLY);
 	i = 0;
-	while ((res = get_next_line(fd)) != NULL)
+	res = get_next_line(fd);
+	while (res != NULL)
 	{
 		game->map[i] = fill_matrix_wnumbers(game->map[i], res);
 		free(res);
 		i++;
+		res = get_next_line(fd);
 	}
 	game->map[i] = NULL;
 }

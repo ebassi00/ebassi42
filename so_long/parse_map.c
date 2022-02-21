@@ -6,13 +6,13 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 12:23:00 by ebassi            #+#    #+#             */
-/*   Updated: 2022/02/19 01:31:53 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/02/21 17:00:32 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-int	get_width(t_game *game, char *parsing_file)
+int	get_width(char *parsing_file)
 {
 	int		fd;
 	char	*res;
@@ -29,7 +29,7 @@ int	get_width(t_game *game, char *parsing_file)
 	return (width);
 }
 
-int	get_height(t_game *game, char *parsing_file)
+int	get_height(char *parsing_file)
 {
 	int		fd;
 	char	*res;
@@ -40,11 +40,14 @@ int	get_height(t_game *game, char *parsing_file)
 	fd = open(parsing_file, O_RDONLY);
 	if (!fd)
 		return (0);
-	while ((res = get_next_line(fd)) != NULL)
+	res = get_next_line(fd);
+	while (res != NULL)
 	{
 		height++;
 		free(res);
+		res = get_next_line(fd);
 	}
+	free(res);
 	close(fd);
 	return (height);
 }

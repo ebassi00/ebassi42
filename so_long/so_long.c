@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 12:40:41 by ebassi            #+#    #+#             */
-/*   Updated: 2022/02/19 02:07:56 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/02/21 17:00:53 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,14 +83,14 @@ t_game	*mlx_init_game(char *parsing_map)
 	game->y_size = 0;
 	if (check_ber(parsing_map))
 	{
-		game->width = get_width(game, parsing_map);
-		game->height = get_height(game, parsing_map);
+		game->width = get_width(parsing_map);
+		game->height = get_height(parsing_map);
 		return (game);
 	}
 	else
 	{
 		printf("Non valid argument / non valid map\n");
-		exit (0);
+		exit (EXIT_FAILURE);
 	}
 }
 
@@ -98,8 +98,6 @@ int	main(int argc, char *argv[])
 {
 	t_game	*game;
 	t_img	*img;
-	int		i;
-	int		j;
 
 	if (argc == 1 || argc > 2)
 	{
