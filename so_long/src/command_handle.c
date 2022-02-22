@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 14:22:57 by ebassi            #+#    #+#             */
-/*   Updated: 2022/02/22 16:23:35 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/02/22 17:17:17 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,8 @@ void	player_handle(t_game *game, int i, int j)
 		move_left(game, i, j);
 	else
 	{
-		game->img->xpm_image = mlx_xpm_file_to_image(game->mlx, \
-				"./img/player.xpm", &game->img->img_size_x, \
-				&game->img->img_size_y);
 		mlx_put_image_to_window(game->mlx, game->win, \
-			game->img->xpm_image, game->img->player_y, \
+			game->img->xpm_image_pl, game->img->player_y, \
 			game->img->player_x);
 	}
 }
@@ -43,11 +40,8 @@ void	wall_handle(t_game *game, int i, int j)
 {
 	game->y_size = (i) * 64;
 	game->x_size = (j) * 64;
-	game->img->xpm_image = mlx_xpm_file_to_image(game->mlx, \
-		"./img/wall.xpm", &game->img->img_size_x, \
-		&game->img->img_size_y);
 	mlx_put_image_to_window(game->mlx, game->win, \
-			game->img->xpm_image, game->x_size, game->y_size);
+			game->img->xpm_image_wall, game->x_size, game->y_size);
 }
 
 void	exit_handle(t_game *game, int i, int j)
@@ -56,20 +50,14 @@ void	exit_handle(t_game *game, int i, int j)
 	game->img->exit_y = (j) * 64;
 	if (game->img->collectible_count == 0)
 	{
-		game->img->xpm_image = mlx_xpm_file_to_image(game->mlx, \
-		"./img/exit_2.xpm", &game->img->img_size_x, \
-		&game->img->img_size_y);
 		mlx_put_image_to_window(game->mlx, game->win, \
-			game->img->xpm_image, \
+			game->img->xpm_image_exit2, \
 			game->img->exit_y, game->img->exit_x);
 	}
 	else
 	{
-		game->img->xpm_image = mlx_xpm_file_to_image(game->mlx, \
-			"./img/exit.xpm", &game->img->img_size_x, \
-			&game->img->img_size_y);
 		mlx_put_image_to_window(game->mlx, game->win, \
-			game->img->xpm_image, game->img->exit_y, \
+			game->img->xpm_image_exit, game->img->exit_y, \
 			game->img->exit_x);
 	}
 }
@@ -78,11 +66,8 @@ void	collectible_handle(t_game *game, int i, int j)
 {
 	game->img->exit_x = (i) * 64;
 	game->img->exit_y = (j) * 64;
-	game->img->xpm_image = mlx_xpm_file_to_image(game->mlx, \
-		"./img/collectible.xpm", &game->img->img_size_x, \
-		&game->img->img_size_y);
 	mlx_put_image_to_window(game->mlx, game->win, \
-		game->img->xpm_image, game->img->exit_y, \
+		game->img->xpm_image_coll, game->img->exit_y, \
 		game->img->exit_x);
 }
 

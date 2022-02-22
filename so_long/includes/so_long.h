@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 12:40:47 by ebassi            #+#    #+#             */
-/*   Updated: 2022/02/22 16:23:58 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/02/22 17:00:53 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,11 @@
 # include <stdarg.h>
 
 typedef struct s_img {
-	void	*xpm_image;
+	void	*xpm_image_pl;
+	void	*xpm_image_coll;
+	void	*xpm_image_exit;
+	void	*xpm_image_wall;
+	void	*xpm_image_exit2;
 	int		img_size_x;
 	int		img_size_y;
 	int		player_x;

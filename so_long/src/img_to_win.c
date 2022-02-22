@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 14:55:23 by ebassi            #+#    #+#             */
-/*   Updated: 2022/02/22 16:23:24 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/02/22 17:01:27 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,25 @@ void	img_to_win(t_game *game)
 	j = 0;
 	game->img->prev_x = game->img->player_x;
 	game->img->prev_y = game->img->player_y;
-	if (!game->img->xpm_image)
-		game->img->xpm_image = malloc (sizeof(char) * game->width + 1);
+	/*if (!game->img->xpm_image)
+		game->img->xpm_image = malloc (sizeof(char) * game->width + 1);*/
 	if (!game->img->collectible_count)
 		init_collectible_count(game, i, j);
+	game->img->xpm_image_pl = mlx_xpm_file_to_image(game->mlx, \
+				"./img/player.xpm", &game->img->img_size_x, \
+				&game->img->img_size_y);
+	game->img->xpm_image_wall = mlx_xpm_file_to_image(game->mlx, \
+		"./img/wall.xpm", &game->img->img_size_x, \
+		&game->img->img_size_y);
+	game->img->xpm_image_exit = mlx_xpm_file_to_image(game->mlx, \
+			"./img/exit.xpm", &game->img->img_size_x, \
+			&game->img->img_size_y);
+	game->img->xpm_image_exit2 = mlx_xpm_file_to_image(game->mlx, \
+			"./img/exit_2.xpm", &game->img->img_size_x, \
+			&game->img->img_size_y);
+	game->img->xpm_image_coll = mlx_xpm_file_to_image(game->mlx, \
+		"./img/collectible.xpm", &game->img->img_size_x, \
+		&game->img->img_size_y);
 	i = 0;
 	place_map(game, i, j);
 }
