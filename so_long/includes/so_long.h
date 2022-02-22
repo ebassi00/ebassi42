@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 12:40:47 by ebassi            #+#    #+#             */
-/*   Updated: 2022/02/21 17:00:41 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/02/22 16:23:58 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 
 # define SO_LONG_H
 
-# include "libft/libft.h"
-# include "get_next_line/get_next_line.h"
-# include "mlx/mlx.h"
+# include "../libft/libft.h"
+# include "../mlx/mlx.h"
 # include <stdio.h>
 # include <fcntl.h>
 # include <stdlib.h>
@@ -85,5 +84,6 @@ void	move_right_exit1(t_game *game);
 void	move_right_exit2(t_game *game);
 void	move_right_else(t_game *game, int i, int j);
 void	player_handle(t_game *game, int i, int j);
+int		check_validity(t_game *game);
 
 #endif

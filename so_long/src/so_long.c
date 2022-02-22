@@ -6,11 +6,11 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 12:40:41 by ebassi            #+#    #+#             */
-/*   Updated: 2022/02/21 17:00:53 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/02/22 16:22:38 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "../includes/so_long.h"
 
 int	deal_key(int key, t_game *game)
 {
@@ -63,6 +63,8 @@ int	check_ber(char *parsing_map)
 			if (parsing_map[i + 1] == 'b' && parsing_map[i + 2] \
 				== 'e' && parsing_map[i + 3] == 'r' && !parsing_map[i + 4])
 				return (1);
+			else
+				break;
 		}
 		i++;
 	}
@@ -89,7 +91,7 @@ t_game	*mlx_init_game(char *parsing_map)
 	}
 	else
 	{
-		printf("Non valid argument / non valid map\n");
+		ft_putstr_fd("Non valid argument / non valid map\n", 0);
 		exit (EXIT_FAILURE);
 	}
 }
@@ -101,14 +103,16 @@ int	main(int argc, char *argv[])
 
 	if (argc == 1 || argc > 2)
 	{
-		printf("Invalid number of arguments\n");
+		ft_putstr_fd("Invalid number of arguments\n", 0);
 		return (0);
 	}
 	game = mlx_init_game(argv[1]);
 	img = img_init();
 	game->img = img;
-	printf("height: %d, width: %d\n", game->height, game->width);
+	// printf("height: %d, width: %d\n", game->height, game->width);
 	fill_matrix(game, argv[1]);
+	if (!check_validity(game))
+		return (0);
 	game->mlx = mlx_init();
 	game->win = mlx_new_window(game->mlx, (game->width) * 64, \
 								(game->height) * 64, "so_long");

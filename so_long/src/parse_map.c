@@ -6,11 +6,11 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 12:23:00 by ebassi            #+#    #+#             */
-/*   Updated: 2022/02/21 17:00:32 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/02/22 16:22:46 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "../includes/so_long.h"
 
 int	get_width(char *parsing_file)
 {

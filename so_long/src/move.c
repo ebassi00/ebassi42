@@ -6,11 +6,11 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/17 14:35:27 by ebassi            #+#    #+#             */
-/*   Updated: 2022/02/21 17:00:00 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/02/22 16:22:52 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "../includes/so_long.h"
 
 void	move_up(t_game *game, int i, int j)
 {

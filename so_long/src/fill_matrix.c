@@ -6,11 +6,11 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 12:24:57 by ebassi            #+#    #+#             */
-/*   Updated: 2022/02/21 16:56:48 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/02/22 16:23:30 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "../includes/so_long.h"
 
 char	*fill_matrix_wnumbers(char *map_line, char *res);
 

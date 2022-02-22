@@ -6,11 +6,11 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 14:22:57 by ebassi            #+#    #+#             */
-/*   Updated: 2022/02/21 16:56:45 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/02/22 16:23:35 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "../includes/so_long.h"
 
 void	player_handle(t_game *game, int i, int j)
 {
