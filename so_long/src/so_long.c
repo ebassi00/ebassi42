@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 12:40:41 by ebassi            #+#    #+#             */
-/*   Updated: 2022/02/22 16:22:38 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/02/22 17:32:42 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,6 @@ int	main(int argc, char *argv[])
 	game = mlx_init_game(argv[1]);
 	img = img_init();
 	game->img = img;
-	// printf("height: %d, width: %d\n", game->height, game->width);
 	fill_matrix(game, argv[1]);
 	if (!check_validity(game))
 		return (0);
