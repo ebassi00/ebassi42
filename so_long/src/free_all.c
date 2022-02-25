@@ -1,28 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   free_all.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/11 17:05:45 by ebassi            #+#    #+#             */
-/*   Updated: 2022/02/25 15:44:40 by ebassi           ###   ########.fr       */
+/*   Created: 2022/02/25 13:55:00 by ebassi            #+#    #+#             */
+/*   Updated: 2022/02/25 16:02:56 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/so_long.h"
 
-size_t	ft_strlen(const char *s)
+int	ft_exit(char *str)
 {
-	size_t	len;
+	ft_putstr_fd(str, 0);
+	exit (0);
+}
 
-	len = 0;
-	if (!s)
-		return (0);
-	while (*s != '\0')
+void	free_all(t_game *game)
+{
+	int	i;
+
+	i = 0;
+	while (i < game->height)
 	{
-		len += 1;
-		s++;
+		free(game->map[i]);
+		i++;
 	}
-	return (len);
+	free(game->map);
+	free(game->img);
+	free(game);
 }

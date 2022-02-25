@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 12:40:47 by ebassi            #+#    #+#             */
-/*   Updated: 2022/02/23 16:50:13 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/02/25 15:51:17 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	create_map(t_game *game, char *parsing_map);
 int		check_ber(char *parsing_map);
 int		get_width(char *parsing_file);
 int		get_height(char *parsing_file);
-void	fill_matrix(t_game *game, char *filename);
+int		fill_matrix(t_game *game, char *filename);
 void	img_to_win(t_game *game);
 t_img	*img_init(void);
 void	move_up(t_game *game, int i, int j);
@@ -89,5 +89,7 @@ void	move_right_exit2(t_game *game);
 void	move_right_else(t_game *game, int i, int j);
 void	player_handle(t_game *game, int i, int j);
 int		check_validity(t_game *game);
+void	free_all(t_game *game);
+int		ft_exit(char *str);
 
 #endif

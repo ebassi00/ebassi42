@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 12:40:41 by ebassi            #+#    #+#             */
-/*   Updated: 2022/02/25 12:48:57 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/02/25 16:03:58 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	check_ber(char *parsing_map)
 				== 'e' && parsing_map[i + 3] == 'r' && !parsing_map[i + 4])
 				return (1);
 			else
-				break;
+				break ;
 		}
 		i++;
 	}
@@ -107,25 +107,24 @@ int	main(int argc, char *argv[])
 	char	*moves;
 
 	if (argc == 1 || argc > 2)
-	{
-		ft_putstr_fd("Invalid number of arguments\n", 0);
-		return (0);
-	}
+		ft_exit("Invalid numbers, of arguments\n");
 	game = mlx_init_game(argv[1]);
 	img = img_init();
 	game->img = img;
 	fill_matrix(game, argv[1]);
 	if (!check_validity(game))
-		return (0);
+		ft_exit("Non valid map\n");
 	game->mlx = mlx_init();
 	game->win = mlx_new_window(game->mlx, (game->width) * 64, \
 								(game->height) * 64, "so_long");
 	img_to_win(game);
 	mlx_string_put(game->mlx, game->win, 0, 16, 0xc1ffc1, "Moves: ");
 	moves = ft_itoa(game->img->move);
-	mlx_string_put(game->mlx, game->win, 68, 16, 0xc1ffc1, \
-					moves);
+	mlx_string_put(game->mlx, game->win, 68, 16, 0xc1ffc1, moves);
 	mlx_key_hook(game->win, deal_key, game);
+	mlx_hook(game->win, 17, 0, ft_exit, 0);
 	mlx_loop(game->mlx);
 	free(moves);
+	free_all(game);
+	return (0);
 }

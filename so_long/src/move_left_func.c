@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 16:25:07 by ebassi            #+#    #+#             */
-/*   Updated: 2022/02/22 17:16:39 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/02/25 14:36:29 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ void	move_left_exit1(t_game *game)
 {
 	mlx_clear_window(game->mlx, game->win);
 	game->img->move++;
-	printf("HAI VINTO!");
-	exit (0);
+	free_all(game);
+	ft_exit("HAI VINTO!\n");
 }
 
 void	move_left_exit2(t_game *game)

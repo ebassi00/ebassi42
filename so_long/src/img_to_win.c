@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 14:55:23 by ebassi            #+#    #+#             */
-/*   Updated: 2022/02/22 17:30:54 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/02/25 16:01:55 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,8 @@ t_img	*img_init(void)
 	return (img);
 }
 
-void	img_to_win(t_game *game)
+void	init_images(t_game *game)
 {
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	game->img->prev_x = game->img->player_x;
-	game->img->prev_y = game->img->player_y;
-	if (!game->img->collectible_count)
-		init_collectible_count(game, i, j);
 	game->img->xpm_image_pl = mlx_xpm_file_to_image(game->mlx, \
 			"./img/player.xpm", &game->img->img_size_x, \
 			&game->img->img_size_y);
@@ -61,6 +52,33 @@ void	img_to_win(t_game *game)
 	game->img->xpm_image_coll = mlx_xpm_file_to_image(game->mlx, \
 		"./img/collectible.xpm", &game->img->img_size_x, \
 		&game->img->img_size_y);
+}
+
+void	img_to_win(t_game *game)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	game->img->prev_x = game->img->player_x;
+	game->img->prev_y = game->img->player_y;
+	if (!game->img->collectible_count)
+		init_collectible_count(game, i, j);
+	init_images(game);
+	if (i < game->height)
+	{
+		j = 0;
+		while (j < game->width)
+		{
+			if ((game->map[i][j] != '1' && game->map[i][j] != '0') \
+				&& (game->map[i][j] != 'C' && game->map[i][j] != 'E') \
+				&& game->map[i][j] != 'P')
+				ft_exit("Non valid map\n");
+			j++;
+		}
+		i++;
+	}
 	i = 0;
 	place_map(game, i, j);
 }
