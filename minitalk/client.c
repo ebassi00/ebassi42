@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 12:41:03 by ebassi            #+#    #+#             */
-/*   Updated: 2022/02/25 12:17:48 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/02/25 12:21:47 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,11 @@ int	main(int argc, char *argv[])
 	int	pid;
 
 	pid = ft_atoi(argv[1]);
+	if (argc != 3)
+	{
+		ft_putstr_fd("Invalid number of arguments\n", 1);
+		return (0);
+	}
 	ft_putstr_fd("my process id is: ", 1);
 	ft_putstr_fd(ft_itoa(pid), 1);
 	ft_putstr_fd("\n", 1);
