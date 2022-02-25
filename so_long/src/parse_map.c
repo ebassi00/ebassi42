@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 12:23:00 by ebassi            #+#    #+#             */
-/*   Updated: 2022/02/22 16:22:46 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/02/25 12:34:22 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	get_width(char *parsing_file)
 		return (0);
 	res = get_next_line(fd);
 	width = ft_strlen(res) - 1;
+	free(res);
 	close(fd);
 	return (width);
 }

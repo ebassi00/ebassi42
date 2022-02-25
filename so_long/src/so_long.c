@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 12:40:41 by ebassi            #+#    #+#             */
-/*   Updated: 2022/02/22 17:32:42 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/02/25 12:48:57 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	deal_key(int key, t_game *game)
 {
+	char	*moves;
+
 	if (key == 53)
 	{
 		mlx_clear_window(game->mlx, game->win);
@@ -31,8 +33,10 @@ int	deal_key(int key, t_game *game)
 	mlx_clear_window(game->mlx, game->win);
 	img_to_win(game);
 	mlx_string_put(game->mlx, game->win, 0, 16, 0xc1ffc1, "Moves: ");
+	moves = ft_itoa(game->img->move);
 	mlx_string_put(game->mlx, game->win, 68, 16, 0xc1ffc1, \
-					ft_itoa(game->img->move));
+					moves);
+	free(moves);
 	return (0);
 }
 
@@ -100,6 +104,7 @@ int	main(int argc, char *argv[])
 {
 	t_game	*game;
 	t_img	*img;
+	char	*moves;
 
 	if (argc == 1 || argc > 2)
 	{
@@ -117,8 +122,10 @@ int	main(int argc, char *argv[])
 								(game->height) * 64, "so_long");
 	img_to_win(game);
 	mlx_string_put(game->mlx, game->win, 0, 16, 0xc1ffc1, "Moves: ");
+	moves = ft_itoa(game->img->move);
 	mlx_string_put(game->mlx, game->win, 68, 16, 0xc1ffc1, \
-					ft_itoa(game->img->move));
+					moves);
 	mlx_key_hook(game->win, deal_key, game);
 	mlx_loop(game->mlx);
+	free(moves);
 }

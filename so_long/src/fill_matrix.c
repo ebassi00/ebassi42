@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 12:24:57 by ebassi            #+#    #+#             */
-/*   Updated: 2022/02/22 16:23:30 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/02/25 12:35:26 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	fill_matrix(t_game *game, char *filename)
 		i++;
 		res = get_next_line(fd);
 	}
+	free(res);
 	game->map[i] = NULL;
 }
 
