@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 12:40:41 by ebassi            #+#    #+#             */
-/*   Updated: 2022/02/25 16:03:58 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/02/28 18:23:23 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,9 +95,10 @@ t_game	*mlx_init_game(char *parsing_map)
 	}
 	else
 	{
-		ft_putstr_fd("Non valid argument / non valid map\n", 0);
+		ft_putstr_fd("Error\nNon valid argument / non valid map\n", 0);
 		exit (EXIT_FAILURE);
 	}
+	return (game);
 }
 
 int	main(int argc, char *argv[])
@@ -107,13 +108,13 @@ int	main(int argc, char *argv[])
 	char	*moves;
 
 	if (argc == 1 || argc > 2)
-		ft_exit("Invalid numbers, of arguments\n");
+		ft_exit("Error\nInvalid numbers, of arguments\n");
 	game = mlx_init_game(argv[1]);
 	img = img_init();
 	game->img = img;
 	fill_matrix(game, argv[1]);
 	if (!check_validity(game))
-		ft_exit("Non valid map\n");
+		ft_exit("Error\nNon valid map\n");
 	game->mlx = mlx_init();
 	game->win = mlx_new_window(game->mlx, (game->width) * 64, \
 								(game->height) * 64, "so_long");

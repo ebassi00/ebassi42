@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 12:24:57 by ebassi            #+#    #+#             */
-/*   Updated: 2022/02/25 16:02:50 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/02/28 18:30:19 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,19 @@ void	alloc_matrix(t_game *game)
 	game->map[game->height] = NULL;
 	while (i < game->height)
 	{
-		game->map[i++] = malloc (sizeof(char *) * game->width + 1);
-		game->map[game->width] = NULL;
+		game->map[i] = malloc (sizeof(char *) * game->width + 1);
+		game->map[i][game->width] = '\0';
+		i++;
 	}
 }
 
 int	fill_matrix(t_game *game, char *filename)
 {
 	int		i;
-	int		j;
 	int		fd;
 	char	*res;
 
 	i = 0;
-	j = 0;
 	if (!game->height || !game->width)
 		return (0);
 	alloc_matrix(game);
@@ -56,7 +55,7 @@ int	fill_matrix(t_game *game, char *filename)
 
 char	*fill_matrix_wnumbers(char *map_line, char *res)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	while (res[i] && res[i] != '\n')
