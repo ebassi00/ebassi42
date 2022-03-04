@@ -6,11 +6,11 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 17:03:28 by ebassi            #+#    #+#             */
-/*   Updated: 2022/02/09 15:15:40 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/01/13 12:35:46 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "libft.h"
 
 static long	is_space(char *str);
 static long	ft_sign(char *str, long int index);

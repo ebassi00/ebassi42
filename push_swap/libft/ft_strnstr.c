@@ -1,53 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_utils.c                                       :+:      :+:    :+:   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/09 14:50:07 by ebassi            #+#    #+#             */
-/*   Updated: 2022/02/10 18:15:59 by ebassi           ###   ########.fr       */
+/*   Created: 2022/01/11 17:05:56 by ebassi            #+#    #+#             */
+/*   Updated: 2022/01/19 16:08:20 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "libft.h"
 
-int	ft_isnumber(char *nbr)
+char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 {
-	int	i;
-	
-	i = 0;
-	while (nbr[i])
-	{
-		if (nbr[i] == '-')
-			i++;
-		if (nbr[i] >= '0' && nbr[i] <= '9')
-			i++;
-		else
-			return (0);
-	}
-	return (1);
-}
+	size_t	i;
+	int		j;
+	int		a;
 
-void	sort(char *tmp_stack)
-{
-	int	i;
-	int	j;
-	int	tmp;
-
+	a = 0;
 	i = 0;
 	j = 0;
-	tmp = 0;
-	while (tmp_stack[i])
+	if (needle[0] == '\0')
+		return ((char *)haystack);
+	while (haystack[i] != '\0' && i < len)
 	{
-		while (tmp_stack[j] > tmp_stack[j + 1])
-		{
-			tmp = tmp_stack[j];
-			tmp_stack[j] = tmp_stack[j + 1];
-			tmp_stack[j + 1] = tmp;
+		if (haystack[i++] == needle[j] && needle[j] != '\0')
 			j++;
+		else if (haystack[i] != needle[j])
+		{
+			j = 0;
+			a++;
+			i = a;
 		}
-		j = 0;
-		i++;
+		if (j == (int)ft_strlen(needle))
+			return (((char *)haystack) + i - j);
 	}
+	return (0);
 }
