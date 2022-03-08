@@ -4,8 +4,8 @@ This project is all about signals between client/server.
 
 I found it very interesting and introductive to the beautiful world of networking.
 
-To run the program, just open the terminal in its folder and type make, then you'll have two files (server / client indeed),
-all you have to do is run the server first, it'll print out its PID, then you can run client with the server's PID and a string.
+To run the program, just open the terminal in its folder and type `make`, then you'll have two files (server / client indeed),
+all you have to do is run the server first using `./server`, it'll print out its PID, then you can run client with the server's PID and a string -> `./client PID "any string you want to print"`.
 
 
 Final grade: 125/100
