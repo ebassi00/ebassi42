@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 14:47:01 by ebassi            #+#    #+#             */
-/*   Updated: 2022/03/10 16:02:08 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/03/10 16:38:36 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,5 +126,5 @@ void	sort_100(t_game *game)
 	get_chunk(game, 21, 40);
 	get_chunk(game, 41, 60);
 	get_chunk(game, 61, 80);
-	// get_chunk(game, 100);
+	get_chunk(game, 81, 100);
 }

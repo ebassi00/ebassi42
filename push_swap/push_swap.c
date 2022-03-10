@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/09 14:55:13 by ebassi            #+#    #+#             */
-/*   Updated: 2022/03/10 16:09:29 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/03/10 16:37:59 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,7 @@ int main(int argc, char *argv[])
 			ft_putstr_fd("pa\n", 1);
 		}
 	}
-	else if (game->len_a < 100)
+	else if (game->len_a == 100)
 		sort_100(game);
 	
 	/*while (game->len_a - 1)
@@ -177,12 +177,12 @@ int main(int argc, char *argv[])
 	}*/
 	
 	// ------- TO HERE -------
-	/*max = MAX(game->len_a, game->len_b);
+	max = MAX(game->len_a, game->len_b);
 	while (i < max)
 	{
 		printf("%d	%d\n", game->stack_a[i], game->stack_b[i]);
 		i++;
-	}*/
+	}
 	free(game->stack_a);
 	free(game->stack_b);
 	free(game);

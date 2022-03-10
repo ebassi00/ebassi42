@@ -1,0 +1,21 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "(lldb) Launch",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/push_swap",
+            "args": ["-15", "-23", "-14", "-17", "-22", "-13", "-5", "-36", "26", "15", "-20", "34", "-8", "1", "-1", "10", "13", "-31", "27", "14", "18", "6", "5", "9", "32", "-9", "30", "19", "-35", "-27", "36", "-34", "-19", "29", "16", "8", "-39", "-11", "3", "24", "-38", "0", "35", "-16", "23", "-2", "-3", "-40", "39", "-29", "38", "-30", "2", "-6", "-26", "33", "40", "37", "-18", "12", "-37", "-21", "-4", "-10", "22", "21", "20", "4", "-28", "-25", "-33", "-24", "-32", "25", "-12", "17", "-7", "11", "28", "31", "7"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "lldb"
+            //"preLaunchTask": "C/C++: gcc build active file"
+        }
+    ]
+}

@@ -1,0 +1,20 @@
+{
+	"files.associations": {
+		"__bit_reference": "c",
+		"__split_buffer": "c",
+		"string": "c",
+		"vector": "c",
+		"algorithm": "c",
+		"libft.h": "c",
+		"atomic": "c",
+		"cstdlib": "c",
+		"locale": "c",
+		"ostream": "c",
+		"complex": "c",
+		"new": "c",
+		"chrono": "c",
+		"limits": "c",
+		"random": "c",
+		"ratio": "c"
+	}
+}
