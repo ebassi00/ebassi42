@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.c                                        :+:      :+:    :+:   */
+/*   checker.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/09 14:55:13 by ebassi            #+#    #+#             */
-/*   Updated: 2022/03/11 16:25:59 by ebassi           ###   ########.fr       */
+/*   Created: 2022/03/11 15:32:37 by ebassi            #+#    #+#             */
+/*   Updated: 2022/03/11 16:40:08 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,23 +42,6 @@ void	fill_args(t_game *game, char *argv[], int argc)
 	}
 }
 
-int	*fill_args_char(int *tmp_arr, char *argv[], int argc)
-{
-	int	i;
-	int	j;
-
-	i = 1;
-	j = 0;
-	tmp_arr = malloc (sizeof(int *) * argc - 1);
-	while (i < argc)
-	{
-		tmp_arr[j] = ft_atoi(argv[i]);
-		i++;
-		j++;
-	}
-	return (tmp_arr);
-}
-
 int	check_args(int argc, char *argv[])
 {
 	(void)argv;
@@ -66,51 +49,27 @@ int	check_args(int argc, char *argv[])
 	return (1);
 }
 
-void	change_nm(t_game *game, int argc, char *argv[])
+int	ordered_stack(t_game *game)
 {
-	int	*tmp_arr;
 	int	i;
 	int	j;
-	int	tmp;
 
 	i = 0;
 	j = 0;
-	tmp = 0;
-	tmp_arr = NULL;
-	tmp_arr = fill_args_char(tmp_arr, argv, argc);
-	j = 0;
-	while (i < game->len_a - 1)
+	if (game->len_b)
+		return (-1);
+	while (i < game->len_a)
 	{
 		j = i + 1;
 		while (j < game->len_a)
 		{
-			if (tmp_arr[j] < tmp_arr[i])
-			{
-				tmp = tmp_arr[i];
-				tmp_arr[i] = tmp_arr[j];
-				tmp_arr[j] = tmp;
-			}
+			if (!(game->stack_a[i] < game->stack_a[j]))
+				return (-1);
 			j++;
 		}
 		i++;
 	}
-	i = 0;
-	j = 0;
-	while (i < game->len_a)
-	{
-		j = 0;
-		while (j < game->len_a)
-		{
-			if (game->stack_a[i] == tmp_arr[j])
-			{
-				game->stack_a[i] = j + 1;
-				break ;
-			}
-			j++;
-		}
-		i++;
-	}
-	free(tmp_arr);
+	return (1);
 }
 
 int	main(int argc, char *argv[])
@@ -118,6 +77,7 @@ int	main(int argc, char *argv[])
 	t_game	*game;
 	int		i;
 	int		max;
+	char	*line;
 
 	i = 0;
 	max = 0;
@@ -125,39 +85,44 @@ int	main(int argc, char *argv[])
 	if (!check_args(argc, argv))
 		return (0);
 	fill_args(game, argv, argc);
-	change_nm(game, argc, argv);
-	if (game->len_a == 100)
-		sort_100(game);
-	else if (game->len_a == 500)
-		sort_500(game);
-	else if (game->len_a < 100)
+	line = get_next_line(0);
+	/*if (!line)
+		ft_exit("Error\n");*/
+	while (line)
 	{
-		while (game->len_a - 1)
-			find_smallest(game);
-		while (game->len_b)
-		{
+		if (!(ft_strncmp(line, "sa", 2)))
+			ft_sa(game);
+		else if (!(ft_strncmp(line, "pa", 2)))
 			ft_pa(game);
-			ft_putstr_fd("pa\n", 1);
-		}
+		else if (!(ft_strncmp(line, "pb", 2)))
+			ft_pb(game);
+		else if (!(ft_strncmp(line, "rra", 3)))
+			ft_rra(game);
+		else if (!(ft_strncmp(line, "rrb", 3)))
+			ft_rrb(game);
+		else if (!(ft_strncmp(line, "rrr", 3)))
+			ft_rrr(game);
+		else if (!(ft_strncmp(line, "ra", 2)))
+			ft_ra(game);
+		else if (!(ft_strncmp(line, "rb", 2)))
+			ft_rb(game);
+		else if (!(ft_strncmp(line, "rr", 2)))
+			ft_rr(game);
+		else if (!(ft_strncmp(line, "sb", 2)))
+			ft_sb(game);
+		else if (!(ft_strncmp(line, "ss", 2)))
+			ft_ss(game);
+		line = get_next_line(0);
 	}
-	else
-	{
-		while (game->len_a - 1)
-			find_smallest(game);
-		while (game->len_b)
-		{
-			ft_pa(game);
-			ft_putstr_fd("pa\n", 1);
-		}
-	}
+	// ft_putstr_fd("\n", 1);
+	if (ordered_stack(game))
+		ft_exit("\nOK\n");
+	else if (!(ordered_stack(game)))
+		ft_exit("\nKO\n");
 	// max = MAX(game->len_a, game->len_b);
 	// while (i < max)
 	// {
 	// 	printf("%d	%d\n", game->stack_a[i], game->stack_b[i]);
 	// 	i++;
 	// }
-	free(game->stack_a);
-	free(game->stack_b);
-	free(game);
-	return (0);
 }

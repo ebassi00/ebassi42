@@ -6,16 +6,16 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 14:47:01 by ebassi            #+#    #+#             */
-/*   Updated: 2022/03/11 14:23:10 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/03/11 15:22:31 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int		get_min(t_game *game)
+int	get_min(t_game *game)
 {
 	int	len;
-	int min;
+	int	min;
 
 	min = 2147483647;
 	len = 0;
@@ -50,7 +50,7 @@ void	get_chunk(t_game *game, int nbr_min, int nbr_max)
 			if (game->stack_a[i] >= nbr_min && game->stack_a[i] <= nbr_max)
 			{
 				hold_first = i;
-				break;
+				break ;
 			}
 			i++;
 		}
@@ -60,11 +60,10 @@ void	get_chunk(t_game *game, int nbr_min, int nbr_max)
 			if (game->stack_a[i] >= nbr_min && game->stack_a[j] <= nbr_max)
 			{
 				hold_second = j;
-				break;
+				break ;
 			}
 			j--;
 		}
-		// printf("hold_first: %d i: %d hold_second: %d j: %d len: %d split: %d\n", game->stack_a[i], i, game->stack_a[j], j, game->len_a-1, split);
 		if (i == 0)
 		{
 			ft_pb(game);
@@ -72,7 +71,6 @@ void	get_chunk(t_game *game, int nbr_min, int nbr_max)
 		}
 		else if ((split - i) > (j - split))
 		{
-			// i = 0;
 			while (i != 0)
 			{
 				ft_ra(game);
@@ -87,7 +85,6 @@ void	get_chunk(t_game *game, int nbr_min, int nbr_max)
 		}
 		else if ((split - i) < (j - split))
 		{
-			// j = 0;
 			while (j != game->len_a)
 			{
 				ft_rra(game);
@@ -96,8 +93,6 @@ void	get_chunk(t_game *game, int nbr_min, int nbr_max)
 			}
 			if (j == game->len_a)
 			{
-				// ft_rra(game);
-				// ft_putstr_fd("rra\n", 1);
 				ft_pb(game);
 				ft_putstr_fd("pb\n", 1);
 			}
@@ -140,7 +135,6 @@ void	push_back_a(t_game *game)
 	}
 	if (j <= game->len_b / 2)
 	{
-		// printf("loop 1 nbr: %d len_b: %d rl_nbr: %d\n", j, game->len_b, game->stack_b[j]);
 		while (j != 0)
 		{
 			ft_rb(game);
@@ -152,7 +146,6 @@ void	push_back_a(t_game *game)
 	}
 	else if (j > game->len_b / 2)
 	{
-		// printf("loop 2 nbr: %d len_b: %d rl_nbr: %d\n", j, game->len_b, game->stack_b[j]);
 		while (j != game->len_b - 1)
 		{
 			ft_rrb(game);
@@ -164,18 +157,6 @@ void	push_back_a(t_game *game)
 		ft_pa(game);
 		ft_putstr_fd("pa\n", 1);
 	}
-	/*else if (j == game->len_b)
-	{
-		// printf("loop 3 nbr: %d len_b: %d rl_nbr: %d\n", j, game->len_b, game->stack_b[j]);
-		while (j != 0)
-		{
-			ft_rb(game);
-			ft_putstr_fd("rb\n", 1);
-			j--;
-		}
-		ft_pa(game);
-		ft_putstr_fd("pa\n", 1);
-	}*/
 }
 
 void	sort_100(t_game *game)
@@ -188,6 +169,27 @@ void	sort_100(t_game *game)
 	get_chunk(game, 41, 60);
 	get_chunk(game, 61, 80);
 	get_chunk(game, 81, 100);
+	len = game->len_b;
+	while (len--)
+		push_back_a(game);
+}
+
+void	sort_500(t_game *game)
+{
+	int	len;
+
+	len = 0;
+	get_chunk(game, 1, 45);
+	get_chunk(game, 46, 90);
+	get_chunk(game, 91, 135);
+	get_chunk(game, 136, 180);
+	get_chunk(game, 181, 225);
+	get_chunk(game, 226, 270);
+	get_chunk(game, 271, 315);
+	get_chunk(game, 316, 360);
+	get_chunk(game, 361, 405);
+	get_chunk(game, 406, 450);
+	get_chunk(game, 451, 500);
 	len = game->len_b;
 	while (len--)
 		push_back_a(game);

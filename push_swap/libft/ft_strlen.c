@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 17:05:45 by ebassi            #+#    #+#             */
-/*   Updated: 2022/01/12 15:40:55 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/02/25 15:44:40 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ size_t	ft_strlen(const char *s)
 	size_t	len;
 
 	len = 0;
+	if (!s)
+		return (0);
 	while (*s != '\0')
 	{
 		len += 1;
