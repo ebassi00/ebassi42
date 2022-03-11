@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/09 14:55:13 by ebassi            #+#    #+#             */
-/*   Updated: 2022/03/11 16:25:59 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/03/11 17:19:40 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,17 @@ int	*fill_args_char(int *tmp_arr, char *argv[], int argc)
 
 int	check_args(int argc, char *argv[])
 {
-	(void)argv;
-	(void)argc;
+	int	i;
+
+	i = 1;
+	if (argc < 2)
+		return (0);
+	while (i < argc)
+	{
+		if (!isInteger(argv[i]))
+			return (0);
+		i++;
+	}
 	return (1);
 }
 
@@ -125,6 +134,8 @@ int	main(int argc, char *argv[])
 	if (!check_args(argc, argv))
 		return (0);
 	fill_args(game, argv, argc);
+	if (!(check_duplicates(game)))
+		return (0);
 	change_nm(game, argc, argv);
 	if (game->len_a == 100)
 		sort_100(game);

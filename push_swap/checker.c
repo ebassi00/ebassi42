@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/11 15:32:37 by ebassi            #+#    #+#             */
-/*   Updated: 2022/03/11 16:40:08 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/03/11 17:20:06 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,16 +78,19 @@ int	main(int argc, char *argv[])
 	int		i;
 	int		max;
 	char	*line;
+	int		res;
 
 	i = 0;
+	res = 0;
 	max = 0;
 	game = init_game();
 	if (!check_args(argc, argv))
+	{
+		ft_exit("Error\n");
 		return (0);
+	}
 	fill_args(game, argv, argc);
 	line = get_next_line(0);
-	/*if (!line)
-		ft_exit("Error\n");*/
 	while (line)
 	{
 		if (!(ft_strncmp(line, "sa", 2)))
@@ -114,15 +117,8 @@ int	main(int argc, char *argv[])
 			ft_ss(game);
 		line = get_next_line(0);
 	}
-	// ft_putstr_fd("\n", 1);
-	if (ordered_stack(game))
+	if (ordered_stack(game) > 0)
 		ft_exit("\nOK\n");
-	else if (!(ordered_stack(game)))
+	else
 		ft_exit("\nKO\n");
-	// max = MAX(game->len_a, game->len_b);
-	// while (i < max)
-	// {
-	// 	printf("%d	%d\n", game->stack_a[i], game->stack_b[i]);
-	// 	i++;
-	// }
 }

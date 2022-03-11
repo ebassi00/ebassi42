@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/09 14:38:48 by ebassi            #+#    #+#             */
-/*   Updated: 2022/03/11 16:27:25 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/03/11 17:12:53 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,8 @@ void	find_smallest(t_game *game);
 void	exec_swap(t_game *game, int min);
 void	sort_100(t_game *game);
 void	sort_500(t_game *game);
+int		isInteger(char *arg);
+int		check_duplicates(t_game *game);
+int		check_args(int argc, char *argv[]);
 
 #endif
