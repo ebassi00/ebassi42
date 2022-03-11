@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 14:47:01 by ebassi            #+#    #+#             */
-/*   Updated: 2022/03/10 16:38:36 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/03/11 14:23:10 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,11 +120,75 @@ void	get_chunk(t_game *game, int nbr_min, int nbr_max)
 	}
 }
 
+void	push_back_a(t_game *game)
+{
+	int	max;
+	int	i;
+	int	j;
+
+	max = -2147483648;
+	i = 0;
+	j = 0;
+	while (i < game->len_b)
+	{
+		if (game->stack_b[i] > max)
+		{
+			max = game->stack_b[i];
+			j = i;
+		}
+		i++;
+	}
+	if (j <= game->len_b / 2)
+	{
+		// printf("loop 1 nbr: %d len_b: %d rl_nbr: %d\n", j, game->len_b, game->stack_b[j]);
+		while (j != 0)
+		{
+			ft_rb(game);
+			ft_putstr_fd("rb\n", 1);
+			j--;
+		}
+		ft_pa(game);
+		ft_putstr_fd("pa\n", 1);
+	}
+	else if (j > game->len_b / 2)
+	{
+		// printf("loop 2 nbr: %d len_b: %d rl_nbr: %d\n", j, game->len_b, game->stack_b[j]);
+		while (j != game->len_b - 1)
+		{
+			ft_rrb(game);
+			ft_putstr_fd("rrb\n", 1);
+			j++;
+		}
+		ft_rrb(game);
+		ft_putstr_fd("rrb\n", 1);
+		ft_pa(game);
+		ft_putstr_fd("pa\n", 1);
+	}
+	/*else if (j == game->len_b)
+	{
+		// printf("loop 3 nbr: %d len_b: %d rl_nbr: %d\n", j, game->len_b, game->stack_b[j]);
+		while (j != 0)
+		{
+			ft_rb(game);
+			ft_putstr_fd("rb\n", 1);
+			j--;
+		}
+		ft_pa(game);
+		ft_putstr_fd("pa\n", 1);
+	}*/
+}
+
 void	sort_100(t_game *game)
 {
+	int	len;
+
+	len = 0;
 	get_chunk(game, 1, 20);
 	get_chunk(game, 21, 40);
 	get_chunk(game, 41, 60);
 	get_chunk(game, 61, 80);
 	get_chunk(game, 81, 100);
+	len = game->len_b;
+	while (len--)
+		push_back_a(game);
 }

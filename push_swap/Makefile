@@ -1,5 +1,4 @@
-SRCS = find_smallest.c func.c push_swap_utils.c push_swap.c \
-		algorithm2.c
+SRCS = func.c push_swap_utils.c push_swap.c algorithm2.c
 HEADER = push_swap.h
 LIBFT = ./libft/libft.a
 
