@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/03 14:08:33 by ebassi            #+#    #+#             */
-/*   Updated: 2022/03/11 17:05:19 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/03/14 13:16:47 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,16 @@ int	isInteger(char *arg)
 {
 	long long	nbr;
 	int			i;
+	int			sign;
 
 	nbr = 0;
+	sign = 1;
 	i = 0;
 	if (arg[0] == '-')
+	{
 		i++;
+		sign = -1;
+	}
 	while (arg[i])
 	{
 		if (arg[i] < '0' || arg[i] > '9')
@@ -36,9 +41,10 @@ int	isInteger(char *arg)
 	i = 0;
 	while (arg[i])
 	{
-		nbr *= 10 + arg[i] + '0';
+		nbr = nbr * 10 + (arg[i] - 48);
 		i++;
 	}
+	nbr *= sign;
 	if (nbr > 2147483647 || nbr < -2147483648)
 		return (0);
 	return (1);

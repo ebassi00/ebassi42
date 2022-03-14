@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/09 14:38:48 by ebassi            #+#    #+#             */
-/*   Updated: 2022/03/11 17:12:53 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/03/14 12:40:55 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,6 @@ void	sort_500(t_game *game);
 int		isInteger(char *arg);
 int		check_duplicates(t_game *game);
 int		check_args(int argc, char *argv[]);
+void	sort_u6(t_game *game);
 
 #endif

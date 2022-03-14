@@ -1,5 +1,5 @@
 SRCS = func.c push_swap_utils.c push_swap.c algorithm2.c \
-		insertion_sort.c
+		insertion_sort.c push_swap_utils2.c
 HEADER = push_swap.h
 LIBFT = ./libft/libft.a
 

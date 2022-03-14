@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/11 15:32:37 by ebassi            #+#    #+#             */
-/*   Updated: 2022/03/11 17:20:06 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/03/14 13:33:49 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,28 +24,81 @@ t_game	*init_game(void)
 	return (game);
 }
 
+int	checkInteger(char *str)
+{
+	int		i;
+	char	**nbrs;
+
+	i = 0;
+	nbrs = ft_split(str, ' ');
+	while (nbrs[i])
+	{
+		if (!isInteger(nbrs[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 void	fill_args(t_game *game, char *argv[], int argc)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
+	char	**nums;
 
 	i = 1;
 	j = 0;
+	nums = 0;
 	game->stack_a = malloc (sizeof(int *) * argc - 1);
 	game->stack_b = malloc (sizeof(int *) * argc - 1);
-	while (i < argc)
+	if (argc == 2)
 	{
-		game->stack_a[j] = ft_atoi(argv[i]);
-		game->len_a++;
-		i++;
-		j++;
+		free(game->stack_a);
+		free(game->stack_b);
+		nums = ft_split(argv[1], ' ');
+		i = 0;
+		while (nums[i])
+			i++;
+		game->stack_a = malloc (sizeof(int *) * i);
+		game->stack_b = malloc (sizeof(int *) * i);
+		while (nums[j])
+		{
+			game->stack_a[j] = ft_atoi(nums[j]);
+			game->len_a++;
+			j++;
+		}
+	}
+	else
+	{
+		while (i < argc)
+		{
+			game->stack_a[j] = ft_atoi(argv[i]);
+			game->len_a++;
+			i++;
+			j++;
+		}
 	}
 }
 
 int	check_args(int argc, char *argv[])
 {
-	(void)argv;
-	(void)argc;
+	int	i;
+
+	i = 1;
+	if (argc < 2)
+		return (0);
+	if (argc == 2)
+	{
+		if (checkInteger(argv[1]))
+			return (1);
+		return (0);
+	}
+	while (i < argc)
+	{
+		if (!isInteger(argv[i]))
+			return (0);
+		i++;
+	}
 	return (1);
 }
 
@@ -84,12 +137,19 @@ int	main(int argc, char *argv[])
 	res = 0;
 	max = 0;
 	game = init_game();
+	if (argc < 2)
+		return (0);
 	if (!check_args(argc, argv))
 	{
 		ft_exit("Error\n");
 		return (0);
 	}
 	fill_args(game, argv, argc);
+	if (!(check_duplicates(game)))
+	{
+		ft_exit("Error\n");
+		return (0);
+	}
 	line = get_next_line(0);
 	while (line)
 	{
@@ -115,6 +175,11 @@ int	main(int argc, char *argv[])
 			ft_sb(game);
 		else if (!(ft_strncmp(line, "ss", 2)))
 			ft_ss(game);
+		else
+		{
+			ft_exit("Error\n");
+			return (0);
+		}
 		line = get_next_line(0);
 	}
 	if (ordered_stack(game) > 0)
