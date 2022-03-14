@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   algorithm2.c                                       :+:      :+:    :+:   */
+/*   algorithm.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 14:47:01 by ebassi            #+#    #+#             */
-/*   Updated: 2022/03/14 11:52:42 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/03/14 15:11:03 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,24 +115,8 @@ void	get_chunk(t_game *game, int nbr_min, int nbr_max)
 	}
 }
 
-void	push_back_a(t_game *game)
+void	push_back_a2(int j, t_game *game)
 {
-	int	max;
-	int	i;
-	int	j;
-
-	max = -2147483648;
-	i = 0;
-	j = 0;
-	while (i < game->len_b)
-	{
-		if (game->stack_b[i] > max)
-		{
-			max = game->stack_b[i];
-			j = i;
-		}
-		i++;
-	}
 	if (j <= game->len_b / 2)
 	{
 		while (j != 0)
@@ -157,6 +141,27 @@ void	push_back_a(t_game *game)
 		ft_pa(game);
 		ft_putstr_fd("pa\n", 1);
 	}
+}
+
+void	push_back_a(t_game *game)
+{
+	int	max;
+	int	i;
+	int	j;
+
+	max = -2147483648;
+	i = 0;
+	j = 0;
+	while (i < game->len_b)
+	{
+		if (game->stack_b[i] > max)
+		{
+			max = game->stack_b[i];
+			j = i;
+		}
+		i++;
+	}
+	push_back_a2(j, game);
 }
 
 void	sort_100(t_game *game)

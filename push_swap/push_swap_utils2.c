@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 12:49:20 by ebassi            #+#    #+#             */
-/*   Updated: 2022/03/14 12:49:56 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/03/14 14:57:07 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,14 @@ int	get_max(t_game *game)
 
 void	sort_3(t_game *game)
 {
-	if (game->stack_a[0] < game->stack_a[1] && game->stack_a[0] < game->stack_a[2] && game->stack_a[1] > game->stack_a[2])
+	if (game->stack_a[0] < game->stack_a[1] && game->stack_a[0] \
+		< game->stack_a[2] && game->stack_a[1] > game->stack_a[2])
 	{
 		ft_sa(game);
 		ft_putstr_fd("sa\n", 1);
 	}
-	if (game->stack_a[0] < game->stack_a[1] && game->stack_a[0] > game->stack_a[2])
+	if (game->stack_a[0] < game->stack_a[1] \
+		&& game->stack_a[0] > game->stack_a[2])
 	{
 		ft_rra(game);
 		ft_putstr_fd("rra\n", 1);

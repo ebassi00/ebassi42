@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/03 14:08:33 by ebassi            #+#    #+#             */
-/*   Updated: 2022/03/14 13:16:47 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/03/14 14:56:41 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ft_exit(char *str)
 	return (0);
 }
 
-int	isInteger(char *arg)
+int	is_integer(char *arg)
 {
 	long long	nbr;
 	int			i;

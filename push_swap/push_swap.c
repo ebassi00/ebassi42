@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/09 14:55:13 by ebassi            #+#    #+#             */
-/*   Updated: 2022/03/14 13:39:09 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/03/14 14:57:20 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,13 @@ void	fill_args(t_game *game, char *argv[], int argc)
 			game->len_a++;
 			j++;
 		}
+		i = 0;
+		while (nums[i])
+		{
+			free(nums[i]);
+			i++;
+		}
+		free(nums);
 	}
 	else
 	{
@@ -87,6 +94,13 @@ int	*fill_args_char(int *tmp_arr, char *argv[], int argc)
 			tmp_arr[j] = ft_atoi(nums[j]);
 			j++;
 		}
+		i = 0;
+		while (nums[i])
+		{
+			free(nums[i]);
+			i++;
+		}
+		free(nums);
 	}
 	else
 	{
@@ -100,7 +114,7 @@ int	*fill_args_char(int *tmp_arr, char *argv[], int argc)
 	return (tmp_arr);
 }
 
-int	checkInteger(char *str)
+int	check_integer(char *str)
 {
 	int		i;
 	char	**nbrs;
@@ -109,10 +123,17 @@ int	checkInteger(char *str)
 	nbrs = ft_split(str, ' ');
 	while (nbrs[i])
 	{
-		if (!isInteger(nbrs[i]))
+		if (!is_integer(nbrs[i]))
 			return (0);
 		i++;
 	}
+	i = 0;
+	while (nbrs[i])
+	{
+		free(nbrs[i]);
+		i++;
+	}
+	free(nbrs);
 	return (1);
 }
 
@@ -125,13 +146,13 @@ int	check_args(int argc, char *argv[])
 		return (0);
 	if (argc == 2)
 	{
-		if (checkInteger(argv[1]))
+		if (check_integer(argv[1]))
 			return (1);
 		return (0);
 	}
 	while (i < argc)
 	{
-		if (!isInteger(argv[i]))
+		if (!is_integer(argv[i]))
 			return (0);
 		i++;
 	}
@@ -167,7 +188,6 @@ void	change_nm(t_game *game, int argc, char *argv[])
 		i++;
 	}
 	i = 0;
-	j = 0;
 	while (i < game->len_a)
 	{
 		j = 0;
@@ -185,7 +205,7 @@ void	change_nm(t_game *game, int argc, char *argv[])
 	free(tmp_arr);
 }
 
-int	checkOrdered(t_game *game)
+int	check_ordered(t_game *game)
 {
 	int	i;
 	int	j;
@@ -222,7 +242,7 @@ int	main(int argc, char *argv[])
 	fill_args(game, argv, argc);
 	if (!check_duplicates(game))
 		return (0);
-	if (checkOrdered(game) > 0)
+	if (check_ordered(game) > 0)
 		return (0);
 	change_nm(game, argc, argv);
 	if (game->len_a <= 5)
@@ -241,12 +261,6 @@ int	main(int argc, char *argv[])
 			ft_putstr_fd("pa\n", 1);
 		}
 	}
-	// max = MAX(game->len_a, game->len_b);
-	// while (i < max)
-	// {
-	// 	printf("%d	%d\n", game->stack_a[i], game->stack_b[i]);
-	// 	i++;
-	// }
 	free(game->stack_a);
 	free(game->stack_b);
 	free(game);
