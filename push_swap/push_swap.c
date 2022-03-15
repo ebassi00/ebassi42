@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/09 14:55:13 by ebassi            #+#    #+#             */
-/*   Updated: 2022/03/14 14:57:20 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/03/15 12:41:00 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,96 +22,6 @@ t_game	*init_game(void)
 	game->len_a = 0;
 	game->len_b = 0;
 	return (game);
-}
-
-void	fill_args(t_game *game, char *argv[], int argc)
-{
-	int		i;
-	int		j;
-	char	**nums;
-
-	i = 1;
-	j = 0;
-	nums = 0;
-	game->stack_a = malloc (sizeof(int *) * argc - 1);
-	game->stack_b = malloc (sizeof(int *) * argc - 1);
-	if (argc == 2)
-	{
-		free(game->stack_a);
-		free(game->stack_b);
-		nums = ft_split(argv[1], ' ');
-		i = 0;
-		while (nums[i])
-			i++;
-		game->stack_a = malloc (sizeof(int *) * i);
-		game->stack_b = malloc (sizeof(int *) * i);
-		while (nums[j])
-		{
-			game->stack_a[j] = ft_atoi(nums[j]);
-			game->len_a++;
-			j++;
-		}
-		i = 0;
-		while (nums[i])
-		{
-			free(nums[i]);
-			i++;
-		}
-		free(nums);
-	}
-	else
-	{
-		while (i < argc)
-		{
-			game->stack_a[j] = ft_atoi(argv[i]);
-			game->len_a++;
-			i++;
-			j++;
-		}
-	}
-}
-
-int	*fill_args_char(int *tmp_arr, char *argv[], int argc)
-{
-	int		i;
-	int		j;
-	char	**nums;
-
-	i = 1;
-	j = 0;
-	nums = 0;
-	tmp_arr = malloc (sizeof(int *) * argc - 1);
-	if (argc == 2)
-	{
-		free(tmp_arr);
-		nums = ft_split(argv[1], ' ');
-		i = 0;
-		while (nums[i])
-			i++;
-		tmp_arr = malloc (sizeof(int *) * i);
-		while (nums[j])
-		{
-			tmp_arr[j] = ft_atoi(nums[j]);
-			j++;
-		}
-		i = 0;
-		while (nums[i])
-		{
-			free(nums[i]);
-			i++;
-		}
-		free(nums);
-	}
-	else
-	{
-		while (i < argc)
-		{
-			tmp_arr[j] = ft_atoi(argv[i]);
-			i++;
-			j++;
-		}
-	}
-	return (tmp_arr);
 }
 
 int	check_integer(char *str)
@@ -159,92 +69,8 @@ int	check_args(int argc, char *argv[])
 	return (1);
 }
 
-void	change_nm(t_game *game, int argc, char *argv[])
+void	sorting_algo(t_game *game)
 {
-	int	*tmp_arr;
-	int	i;
-	int	j;
-	int	tmp;
-
-	i = 0;
-	j = 0;
-	tmp = 0;
-	tmp_arr = NULL;
-	tmp_arr = fill_args_char(tmp_arr, argv, argc);
-	j = 0;
-	while (i < game->len_a - 1)
-	{
-		j = i + 1;
-		while (j < game->len_a)
-		{
-			if (tmp_arr[j] < tmp_arr[i])
-			{
-				tmp = tmp_arr[i];
-				tmp_arr[i] = tmp_arr[j];
-				tmp_arr[j] = tmp;
-			}
-			j++;
-		}
-		i++;
-	}
-	i = 0;
-	while (i < game->len_a)
-	{
-		j = 0;
-		while (j < game->len_a)
-		{
-			if (game->stack_a[i] == tmp_arr[j])
-			{
-				game->stack_a[i] = j + 1;
-				break ;
-			}
-			j++;
-		}
-		i++;
-	}
-	free(tmp_arr);
-}
-
-int	check_ordered(t_game *game)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	if (game->len_b)
-		return (-1);
-	while (i < game->len_a)
-	{
-		j = i + 1;
-		while (j < game->len_a)
-		{
-			if (!(game->stack_a[i] < game->stack_a[j]))
-				return (-1);
-			j++;
-		}
-		i++;
-	}
-	return (1);
-}
-
-int	main(int argc, char *argv[])
-{
-	t_game	*game;
-	int		i;
-	int		max;
-
-	i = 0;
-	max = 0;
-	game = init_game();
-	if (!check_args(argc, argv))
-		return (0);
-	fill_args(game, argv, argc);
-	if (!check_duplicates(game))
-		return (0);
-	if (check_ordered(game) > 0)
-		return (0);
-	change_nm(game, argc, argv);
 	if (game->len_a <= 5)
 		sort_u6(game);
 	else if (game->len_a == 100)
@@ -261,6 +87,24 @@ int	main(int argc, char *argv[])
 			ft_putstr_fd("pa\n", 1);
 		}
 	}
+}
+
+int	main(int argc, char *argv[])
+{
+	t_game	*game;
+	int		i;
+	int		max;
+
+	i = 0;
+	max = 0;
+	game = init_game();
+	if (!check_args(argc, argv))
+		return (0);
+	fill_args(game, argv, argc);
+	if (!check_duplicates(game) || check_ordered(game) > 0)
+		return (0);
+	change_nm(game, argc, argv);
+	sorting_algo(game);
 	free(game->stack_a);
 	free(game->stack_b);
 	free(game);

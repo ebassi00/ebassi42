@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/09 14:38:48 by ebassi            #+#    #+#             */
-/*   Updated: 2022/03/14 14:57:39 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/03/15 12:56:24 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,10 @@ void	ft_rr(t_game *game);
 void	ft_rra(t_game *game);
 void	ft_rrb(t_game *game);
 void	ft_rrr(t_game *game);
+void	fill_args(t_game *game, char *argv[], int argc);
+int		*fill_args_char(int *tmp_arr, char *argv[], int argc);
+void	change_nm(t_game *game, int argc, char *argv[]);
+int		check_ordered(t_game *game);
 void	find_smallest(t_game *game);
 void	exec_swap(t_game *game, int min);
 void	sort_100(t_game *game);

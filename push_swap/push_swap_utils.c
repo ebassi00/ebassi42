@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/03 14:08:33 by ebassi            #+#    #+#             */
-/*   Updated: 2022/03/14 14:56:41 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/03/15 13:01:15 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,26 @@ int	ft_exit(char *str)
 {
 	ft_putstr_fd(str, 1);
 	return (0);
+}
+
+long long	checks(char *arg, int i, long long nbr)
+{
+	while (arg[i])
+	{
+		if (arg[i] < '0' || arg[i] > '9')
+		{
+			ft_exit("Error\n");
+			exit(0);
+		}
+		i++;
+	}
+	i = 0;
+	while (arg[i])
+	{
+		nbr = nbr * 10 + (arg[i] - 48);
+		i++;
+	}
+	return (nbr);
 }
 
 int	is_integer(char *arg)
@@ -32,18 +52,7 @@ int	is_integer(char *arg)
 		i++;
 		sign = -1;
 	}
-	while (arg[i])
-	{
-		if (arg[i] < '0' || arg[i] > '9')
-			return (0);
-		i++;
-	}
-	i = 0;
-	while (arg[i])
-	{
-		nbr = nbr * 10 + (arg[i] - 48);
-		i++;
-	}
+	nbr = checks(arg, i, nbr);
 	nbr *= sign;
 	if (nbr > 2147483647 || nbr < -2147483648)
 		return (0);

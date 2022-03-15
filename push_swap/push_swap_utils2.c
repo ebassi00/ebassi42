@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 12:49:20 by ebassi            #+#    #+#             */
-/*   Updated: 2022/03/14 14:57:07 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/03/15 12:23:13 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,27 @@ void	sort_3(t_game *game)
 	}
 }
 
+void	sort_u6_2(t_game *game)
+{
+	if (game->stack_b[0] < get_this_min(game))
+	{
+		ft_pa(game);
+		ft_putstr_fd("pa\n", 1);
+	}
+	else if (game->stack_b[0] > get_max(game))
+	{
+		ft_pa(game);
+		ft_ra(game);
+		ft_putstr_fd("pa\nra\n", 1);
+	}
+	else
+	{
+		ft_pa(game);
+		ft_putstr_fd("pa\n", 1);
+		find_smallest(game);
+	}
+}
+
 void	sort_u6(t_game *game)
 {
 	if (game->len_a > 3)
@@ -84,23 +105,5 @@ void	sort_u6(t_game *game)
 	}
 	sort_3(game);
 	while (game->len_b)
-	{
-		if (game->stack_b[0] < get_this_min(game))
-		{
-			ft_pa(game);
-			ft_putstr_fd("pa\n", 1);
-		}
-		else if (game->stack_b[0] > get_max(game))
-		{
-			ft_pa(game);
-			ft_ra(game);
-			ft_putstr_fd("pa\nra\n", 1);
-		}
-		else
-		{
-			ft_pa(game);
-			ft_putstr_fd("pa\n", 1);
-			find_smallest(game);
-		}
-	}
+		sort_u6_2(game);
 }

@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/07 14:47:01 by ebassi            #+#    #+#             */
-/*   Updated: 2022/03/14 15:11:03 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/03/15 12:12:39 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	get_chunk(t_game *game, int nbr_min, int nbr_max)
 			ft_pb(game);
 			ft_putstr_fd("pb\n", 1);
 		}
-		else if ((split - i) > (j - split))
+		else if ((split - i) > (j - split) || (j == split || i == split) || (j - split) == (split - i))
 		{
 			while (i != 0)
 			{
@@ -92,20 +92,6 @@ void	get_chunk(t_game *game, int nbr_min, int nbr_max)
 				j++;
 			}
 			if (j == game->len_a)
-			{
-				ft_pb(game);
-				ft_putstr_fd("pb\n", 1);
-			}
-		}
-		else if ((j == split || i == split) || (j - split) == (split - i))
-		{
-			while (i != 0)
-			{
-				ft_ra(game);
-				ft_putstr_fd("ra\n", 1);
-				i--;
-			}
-			if (i == 0)
 			{
 				ft_pb(game);
 				ft_putstr_fd("pb\n", 1);

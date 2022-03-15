@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/03 14:55:13 by ebassi            #+#    #+#             */
-/*   Updated: 2022/03/07 15:17:00 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/03/15 12:52:25 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,88 +86,4 @@ void	ft_pb(t_game *game)
 		}
 		game->len_a--;
 	}
-}
-
-void	ft_ra(t_game *game)
-{
-	int	tmp;
-	int	len;
-
-	tmp = game->stack_a[0];
-	len = 0;
-	if (game->stack_a)
-	{
-		while (len < game->len_a - 1)
-		{
-			game->stack_a[len] = game->stack_a[len + 1];
-			len++;
-		}
-		game->stack_a[len] = tmp;
-	}
-}
-
-void	ft_rb(t_game *game)
-{
-	int	tmp;
-	int	len;
-
-	tmp = game->stack_b[0];
-	len = 0;
-	if (game->stack_b)
-	{
-		while (len < game->len_b - 1)
-		{
-			game->stack_b[len] = game->stack_b[len + 1];
-			len++;
-		}
-		game->stack_b[len] = tmp;
-	}
-}
-
-void	ft_rr(t_game *game)
-{
-	ft_ra(game);
-	ft_rb(game);
-}
-
-void	ft_rra(t_game *game)
-{
-	int	tmp;
-	int	len;
-
-	len = game->len_a - 1;
-	tmp = game->stack_a[game->len_a - 1];
-	if (game->stack_a)
-	{
-		while (len >= 0)
-		{
-			game->stack_a[len] = game->stack_a[len - 1];
-			len--;
-		}
-		game->stack_a[0] = tmp;
-	}
-}
-
-void	ft_rrb(t_game *game)
-{
-	int	tmp;
-	int	len;
-
-	len = game->len_b - 1;
-	tmp = game->stack_b[game->len_b - 1];
-	if (game->stack_b)
-	{
-		while (len >= 0)
-		{
-			game->stack_b[len] = game->stack_b[len - 1];
-			len--;
-		}
-		game->stack_b[0] = tmp;
-	}
-}
-
-void	ft_rrr(t_game *game)
-{
-	ft_rra(game);
-	ft_rrb(game);
 }

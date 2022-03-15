@@ -1,7 +1,9 @@
 SRCS = func.c push_swap_utils.c push_swap.c algorithm.c \
-		insertion_sort.c push_swap_utils2.c
-CHECK_SRCS = checker.c push_swap_utils.c func.c
-HEADER = push_swap.h
+		insertion_sort.c push_swap_utils2.c push_swap_utils3.c \
+		push_swap_utils4.c func2.c func3.c
+CHECK_SRCS = checker.c push_swap_utils.c func.c func2.c func3.c \
+			checker2.c
+HEADER = push_swap.h checker.h
 LIBFT = ./libft/libft.a
 
 CC = gcc

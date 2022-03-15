@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/11 14:28:58 by ebassi            #+#    #+#             */
-/*   Updated: 2022/03/11 15:22:49 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/03/15 12:49:23 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,25 @@ void	exec_middle(t_game *game, int min)
 	}
 }
 
+void	exec_swap2(t_game *game, int min)
+{
+	if (game->stack_a[game->len_a - 1] == min)
+	{
+		ft_rra(game);
+		ft_pb(game);
+		ft_putstr_fd("rra\npb\n", 1);
+	}
+	else if (game->stack_a[game->len_a - 2] == min)
+	{
+		ft_rra(game);
+		ft_rra(game);
+		ft_pb(game);
+		ft_putstr_fd("rra\nrra\npb\n", 1);
+	}
+	else
+		exec_middle(game, min);
+}
+
 void	exec_swap(t_game *game, int min)
 {
 	int	i;
@@ -58,19 +77,6 @@ void	exec_swap(t_game *game, int min)
 		ft_pb(game);
 		ft_putstr_fd("sa\npb\n", 1);
 	}
-	else if (game->stack_a[game->len_a - 1] == min)
-	{
-		ft_rra(game);
-		ft_pb(game);
-		ft_putstr_fd("rra\npb\n", 1);
-	}
-	else if (game->stack_a[game->len_a - 2] == min)
-	{
-		ft_rra(game);
-		ft_rra(game);
-		ft_pb(game);
-		ft_putstr_fd("rra\nrra\npb\n", 1);
-	}
 	else
-		exec_middle(game, min);
+		exec_swap2(game, min);
 }
