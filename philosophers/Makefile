@@ -1,8 +1,8 @@
 NAME = philo
-SRCS = philo.c utils.c create_thread.c
+SRCS = philo.c utils.c create_philo.c
 OBJS = $(SRCS:.c=.o)
 HEADER = philo.h
-CC = gcc
+CC = gcc -pthread
 FLAGS = -Wall -Werror -Wextra
 
 all: philo
