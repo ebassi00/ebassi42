@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 14:43:03 by ebassi            #+#    #+#             */
-/*   Updated: 2022/03/16 16:04:01 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/03/18 15:21:46 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,12 @@ int		is_integer(char *arg)
 		i++;
 	}
 	return (1);
+}
+
+uint64_t	get_time()
+{
+	struct timeval timeval;
+
+	gettimeofday(&timeval, NULL);
+	return ((timeval.tv_sec * (uint64_t)1000) + (timeval.tv_usec / 1000));
 }
