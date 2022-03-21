@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 14:43:03 by ebassi            #+#    #+#             */
-/*   Updated: 2022/03/18 15:21:46 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/03/21 15:48:58 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,13 @@ uint64_t	get_time()
 
 	gettimeofday(&timeval, NULL);
 	return ((timeval.tv_sec * (uint64_t)1000) + (timeval.tv_usec / 1000));
+}
+
+void	ft_usleep(uint64_t time_in_ms)
+{
+	uint64_t	start_time;
+
+	start_time = get_time();
+	while ((get_time() - start_time) < time_in_ms)
+		usleep(time_in_ms / 10);
 }

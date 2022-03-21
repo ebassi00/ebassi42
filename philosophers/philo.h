@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 14:22:35 by ebassi            #+#    #+#             */
-/*   Updated: 2022/03/18 16:25:26 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/03/21 15:58:29 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ typedef struct s_philo {
 	int				id_philo;
 	int				left_fork;
 	int				right_fork;
-	int				last_meal;
+	uint64_t		last_meal;
 	struct s_table	*table;
 	pthread_t		phil_thread;
 }	t_philo;
@@ -38,14 +38,17 @@ typedef struct s_table {
 	uint64_t		time;
 	t_philo			**phil;
 	pthread_mutex_t	death;
+	pthread_mutex_t	is_eating;
 	pthread_mutex_t	*forks;
+	pthread_mutex_t	message;
 }	t_table;
 
-int		ft_exit(char *str);
-int		ft_atoi(char *str);
-int		is_integer(char *arg);
-t_table	*create_philo(t_table *table, char *argv[]);
-t_table	*alloc_table(t_table *table, char *argv[]);
+int			ft_exit(char *str);
+int			ft_atoi(char *str);
+int			is_integer(char *arg);
+t_table		*create_philo(t_table *table, char *argv[]);
+t_table		*alloc_table(t_table *table, char *argv[]);
 uint64_t	get_time();
+void		ft_usleep(uint64_t time_in_ms);
 
 #endif
