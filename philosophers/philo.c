@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 14:21:56 by ebassi            #+#    #+#             */
-/*   Updated: 2022/03/22 18:29:39 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/03/22 18:54:12 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	*is_dead(void *data)
 		philo->table->exec_finish = 1;
 		return (NULL);
 	}
-	if ((get_time() - philo->table->time) - philo->last_meal >= philo->table->die && !philo->table->exec_finish)
+	if ((get_time() - philo->table->time) - philo->last_meal >= philo->table->die)
 	{
 		pthread_mutex_lock(&philo->table->death);
 		pthread_mutex_lock(&philo->table->finish);
@@ -45,10 +45,8 @@ void	*is_dead(void *data)
 void	*func(void *data)
 {
 	t_philo	*philo;
-	int		i;
 
 	philo = (t_philo *) data;
-	i = 0;
 	while (!philo->table->is_dead)
 	{
 		pthread_mutex_lock(&philo->table->forks[philo->id_philo - 1]);
