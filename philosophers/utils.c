@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 14:43:03 by ebassi            #+#    #+#             */
-/*   Updated: 2022/03/21 15:48:58 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/03/22 17:59:30 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ft_exit(char *str)
 	return (0);
 }
 
-int		ft_atoi(char *str)
+int	ft_atoi(char *str)
 {
 	int	nbr;
 	int	i;
@@ -42,7 +42,7 @@ int		ft_atoi(char *str)
 	return (nbr * sign);
 }
 
-int		is_integer(char *arg)
+int	is_integer(char *arg)
 {
 	int	i;
 
@@ -56,19 +56,10 @@ int		is_integer(char *arg)
 	return (1);
 }
 
-uint64_t	get_time()
+uint64_t	get_time(void)
 {
-	struct timeval timeval;
+	struct timeval	timeval;
 
 	gettimeofday(&timeval, NULL);
 	return ((timeval.tv_sec * (uint64_t)1000) + (timeval.tv_usec / 1000));
-}
-
-void	ft_usleep(uint64_t time_in_ms)
-{
-	uint64_t	start_time;
-
-	start_time = get_time();
-	while ((get_time() - start_time) < time_in_ms)
-		usleep(time_in_ms / 10);
 }
