@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 14:43:03 by ebassi            #+#    #+#             */
-/*   Updated: 2022/03/22 17:59:30 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/03/23 17:32:50 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,3 +63,17 @@ uint64_t	get_time(void)
 	gettimeofday(&timeval, NULL);
 	return ((timeval.tv_sec * (uint64_t)1000) + (timeval.tv_usec / 1000));
 }
+
+/*void	don_t_wake_cpu(t_philo *philo, uint64_t time)
+{
+	uint64_t	start;
+
+	start = get_time(philo, 0) - philo->context->start_time;
+	while (!philo->context->some_die)
+	{
+		if ((get_time(philo, 0) - philo->context->start_time) - start >= time)
+			break ;
+		usleep(50);
+	}
+}
+*/

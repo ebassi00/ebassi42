@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 14:22:35 by ebassi            #+#    #+#             */
-/*   Updated: 2022/03/22 18:54:08 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/03/23 17:32:52 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef struct s_philo {
 	int				left_fork;
 	int				right_fork;
 	int				nbr_meals;
+	int				philo_eating;
 	uint64_t		last_meal;
 	struct s_table	*table;
 	pthread_t		phil_thread;
@@ -56,5 +57,6 @@ t_table		*create_philo(t_table *table, char *argv[]);
 t_table		*alloc_table(t_table *table, char *argv[]);
 uint64_t	get_time(void);
 void		ft_usleep(uint64_t time_in_ms);
+// void		don_t_wake_cpu(t_philo *philo, uint64_t time)
 
 #endif

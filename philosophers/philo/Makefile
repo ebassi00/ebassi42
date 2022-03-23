@@ -10,7 +10,7 @@ all: philo
 bonus: philo
 
 philo:
-	$(CC) $(FLAGS) $(SRCS) -o philo
+	$(CC) $(FLAGS) $(SRCS) -o $(NAME)
 
 clean:
 	rm -f $(OBJS)

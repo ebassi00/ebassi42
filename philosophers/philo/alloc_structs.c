@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 14:44:57 by ebassi            #+#    #+#             */
-/*   Updated: 2022/03/22 18:54:19 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/03/23 16:00:34 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ t_table	*create_philo(t_table *table, char *argv[])
 		table->phil[i]->left_fork = 0;
 		table->phil[i]->right_fork = 0;
 		table->phil[i]->last_meal = 0;
+		table->phil[i]->philo_eating = 0;
 		table->phil[i]->nbr_meals = 0;
 		i++;
 	}
@@ -44,6 +45,8 @@ t_table	*alloc_table(t_table *table, char *argv[])
 	table->sleep = ft_atoi(argv[4]);
 	if (argv[5])
 		table->times_to_eat = ft_atoi(argv[5]);
+	else
+		table->times_to_eat = -1;
 	table->is_dead = 0;
 	table->nbr_phil_finish = 0;
 	table->exec_finish = 0;
