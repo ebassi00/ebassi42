@@ -6,16 +6,26 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 14:43:03 by ebassi            #+#    #+#             */
-/*   Updated: 2022/03/23 17:32:50 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/03/24 12:44:15 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+int	ft_strlen(char *str)
+{
+	int	len;
+
+	len = 0;
+	while (str[len])
+		len++;
+	return (len);
+}
+
 int	ft_exit(char *str)
 {
-	printf("%s\n", str);
-	return (0);
+	write(2, str, ft_strlen(str));
+	return (1);
 }
 
 int	ft_atoi(char *str)
@@ -63,17 +73,3 @@ uint64_t	get_time(void)
 	gettimeofday(&timeval, NULL);
 	return ((timeval.tv_sec * (uint64_t)1000) + (timeval.tv_usec / 1000));
 }
-
-/*void	don_t_wake_cpu(t_philo *philo, uint64_t time)
-{
-	uint64_t	start;
-
-	start = get_time(philo, 0) - philo->context->start_time;
-	while (!philo->context->some_die)
-	{
-		if ((get_time(philo, 0) - philo->context->start_time) - start >= time)
-			break ;
-		usleep(50);
-	}
-}
-*/

@@ -1,5 +1,5 @@
 NAME = philo
-SRCS = philo.c utils.c alloc_structs.c
+SRCS = philo.c utils.c utils2.c alloc_structs.c monitor.c
 OBJS = $(SRCS:.c=.o)
 HEADER = philo.h
 CC = gcc -pthread

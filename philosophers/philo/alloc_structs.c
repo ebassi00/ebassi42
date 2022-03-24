@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 14:44:57 by ebassi            #+#    #+#             */
-/*   Updated: 2022/03/23 16:00:34 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/03/24 13:52:58 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ t_table	*create_philo(t_table *table, char *argv[])
 	{
 		table->phil[i] = malloc (sizeof(t_philo));
 		table->phil[i]->id_philo = i + 1;
-		table->phil[i]->phil_thread = malloc (sizeof(pthread_mutex_t));
 		table->phil[i]->table = table;
 		table->phil[i]->left_fork = 0;
 		table->phil[i]->right_fork = 0;
