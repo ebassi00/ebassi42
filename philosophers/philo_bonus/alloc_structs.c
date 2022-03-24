@@ -6,11 +6,11 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 14:44:57 by ebassi            #+#    #+#             */
-/*   Updated: 2022/03/24 14:51:09 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/03/24 17:15:50 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
 t_table	*create_philo(t_table *table, char *argv[])
 {
@@ -51,10 +51,9 @@ t_table	*alloc_table(t_table *table, char *argv[])
 	table->exec_finish = 0;
 	table->time = get_time();
 	table = create_philo(table, &argv[1]);
-	table->forks = malloc (sizeof(pthread_mutex_t) * table->nbr_philo);
-	pthread_mutex_init(&table->death, NULL);
-	pthread_mutex_init(&table->finish, NULL);
-	pthread_mutex_init(&table->is_eating, NULL);
-	pthread_mutex_init(&table->message, NULL);
+	table->forks = sem_open("sem_forks", O_CREAT, 0644, table->nbr_philo);
+	table->writing = sem_open("sem_write", O_RDONLY, 0644, 1);
+	table->is_eating = sem_open("sem_eating", O_RDONLY, 0644, 1);
+	table->dead = sem_open("sem_dead", O_RDONLY, 0644, 1);
 	return (table);
 }

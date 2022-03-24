@@ -6,19 +6,20 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 14:22:35 by ebassi            #+#    #+#             */
-/*   Updated: 2022/03/24 14:00:30 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/03/24 17:57:23 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_BONUS_H
+#ifndef PHILO_H
 
-# define PHILO_BONUS_H
+# define PHILO_H
 
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <sys/time.h>
 # include <semaphore.h>
+# include <signal.h>
 # include <pthread.h>
 
 typedef struct s_philo {
@@ -30,6 +31,7 @@ typedef struct s_philo {
 	uint64_t		last_meal;
 	struct s_table	*table;
 	pthread_t		phil_thread;
+	pid_t			pid;
 }	t_philo;
 
 typedef struct s_table {
@@ -43,11 +45,11 @@ typedef struct s_table {
 	uint64_t		die;
 	uint64_t		time;
 	t_philo			**phil;
-	pthread_mutex_t	death;
-	pthread_mutex_t	finish;
-	pthread_mutex_t	is_eating;
-	pthread_mutex_t	*forks;
-	pthread_mutex_t	message;
+	sem_t			*forks;
+	sem_t			*dead;
+	sem_t			*is_eating;
+	sem_t			*writing;
+	pthread_t		check_monitor;
 }	t_table;
 
 int			ft_exit(char *str);
