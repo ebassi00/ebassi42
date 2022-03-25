@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 13:57:16 by ebassi            #+#    #+#             */
-/*   Updated: 2022/03/24 18:05:31 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/03/25 14:26:56 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 void	*start(t_philo *philo)
 {
+	pthread_t	thread;
+	
+	pthread_create(&thread, NULL, monitoring, philo);
 	while (!philo->table->is_dead)
 	{
 		sem_wait(philo->table->forks);
@@ -57,6 +60,7 @@ void	*start(t_philo *philo)
 				philo->id_philo);
 		sem_post(philo->table->writing);
 	}
+	pthread_join(thread, NULL);
 	return (NULL);
 }
 
@@ -72,18 +76,23 @@ void	medea(t_table *table)
 		{
 			i = -1;
 			while (++i < table->nbr_philo)
-				kill(table->phil[i]->pid, 15);
+				kill(table->phil[i]->pid, SIGKILL);
 			break ;
 		}
 		i++;
 	}
+	sem_close(table->forks);
+	sem_close(table->writing);
+	sem_close(table->is_eating);
+	sem_unlink("sem_forks");
+	sem_unlink("sem_write");
+	sem_unlink("sem_eating");
 }
 
 int	main(int argc, char *argv[])
 {
-	t_table		*table;
-	pthread_t	thread;
-	int			i;
+	t_table	*table;
+	int		i;
 
 	i = 1;
 	table = 0;
@@ -92,20 +101,16 @@ int	main(int argc, char *argv[])
 	if (!check_arguments(&argv[1]))
 		return (ft_exit("Wrong arguments"));
 	table = alloc_table(table, argv);
-	pthread_create(&thread, NULL, monitoring, table);
 	i = 0;
-	while (!table->is_dead)
+	while (i < table->nbr_philo)
 	{
-		while (i < table->nbr_philo)
-		{
-			table->phil[i]->pid = fork();
-			if (table->phil[i]->pid < 0)
-				return (ft_exit("Error while forking!\n"));
-			if (!table->phil[i]->pid)
-				start(table->phil[i]);
-			i++;
-			// usleep(100);
-		}
+		table->phil[i]->pid = fork();
+		if (table->phil[i]->pid < 0)
+			return (ft_exit("Error while forking!\n"));
+		if (!table->phil[i]->pid)
+			start(table->phil[i]);
+		i++;
+		// usleep(100);
 	}
 	medea(table);
 	return (1);

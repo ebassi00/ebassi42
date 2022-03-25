@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 14:22:35 by ebassi            #+#    #+#             */
-/*   Updated: 2022/03/24 17:57:23 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/03/25 14:25:20 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,20 +36,19 @@ typedef struct s_philo {
 
 typedef struct s_table {
 	int				nbr_philo;
-	int				is_dead;
 	int				nbr_phil_finish;
 	int				times_to_eat;
 	int				exec_finish;
+	int				stop;
+	int				is_dead;
 	uint64_t		eat;
 	uint64_t		sleep;
 	uint64_t		die;
 	uint64_t		time;
 	t_philo			**phil;
 	sem_t			*forks;
-	sem_t			*dead;
 	sem_t			*is_eating;
 	sem_t			*writing;
-	pthread_t		check_monitor;
 }	t_table;
 
 int			ft_exit(char *str);

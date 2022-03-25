@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 14:44:57 by ebassi            #+#    #+#             */
-/*   Updated: 2022/03/24 17:15:50 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/03/25 14:25:37 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,17 @@ t_table	*alloc_table(t_table *table, char *argv[])
 		table->times_to_eat = ft_atoi(argv[5]);
 	else
 		table->times_to_eat = -1;
-	table->is_dead = 0;
 	table->nbr_phil_finish = 0;
 	table->exec_finish = 0;
+	table->is_dead = 0;
+	table->stop = 0;
 	table->time = get_time();
 	table = create_philo(table, &argv[1]);
+	sem_unlink("sem_forks");
+	sem_unlink("sem_write");
+	sem_unlink("sem_eating");
 	table->forks = sem_open("sem_forks", O_CREAT, 0644, table->nbr_philo);
 	table->writing = sem_open("sem_write", O_RDONLY, 0644, 1);
 	table->is_eating = sem_open("sem_eating", O_RDONLY, 0644, 1);
-	table->dead = sem_open("sem_dead", O_RDONLY, 0644, 1);
 	return (table);
 }
