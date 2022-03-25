@@ -6,59 +6,43 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 13:57:16 by ebassi            #+#    #+#             */
-/*   Updated: 2022/03/25 14:26:56 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/03/25 16:24:10 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
+void	activity(t_philo *philo)
+{
+	print_action(philo, "is sleeping");
+	upgrade_sleep(philo->table->sleep, philo);
+	print_action(philo, "is thinking");
+}
+
 void	*start(t_philo *philo)
 {
 	pthread_t	thread;
-	
+
 	pthread_create(&thread, NULL, monitoring, philo);
-	while (!philo->table->is_dead)
+	while (1)
 	{
 		sem_wait(philo->table->forks);
-		sem_wait(philo->table->writing);
-		printf("[%llu] %d has taken a fork\n", get_time() - philo->table->time, \
-				philo->id_philo);
-		sem_post(philo->table->writing);
+		print_action(philo, "has taken a fork");
 		sem_wait(philo->table->forks);
-		sem_wait(philo->table->writing);
-		printf("[%llu] %d has taken a fork\n", get_time() - philo->table->time, \
-				philo->id_philo);
-		sem_post(philo->table->writing);
+		print_action(philo, "has taken a fork");
 		philo->philo_eating = 1;
-		sem_wait(philo->table->writing);
-		printf("[%llu] %d is eating\n", get_time() - philo->table->time, \
-				philo->id_philo);
-		sem_post(philo->table->writing);
+		print_action(philo, "is eating");
 		sem_wait(philo->table->is_eating);
 		philo->last_meal = get_time() - philo->table->time;
-		philo->nbr_meals++;
 		if (philo->nbr_meals == philo->table->times_to_eat)
 			philo->table->nbr_phil_finish++;
 		sem_post(philo->table->is_eating);
-		usleep(philo->table->eat * 1000 - 20000);
-		while ((get_time() - philo->table->time) - philo->last_meal \
-				< philo->table->eat)
-			continue ;
+		upgrade_sleep(philo->table->eat, philo);
 		sem_post(philo->table->forks);
 		sem_post(philo->table->forks);
 		philo->philo_eating = 0;
-		sem_wait(philo->table->writing);
-		printf("[%llu] %d is sleeping\n", get_time() - philo->table->time, \
-				philo->id_philo);
-		sem_post(philo->table->writing);
-		usleep(philo->table->sleep * 1000);
-		while ((get_time() - philo->table->time) - philo->last_meal \
-				< philo->table->sleep)
-			continue ;
-		sem_wait(philo->table->writing);
-		printf("[%llu] %d is thinking\n", get_time() - philo->table->time, \
-				philo->id_philo);
-		sem_post(philo->table->writing);
+		philo->nbr_meals++;
+		activity(philo);
 	}
 	pthread_join(thread, NULL);
 	return (NULL);
@@ -66,10 +50,11 @@ void	*start(t_philo *philo)
 
 void	medea(t_table *table)
 {
-	int i;
-	int ret;
-	i = -1;
-	while (++i < table->nbr_philo)
+	int	i;
+	int	ret;
+
+	i = 0;
+	while (i < table->nbr_philo)
 	{
 		waitpid(-1, &ret, 0);
 		if (ret != 0)
@@ -87,6 +72,7 @@ void	medea(t_table *table)
 	sem_unlink("sem_forks");
 	sem_unlink("sem_write");
 	sem_unlink("sem_eating");
+	free(table);
 }
 
 int	main(int argc, char *argv[])
@@ -110,7 +96,6 @@ int	main(int argc, char *argv[])
 		if (!table->phil[i]->pid)
 			start(table->phil[i]);
 		i++;
-		// usleep(100);
 	}
 	medea(table);
 	return (1);

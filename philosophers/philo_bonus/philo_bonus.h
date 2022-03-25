@@ -5,14 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/16 14:22:35 by ebassi            #+#    #+#             */
-/*   Updated: 2022/03/25 14:25:20 by ebassi           ###   ########.fr       */
+/*   Created: 2022/03/25 16:19:37 by ebassi            #+#    #+#             */
+/*   Updated: 2022/03/25 16:20:07 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_H
+#ifndef PHILO_BONUS_H
 
-# define PHILO_H
+# define PHILO_BONUS_H
 
 # include <stdio.h>
 # include <unistd.h>
@@ -28,6 +28,8 @@ typedef struct s_philo {
 	int				right_fork;
 	int				nbr_meals;
 	int				philo_eating;
+	int				stop;
+	int				is_dead;
 	uint64_t		last_meal;
 	struct s_table	*table;
 	pthread_t		phil_thread;
@@ -39,8 +41,6 @@ typedef struct s_table {
 	int				nbr_phil_finish;
 	int				times_to_eat;
 	int				exec_finish;
-	int				stop;
-	int				is_dead;
 	uint64_t		eat;
 	uint64_t		sleep;
 	uint64_t		die;
@@ -62,5 +62,7 @@ int			check_arguments(char *argv[]);
 int			handle_args(char *arg);
 void		*monitoring(void *data);
 void		clear_all(t_table *table);
+void		print_action(t_philo *philo, char *str);
+void		upgrade_sleep(uint64_t time, t_philo *philo);
 
 #endif

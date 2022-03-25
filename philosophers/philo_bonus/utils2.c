@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 12:44:23 by ebassi            #+#    #+#             */
-/*   Updated: 2022/03/24 15:36:48 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/03/25 16:07:17 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,23 +38,24 @@ int	handle_args(char *arg)
 	return (1);
 }
 
-/*void	clear_all(t_table *table)
+void	print_action(t_philo *philo, char *str)
 {
-	int	i;
-	
-	i = 0;
-	while (i < table->nbr_philo)
-	{
-		free(table->phil[i]);
-		i++;
-	}
-	free(table->phil);
-	free(table->forks);
-	pthread_mutex_destroy(&table->death);
-	pthread_mutex_destroy(&table->finish);
-	pthread_mutex_destroy(&table->is_eating);
-	pthread_mutex_destroy(&table->message);
-	pthread_mutex_destroy(table->forks);
-	free(table);
+	sem_wait(philo->table->writing);
+	if (!philo->is_dead)
+		printf("[%llu] %d %s\n", get_time() - philo->table->time, \
+				philo->id_philo, str);
+	sem_post(philo->table->writing);
 }
-*/
+
+void	upgrade_sleep(uint64_t time, t_philo *philo)
+{
+	uint64_t	t;
+
+	t = get_time();
+	while (!philo->stop)
+	{
+		if (get_time() - t >= time)
+			break ;
+		usleep(500);
+	}
+}
