@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 12:44:23 by ebassi            #+#    #+#             */
-/*   Updated: 2022/03/24 13:52:55 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/03/25 16:49:43 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	handle_args(char *arg)
 void	clear_all(t_table *table)
 {
 	int	i;
-	
+
 	i = 0;
 	while (i < table->nbr_philo)
 	{
