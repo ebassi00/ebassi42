@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 12:42:37 by ebassi            #+#    #+#             */
-/*   Updated: 2022/03/31 16:03:17 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/03/31 16:13:18 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void phonebook::search()
 		while (i < nb)
 		{
 			j = 0;
-			std::cout << std::setw(10) << i + 1;
+			std::cout << "|" << std::setw(10) << i + 1 << "|";
 			while (j < 3)
 			{
 				if (contact[i].getInfos(j).size() < 10)

@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 13:17:39 by ebassi            #+#    #+#             */
-/*   Updated: 2022/03/31 14:20:58 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/03/31 16:14:05 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int main()
 		std::getline(std::cin, command);
 		if (command == "EXIT")
 		{
-			std::cout << "Phonebook is closing and you have lost your contacts forever" << std::endl;
+			std::cout << "Closing Phonebook...everything is being deleted" << std::endl;
 			break;
 		}
 		else if (command == "ADD")
