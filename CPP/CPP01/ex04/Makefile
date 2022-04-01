@@ -1,10 +1,10 @@
-NAME = human
-SRCS = main.cpp HumanA.cpp HumanB.cpp Weapon.cpp
+NAME = replace
+SRCS = main.cpp
 COMPILE = c++ -Wall -Wextra -Werror -std=c++98
 
 all: $(NAME)
 
-human:
+replace:
 	$(COMPILE) $(SRCS) -o $(NAME)
 
 clean:

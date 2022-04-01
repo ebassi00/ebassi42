@@ -6,15 +6,15 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 18:54:24 by ebassi            #+#    #+#             */
-/*   Updated: 2022/03/31 19:19:21 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/04/01 13:48:41 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Weapon.hpp"
 
-Weapon::Weapon(std::string type)
+Weapon::Weapon(std::string type) :
+	_type(type)
 {
-	_type = type;
 }
 
 Weapon::~Weapon()

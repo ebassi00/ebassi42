@@ -1,10 +1,10 @@
-NAME = human
-SRCS = main.cpp HumanA.cpp HumanB.cpp Weapon.cpp
+NAME = karenFilter
+SRCS = main.cpp Karen.cpp
 COMPILE = c++ -Wall -Wextra -Werror -std=c++98
 
 all: $(NAME)
 
-human:
+karenFilter:
 	$(COMPILE) $(SRCS) -o $(NAME)
 
 clean:

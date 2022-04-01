@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 19:04:23 by ebassi            #+#    #+#             */
-/*   Updated: 2022/03/31 19:19:18 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/04/01 13:54:30 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@ HumanA::HumanA(std::string name, Weapon &weapon) :
 	_name(name), _weapon(weapon)
 {
 }
+
+HumanA::~HumanA()
+{}
 
 void HumanA::attack()
 {

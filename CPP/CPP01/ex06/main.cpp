@@ -1,35 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   HumanB.cpp                                         :+:      :+:    :+:   */
+/*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/31 19:10:06 by ebassi            #+#    #+#             */
-/*   Updated: 2022/04/01 13:53:12 by ebassi           ###   ########.fr       */
+/*   Created: 2022/04/01 15:09:21 by ebassi            #+#    #+#             */
+/*   Updated: 2022/04/01 15:35:02 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "HumanB.hpp"
+#include "Karen.hpp"
+#include <iostream>
 
-HumanB::HumanB(std::string name) :
-	_name(name)
+int main(int argc, char *argv[])
 {
-}
+    if (argc == 2)
+    {
+        Karen karen;
+		std::cout << std::endl;
 
-HumanB::~HumanB()
-{}
-
-void HumanB::attack()
-{
-	std::cout << this->_name << " attacks with their ";
-	if (this->_weapon)
-		std::cout << this->_weapon->getType() << std::endl;
-	else
-		std::cout << "really nothing" << std::endl;
-}
-
-void HumanB::setWeapon(Weapon &weapon)
-{
-	this->_weapon = &weapon;
+        karen.complain(std::string(argv[1]));
+		std::cout << std::endl;
+    }
+    return 0;
 }

@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 19:10:28 by ebassi            #+#    #+#             */
-/*   Updated: 2022/03/31 19:19:20 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/04/01 13:52:36 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,5 @@ public:
 
 private:
 	std::string _name;
-	Weapon &_weapon;
+	Weapon *_weapon;
 };
