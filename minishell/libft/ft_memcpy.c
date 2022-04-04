@@ -1,31 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Weapon.hpp                                         :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/31 18:51:45 by ebassi            #+#    #+#             */
-/*   Updated: 2022/04/01 16:23:51 by ebassi           ###   ########.fr       */
+/*   Created: 2022/01/11 17:04:43 by ebassi            #+#    #+#             */
+/*   Updated: 2022/01/13 11:55:17 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WEAPON_HPP
-# define WEAPON_HPP
+#include "libft.h"
 
-# include <iostream>
+void	*ft_memcpy(void *dst, const void *src, size_t n)
+{
+	char	*fin_src;
+	char	*fin_dest;
+	size_t	i;
 
-class Weapon {
-
-public:
-	Weapon(std::string type);
-	~Weapon();
-
-	std::string const &getType() const;
-	void setType(std::string type);
-
-private:
-	std::string _type;
-};
-
-#endif
+	if ((dst == src) || n == 0)
+		return (dst);
+	if (!src && !dst)
+		return (NULL);
+	fin_src = (char *) src;
+	fin_dest = (char *) dst;
+	i = 0;
+	while (i < n)
+	{
+		fin_dest[i] = fin_src[i];
+		i++;
+	}
+	return (dst);
+}

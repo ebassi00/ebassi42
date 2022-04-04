@@ -1,31 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Weapon.hpp                                         :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/31 18:51:45 by ebassi            #+#    #+#             */
-/*   Updated: 2022/04/01 16:23:51 by ebassi           ###   ########.fr       */
+/*   Created: 2022/01/11 17:04:33 by ebassi            #+#    #+#             */
+/*   Updated: 2022/01/17 16:15:41 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WEAPON_HPP
-# define WEAPON_HPP
+#include "libft.h"
 
-# include <iostream>
+void	*ft_memchr(const void *s, int c, size_t n)
+{
+	size_t			i;
+	unsigned char	*str;
+	unsigned char	ch;
 
-class Weapon {
-
-public:
-	Weapon(std::string type);
-	~Weapon();
-
-	std::string const &getType() const;
-	void setType(std::string type);
-
-private:
-	std::string _type;
-};
-
-#endif
+	ch = c;
+	str = (unsigned char *)s;
+	i = 0;
+	while (i < n)
+	{
+		if (str[i] == ch)
+			return ((void *)str + i);
+		i++;
+	}
+	return (0);
+}

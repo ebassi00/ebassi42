@@ -1,31 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Weapon.hpp                                         :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/31 18:51:45 by ebassi            #+#    #+#             */
-/*   Updated: 2022/04/01 16:23:51 by ebassi           ###   ########.fr       */
+/*   Created: 2022/01/11 17:05:06 by ebassi            #+#    #+#             */
+/*   Updated: 2022/01/13 12:09:44 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WEAPON_HPP
-# define WEAPON_HPP
+#include "libft.h"
 
-# include <iostream>
+char	*ft_strdup(const char *s1)
+{
+	char	*dest;
+	int		index;
 
-class Weapon {
-
-public:
-	Weapon(std::string type);
-	~Weapon();
-
-	std::string const &getType() const;
-	void setType(std::string type);
-
-private:
-	std::string _type;
-};
-
-#endif
+	index = 0;
+	dest = (char *)malloc(sizeof(char) * ft_strlen((char *)s1) + 1);
+	if (!dest)
+		return (0);
+	while (((char *)s1)[index] != '\0')
+	{
+		dest[index] = ((char *)s1)[index];
+		index++;
+	}
+	dest[index] = '\0';
+	return (dest);
+}

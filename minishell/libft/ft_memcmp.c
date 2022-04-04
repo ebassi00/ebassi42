@@ -1,31 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Weapon.hpp                                         :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/31 18:51:45 by ebassi            #+#    #+#             */
-/*   Updated: 2022/04/01 16:23:51 by ebassi           ###   ########.fr       */
+/*   Created: 2022/01/11 17:04:37 by ebassi            #+#    #+#             */
+/*   Updated: 2022/01/12 15:52:07 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WEAPON_HPP
-# define WEAPON_HPP
+#include "libft.h"
 
-# include <iostream>
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
+{
+	int	index;
 
-class Weapon {
-
-public:
-	Weapon(std::string type);
-	~Weapon();
-
-	std::string const &getType() const;
-	void setType(std::string type);
-
-private:
-	std::string _type;
-};
-
-#endif
+	index = 0;
+	while (index < (int)n)
+	{
+		if (((unsigned char *)s1)[index] != ((unsigned char *)s2)[index])
+			return (((unsigned char *)s1)[index]
+					- ((unsigned char *)s2)[index]);
+		index++;
+	}
+	return (0);
+}

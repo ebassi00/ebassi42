@@ -1,31 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Weapon.hpp                                         :+:      :+:    :+:   */
+/*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/31 18:51:45 by ebassi            #+#    #+#             */
-/*   Updated: 2022/04/01 16:23:51 by ebassi           ###   ########.fr       */
+/*   Created: 2022/01/13 14:01:30 by ebassi            #+#    #+#             */
+/*   Updated: 2022/01/17 11:34:22 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WEAPON_HPP
-# define WEAPON_HPP
+#include "libft.h"
 
-# include <iostream>
+void	ft_lstadd_back(t_list **lst, t_list *new)
+{
+	t_list	*lst_new;
 
-class Weapon {
-
-public:
-	Weapon(std::string type);
-	~Weapon();
-
-	std::string const &getType() const;
-	void setType(std::string type);
-
-private:
-	std::string _type;
-};
-
-#endif
+	if (*lst)
+	{
+		lst_new = ft_lstlast(*lst);
+		lst_new->next = &*new;
+	}
+	else
+		*lst = new;
+}
