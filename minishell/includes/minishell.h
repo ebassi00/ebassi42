@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 18:07:29 by ebassi            #+#    #+#             */
-/*   Updated: 2022/04/04 11:58:03 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/04/08 13:37:26 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,15 @@ typedef enum s_redirect {
 	RE_GREAT,
 	RE_DOUBLE_GREAT,
 	RE_LESS,
+	PIPE
 }	t_redirect;
+
+typedef struct s_tok {
+	int				type;
+	char			*data;
+	char			*flag;
+	struct s_tok	*next;
+}	t_tok;
 
 void	signal_handler(int sig);
 void	get_pwd();

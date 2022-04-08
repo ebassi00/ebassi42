@@ -6,7 +6,7 @@
 #    By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 18:16:46 by ebassi            #+#    #+#              #
-#    Updated: 2022/04/01 17:06:24 by ebassi           ###   ########.fr        #
+#    Updated: 2022/04/08 15:54:19 by ebassi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ SRCSFLS = main.c utils.c
 BUILTINS = cd.c echo.c pwd.c
 SRCS = $(addprefix src/, $(SRCSFLS)) $(addprefix builtins/, $(BUILTINS))
 HEADER = minishell.h
-FLAGS = gcc -lreadline -Wall -Wextra -Werror
+FLAGS = gcc -lreadline -Wall -Wextra -Werror -g
 LIBFT = ./libft/libft.a
 
 all: minishell

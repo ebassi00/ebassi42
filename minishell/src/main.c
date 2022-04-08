@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 18:06:44 by ebassi            #+#    #+#             */
-/*   Updated: 2022/04/04 17:44:32 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/04/08 18:12:32 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,35 +19,57 @@ void	set_prompt()
 	write(1, GREEN, ft_strlen(GREEN));
 }
 
-char	*get_command(char *line)
+void	get_next_lst(t_tok *input_ln)
 {
-	int		index;
-	int		prev_index;
-	char	*command;
+	t_tok	*next_lst;
 
-	index = -1;
-	prev_index = 0;
-	command = 0;
-	while (line[++index])
+	next_lst = malloc(sizeof(t_tok));
+	input_ln->next = next_lst;
+}
+
+void handle_op(t_tok *input_ln, char *op)
+{
+	input_ln->type = 1;
+	input_ln->data = op;
+	input_ln->flag = 0;
+}
+
+void	get_command(t_tok *input_ln, char *line)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (line[i])
 	{
-		if (index == ' ')
+		if (line[i] == '|' || line[i] == '>' || line[i] == '<')
 		{
-			command = ft_substr(line, prev_index, index);
-			prev_index = index;
+			get_next_lst(input_ln);
+			input_ln = input_ln->next;
+			handle_op(input_ln, ft_substr(line, i, 1));
+			get_next_lst(input_ln);
+			input_ln = input_ln->next;
+			j = i + 1;
 		}
-		index++;
+		input_ln->type = 0;
+		input_ln->data = ft_substr(line, j, i - j + 1);
+		input_ln->flag = 0;
+		i++;
 	}
-	return (command);
+	input_ln->next = 0;
 }
 
 void	init_mini(char *envp[])
 {
 	(void)envp;
+	t_tok	*input_ln;
 	char	*command;
 	char	*line;
 
 	line = 0;
 	command = 0;
+	input_ln = malloc (sizeof(t_tok));
 	/*----------------------DA DECOMMENTARE-----------------------*/
 	// signal(SIGINT, signal_handler);
 	// signal(SIGQUIT, signal_handler);
@@ -57,9 +79,14 @@ void	init_mini(char *envp[])
 		set_prompt();
 		line = readline("");
 		if (line)
-			command = get_command(line);
-		// printf("%s\n", command);
-		// pause();
+		{
+			get_command(input_ln, line);
+			while (input_ln)
+			{
+				printf("TYPE:%d DATA:%s\n", input_ln->type, input_ln->data);
+				input_ln = input_ln->next;
+			}
+		}
 	}
 }
 
