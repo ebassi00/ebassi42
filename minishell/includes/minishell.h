@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 18:07:29 by ebassi            #+#    #+#             */
-/*   Updated: 2022/04/08 13:37:26 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/04/11 17:25:53 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,20 +42,25 @@
 # define BLUE "\e[1;34m"
 
 typedef enum s_redirect {
-	RE_GREAT,
-	RE_DOUBLE_GREAT,
-	RE_LESS,
-	PIPE
+	RE_GREAT = 1,
+	RE_DOUBLE_GREAT = 2,
+	RE_LESS = 3,
+	PIPE = 4
 }	t_redirect;
 
 typedef struct s_tok {
 	int				type;
 	char			*data;
+	int				id;
 	char			*flag;
 	struct s_tok	*next;
 }	t_tok;
 
 void	signal_handler(int sig);
 void	get_pwd();
+char	*set_prompt();
+void	get_next_lst(t_tok *input_ln);
+void	init(t_tok *x);
+void print_list(t_tok *x);
 
 #endif
