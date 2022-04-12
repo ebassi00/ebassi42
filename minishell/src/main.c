@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 18:06:44 by ebassi            #+#    #+#             */
-/*   Updated: 2022/04/11 17:51:21 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/04/12 17:47:57 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,19 @@ void	handle_cmd(t_tok *input_ln)
 				str = ft_substr(input_ln->data, 0, i);
 				if (ft_find(builtin, str))
 				{
-					if (!(ft_strncmp(str, "pwd", ft_strlen(str))))
+					if (!(ft_strncmp(str, "pwd", 3)))
+						get_pwd();
+					if (!(ft_strncmp(str, "cd", 2)))
+						change_dir(input_ln);
+					if (!(ft_strncmp(str, "echo", 4)))
+						get_pwd();
+					if (!(ft_strncmp(str, "env", 3)))
+						get_pwd();
+					if (!(ft_strncmp(str, "exit", 4)))
+						exit_command();	
+					if (!(ft_strncmp(str, "export", 6)))
+						get_pwd();
+					if (!(ft_strncmp(str, "unset", 5)))
 						get_pwd();
 				}
 				break;

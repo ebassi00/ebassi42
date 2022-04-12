@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 16:57:09 by ebassi            #+#    #+#             */
-/*   Updated: 2022/04/01 17:18:54 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/04/12 17:17:36 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 void	get_pwd()
 {
-	char wd[1000];
+	char *wd;
 
-	printf("%s\n", getcwd(wd, sizeof(wd)));	
+	wd = getcwd(NULL, 0);
+	ft_putendl_fd(wd, 1);
+	free(wd);
 }

@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 18:07:29 by ebassi            #+#    #+#             */
-/*   Updated: 2022/04/11 17:25:53 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/04/12 17:26:34 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,9 @@ void	get_pwd();
 char	*set_prompt();
 void	get_next_lst(t_tok *input_ln);
 void	init(t_tok *x);
-void print_list(t_tok *x);
+void 	print_list(t_tok *x);
+void	change_dir(t_tok *input_ln);
+void	exit_command();
+void	ft_echo(t_tok *input_ln);
 
 #endif
