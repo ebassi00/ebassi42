@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 15:44:40 by ebassi            #+#    #+#             */
-/*   Updated: 2022/04/11 17:25:43 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/04/13 14:51:03 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,15 @@ char	*set_prompt()
 	str = 0;
 	tmp = 0;
 	str = ft_strdup(GREEN);
-	tmp = ft_strdup("minishell$ ");
+	tmp = getenv("USER");
+	if (!tmp)
+		tmp = ft_strdup("guest");
+	tmp = ft_strjoin(tmp, "@minishell$ ");
 	str = ft_strjoin(str, tmp);
 	free(tmp);
-	tmp = ft_strdup(GREEN);
+	tmp = ft_strdup(RESET);
 	str = ft_strjoin(str, tmp);
 	return (str);
-	// write(1, GREEN, ft_strlen(GREEN));
-	// write(1, "minishell$ ", ft_strlen("minishell$ "));
-	// write(1, GREEN, ft_strlen(GREEN));
 }
 
 void	get_next_lst(t_tok *input_ln)
@@ -51,7 +51,7 @@ void	init(t_tok *x)
 {
 	x->type = 0;
 	x->data = NULL;
-	x->flag = NULL;
+	x->exit = 0;
 	x->next = NULL;
 }
 
@@ -61,5 +61,5 @@ void print_list(t_tok *x)
 	{
 		printf("TYPE:%d DATA:%s ID: %d\n", x->type, x->data, x->id);
 		x = x->next;
-	}	
+	}
 }

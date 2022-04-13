@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dripanuc <dripanuc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 18:07:29 by ebassi            #+#    #+#             */
-/*   Updated: 2022/04/12 17:26:34 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/04/12 23:56:56 by dripanuc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ typedef struct s_tok {
 	int				type;
 	char			*data;
 	int				id;
-	char			*flag;
+	int				exit;
 	struct s_tok	*next;
 }	t_tok;
 

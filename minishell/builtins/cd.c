@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 16:57:13 by ebassi            #+#    #+#             */
-/*   Updated: 2022/04/12 17:46:32 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/04/13 15:24:35 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ void	change_dir(t_tok *input_ln)
 		chdir(home_path);
 	else
 	{
-		// QUESTO E' SBAGLIATO
-
 		str = get_path(input_ln->data);
 		str = ft_strjoin("/", str);
 		str = ft_strjoin(getcwd(NULL, 0), str);

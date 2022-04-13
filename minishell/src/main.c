@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 18:06:44 by ebassi            #+#    #+#             */
-/*   Updated: 2022/04/12 17:47:57 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/04/13 17:56:07 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,13 @@ void handle_op(t_tok *input_ln, char *op)
 	input_ln->type = 1;
 	input_ln->data = op;
 	input_ln->data = ft_strtrim(input_ln->data, " ");
-	input_ln->flag = 0;
+	input_ln->exit = 0;
+}
+
+int error(char *str)
+{
+	ft_putendl_fd(str, 1);
+	return (0);
 }
 
 void	get_command(t_tok *input_ln, char *line)
@@ -30,19 +36,33 @@ void	get_command(t_tok *input_ln, char *line)
 	input_ln->id = 0;
 	while (line[i])
 	{
-		if (line[i] == '|' || line[i] == '>' || line[i] == '<')
+		if (line[i] == '|' || line[i] == '>' || line[i] == '<' || (line[i] == '&' && line[i + 1] == '&'))
 		{
-			get_next_lst(input_ln);
-			input_ln = input_ln->next;
-			handle_op(input_ln, ft_substr(line, i, 1));
-			get_next_lst(input_ln);
-			input_ln = input_ln->next;
-			j = i + 1;
+			if (i != 0)
+			{
+				get_next_lst(input_ln);
+				input_ln = input_ln->next;
+			}
+			if (line[i] == line[i + 1])
+			{
+				handle_op(input_ln, ft_substr(line, i, 2));
+				get_next_lst(input_ln);
+				input_ln = input_ln->next;
+				j = i + 2;
+				i++;
+			}
+			else
+			{
+				handle_op(input_ln, ft_substr(line, i, 1));
+				get_next_lst(input_ln);
+				input_ln = input_ln->next;
+				j = i + 1;
+			}
 		}
 		input_ln->type = 0;
 		input_ln->data = ft_substr(line, j, i - j + 1);
 		input_ln->data = ft_strtrim(input_ln->data, " ");
-		input_ln->flag = 0;
+		input_ln->exit = 0;
 		i++;
 	}
 	input_ln->next = 0;
@@ -83,18 +103,20 @@ void	handle_cmd(t_tok *input_ln)
 				{
 					if (!(ft_strncmp(str, "pwd", 3)))
 						get_pwd();
-					if (!(ft_strncmp(str, "cd", 2)))
+					else if (!(ft_strncmp(str, "cd", 2)))
 						change_dir(input_ln);
-					if (!(ft_strncmp(str, "echo", 4)))
+					else if (!(ft_strncmp(str, "echo", 4)))
 						get_pwd();
-					if (!(ft_strncmp(str, "env", 3)))
+					else if (!(ft_strncmp(str, "env", 3)))
 						get_pwd();
-					if (!(ft_strncmp(str, "exit", 4)))
-						exit_command();	
-					if (!(ft_strncmp(str, "export", 6)))
+					else if (!(ft_strncmp(str, "exit", 4)))
+						exit_command();
+					else if (!(ft_strncmp(str, "export", 6)))
 						get_pwd();
-					if (!(ft_strncmp(str, "unset", 5)))
+					else if (!(ft_strncmp(str, "unset", 5)))
 						get_pwd();
+					// else
+					// 	find_and_exec_command(str);
 				}
 				break;
 			}
@@ -104,7 +126,7 @@ void	handle_cmd(t_tok *input_ln)
 	}
 }
 
-void	init_mini(char *envp[])
+void	init_mini(int argc, char *argv[], char *envp[])
 {
 	(void)envp;
 	t_tok	input_ln;
@@ -127,16 +149,14 @@ void	init_mini(char *envp[])
 		{
 			add_history(line);
 			get_command(&input_ln, line);
-			handle_cmd(&input_ln);
 			print_list(&input_ln);
+			handle_cmd(&input_ln);
 		}
 	}
 }
 
 int	main(int argc, char *argv[], char *envp[])
 {
-	(void)argc;
-	(void)argv;
-	init_mini(envp);
+	init_mini(argc, argv, envp);
 	return (0);
 }
