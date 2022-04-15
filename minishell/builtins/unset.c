@@ -6,8 +6,13 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 17:01:08 by ebassi            #+#    #+#             */
-/*   Updated: 2022/04/01 17:01:09 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/04/15 15:58:01 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	unset_var(t_env *env)
+{
+	(void)env;
+}

@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 15:44:40 by ebassi            #+#    #+#             */
-/*   Updated: 2022/04/13 14:51:03 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/04/15 15:31:18 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,13 @@ void	get_next_lst(t_tok *input_ln)
 	input_ln->next = next_lst;
 }
 
+void	init_env(t_env *env)
+{
+	env = malloc (sizeof(t_env));
+	env->key = 0;
+	env->value = 0;
+	env->next = 0;
+}
 
 void	init(t_tok *x)
 {

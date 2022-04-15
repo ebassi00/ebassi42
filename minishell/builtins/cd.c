@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 16:57:13 by ebassi            #+#    #+#             */
-/*   Updated: 2022/04/13 15:24:35 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/04/15 15:47:33 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,10 @@ void	change_dir(t_tok *input_ln)
 		str = get_path(input_ln->data);
 		str = ft_strjoin("/", str);
 		str = ft_strjoin(getcwd(NULL, 0), str);
-		chdir(str);
+		if (chdir(str))
+		{
+			ft_putstr_fd("cd: no such file or directory: ", STDOUT);
+			ft_putendl_fd(get_path(input_ln->data), STDOUT);
+		}
 	}
 }

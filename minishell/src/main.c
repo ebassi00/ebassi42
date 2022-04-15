@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 18:06:44 by ebassi            #+#    #+#             */
-/*   Updated: 2022/04/13 17:56:07 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/04/15 17:28:57 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,64 @@ int		ft_find(char **builtin, char *str)
 	return (0);
 }
 
-void	handle_cmd(t_tok *input_ln)
+char	*find_exec(DIR *stream, char *str, char *dir_name)
+{
+	char			*full_path;
+	struct dirent	*dp;
+
+	full_path = 0;
+	dp = readdir(stream);
+	while (dp)
+	{
+		if (!ft_strncmp(dp->d_name, str, ft_strlen(dp->d_name)))
+		{
+			full_path = ft_strjoin(dir_name, "/");
+			full_path = ft_strjoin(full_path, dp->d_name);
+			return (full_path);
+		}
+		dp = readdir(stream);
+	}
+	return (0);
+}
+
+void	execute_command_from_system(char *str, char *argv[])
+{
+	char	**path;
+	char	**flags;
+	DIR		*stream;
+	char	*is_exec;
+	int		i;
+
+	(void)argv;
+	i = 0;
+	is_exec = 0;
+	flags = 0;
+	path = ft_split(getenv("PATH"), ':');
+	while (path[i])
+	{
+		stream = opendir(path[i]);
+		is_exec = find_exec(stream, str, path[i]);
+		if (is_exec)
+		{
+			flags = ft_split(str, ' ');
+			execve(is_exec, flags, NULL);
+			closedir(stream);
+			i = 0;
+			while (path[i])
+				free(path[i++]);
+			free(path);
+			return ;
+		}
+		closedir(stream);
+		i++;
+	}
+	i = 0;
+	while (path[i])
+		free(path[i++]);
+	free(path);
+}
+
+void	handle_cmd(t_tok *input_ln, t_env *env, char *argv[])
 {
 	int		i;
 	char	*str;
@@ -106,19 +163,19 @@ void	handle_cmd(t_tok *input_ln)
 					else if (!(ft_strncmp(str, "cd", 2)))
 						change_dir(input_ln);
 					else if (!(ft_strncmp(str, "echo", 4)))
-						get_pwd();
+						ft_echo(input_ln);
 					else if (!(ft_strncmp(str, "env", 3)))
-						get_pwd();
+						get_env(env);
 					else if (!(ft_strncmp(str, "exit", 4)))
 						exit_command();
 					else if (!(ft_strncmp(str, "export", 6)))
 						get_pwd();
 					else if (!(ft_strncmp(str, "unset", 5)))
 						get_pwd();
-					// else
-					// 	find_and_exec_command(str);
 				}
-				break;
+				else
+					execute_command_from_system(input_ln->data, argv);
+				break ;
 			}
 			i++;
 		}
@@ -128,14 +185,18 @@ void	handle_cmd(t_tok *input_ln)
 
 void	init_mini(int argc, char *argv[], char *envp[])
 {
-	(void)envp;
 	t_tok	input_ln;
+	t_env	env;
 	char	*command;
 	char	*line;
 	char	*str;
 
+	(void)argc;
+	(void)argv;
 	line = 0;
 	command = 0;
+	init_env(&env);
+	take_environ(&env, envp);
 	/*----------------------DA DECOMMENTARE-----------------------*/
 	// signal(SIGINT, signal_handler);
 	// signal(SIGQUIT, signal_handler);
@@ -145,12 +206,12 @@ void	init_mini(int argc, char *argv[], char *envp[])
 		init(&input_ln);
 		str = set_prompt();
 		line = readline(str);
-		if (line)
+		if (ft_strlen(line) > 0)
 		{
 			add_history(line);
 			get_command(&input_ln, line);
-			print_list(&input_ln);
-			handle_cmd(&input_ln);
+			// print_list(&input_ln);
+			handle_cmd(&input_ln, &env, argv);
 		}
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dripanuc <dripanuc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 18:07:29 by ebassi            #+#    #+#             */
-/*   Updated: 2022/04/12 23:56:56 by dripanuc         ###   ########.fr       */
+/*   Updated: 2022/04/15 16:31:03 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <sys/stat.h>
 # include <errno.h>
 # include <termios.h>
+# include <dirent.h>
 # include <term.h>
 # include <curses.h>
 # include <termcap.h>
@@ -56,14 +57,24 @@ typedef struct s_tok {
 	struct s_tok	*next;
 }	t_tok;
 
+typedef struct s_env {
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+}	t_env;
+
 void	signal_handler(int sig);
 void	get_pwd();
 char	*set_prompt();
 void	get_next_lst(t_tok *input_ln);
 void	init(t_tok *x);
+void	init_env(t_env *env);
 void 	print_list(t_tok *x);
 void	change_dir(t_tok *input_ln);
 void	exit_command();
 void	ft_echo(t_tok *input_ln);
+void	get_env(t_env *env);
+void	take_elem_env(t_env *env, int i, char *envp[]);
+void	take_environ(t_env *env, char *envp[]);
 
 #endif
