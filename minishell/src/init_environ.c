@@ -3,14 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   init_environ.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dripanuc <dripanuc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 15:58:36 by ebassi            #+#    #+#             */
-/*   Updated: 2022/04/15 16:05:13 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/04/20 17:22:27 by dripanuc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int		is_valid_env(const char *env)
+{
+	int		i;
+
+	i = 0;
+	if (ft_isdigit(env[i]) == 1)
+		return (0);
+	while (env[i] && env[i] != '=')
+	{
+		if (ft_isalnum(env[i]) == 0)
+			return (-1);
+		i++;
+	}
+	if (env[i] != '=')
+		return (2);
+	return (1);
+}
 
 void	take_elem_env(t_env *env, int i, char *envp[])
 {
@@ -33,7 +51,7 @@ void	take_environ(t_env *env, char *envp[])
 {
 	int		i;
 	t_env	*next;
-	
+
 	i = 0;
 	while (envp[i])
 	{

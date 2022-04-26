@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 18:06:44 by ebassi            #+#    #+#             */
-/*   Updated: 2022/04/15 17:28:57 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/04/26 18:26:59 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,19 +102,40 @@ char	*find_exec(DIR *stream, char *str, char *dir_name)
 	return (0);
 }
 
-void	execute_command_from_system(char *str, char *argv[])
+// void	my_handler(int signo)
+// {
+// 	if (signo == SIGINT)
+// 	{
+// 		ft_putchar_fd('\n', 1);
+// 		signal(SIGINT, my_handler);
+// 	}
+// }
+
+char	*last_field(char *env)
 {
-	char	**path;
+	int	i;
+	int	j;
+
+	i = ft_strlen(env) - 1;
+	j = i;
+	while (env[j])
+	{
+		if (env[j] == '/')
+			return (ft_substr(env, j + 1, i - j));
+		j--;
+	}
+	return (env);
+}
+
+void	my_exec(char **path, char *str)
+{
+	int 	i;
+	char	*is_exec;
 	char	**flags;
 	DIR		*stream;
-	char	*is_exec;
-	int		i;
 
-	(void)argv;
 	i = 0;
-	is_exec = 0;
-	flags = 0;
-	path = ft_split(getenv("PATH"), ':');
+	stream = NULL;
 	while (path[i])
 	{
 		stream = opendir(path[i]);
@@ -133,10 +154,35 @@ void	execute_command_from_system(char *str, char *argv[])
 		closedir(stream);
 		i++;
 	}
+	if (!is_exec)
+	{
+		ft_putstr_fd(last_field(getenv("SHELL")), 1);
+		ft_putstr_fd(": command not found: ", 1);
+		ft_putendl_fd(str, 1);
+	}
 	i = 0;
 	while (path[i])
 		free(path[i++]);
 	free(path);
+}
+
+void	execute_command_from_system(char *str)
+{
+	char	**path;
+	pid_t	pid;
+
+	pid = fork();
+	path = ft_split(getenv("PATH"), ':');
+	// signal(SIGINT, my_handler);
+	if (pid == 0)
+		my_exec(path, str);
+	else if (pid < 0)
+	{
+		free(path);
+		ft_putendl_fd("Fork failed to create a new process.", 1);
+		return ;
+	}
+	wait(&pid);
 }
 
 void	handle_cmd(t_tok *input_ln, t_env *env, char *argv[])
@@ -145,6 +191,7 @@ void	handle_cmd(t_tok *input_ln, t_env *env, char *argv[])
 	char	*str;
 	char	**builtin;
 
+	(void)argv;
 	i = 0;
 	str = 0;
 	builtin = ft_split("cd echo env exit export pwd unset", ' ');
@@ -169,12 +216,12 @@ void	handle_cmd(t_tok *input_ln, t_env *env, char *argv[])
 					else if (!(ft_strncmp(str, "exit", 4)))
 						exit_command();
 					else if (!(ft_strncmp(str, "export", 6)))
-						get_pwd();
+						export_command(env, input_ln);
 					else if (!(ft_strncmp(str, "unset", 5)))
 						get_pwd();
 				}
 				else
-					execute_command_from_system(input_ln->data, argv);
+					execute_command_from_system(input_ln->data);
 				break ;
 			}
 			i++;

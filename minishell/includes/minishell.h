@@ -6,7 +6,7 @@
 /*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 18:07:29 by ebassi            #+#    #+#             */
-/*   Updated: 2022/04/15 16:31:03 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/04/26 18:19:19 by ebassi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,8 @@ void	ft_echo(t_tok *input_ln);
 void	get_env(t_env *env);
 void	take_elem_env(t_env *env, int i, char *envp[]);
 void	take_environ(t_env *env, char *envp[]);
+int		is_valid_env(const char *env);
+char	*trim_all(char *str, char op);
+void	export_command(t_env *env, t_tok *str);
 
 #endif
