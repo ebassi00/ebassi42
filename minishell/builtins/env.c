@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mpatrini <mpatrini@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 17:01:15 by ebassi            #+#    #+#             */
-/*   Updated: 2022/04/26 18:43:03 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/04/27 17:10:07 by mpatrini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	get_env(t_env *env)
 	t_env	*tmp;
 
 	tmp = env;
-	while (tmp->next)
+	while (tmp)
 	{
 		ft_putstr_fd(tmp->key, STDOUT);
 		ft_putchar_fd('=', STDOUT);

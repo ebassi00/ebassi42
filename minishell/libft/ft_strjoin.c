@@ -3,53 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mpatrini <mpatrini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/11 17:05:13 by ebassi            #+#    #+#             */
-/*   Updated: 2022/01/12 15:57:46 by ebassi           ###   ########.fr       */
+/*   Created: 2022/01/11 00:34:40 by mpatrini          #+#    #+#             */
+/*   Updated: 2022/01/18 22:29:35 by mpatrini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-static char	*ft_res(char const *s1, char const *s2, char *res, int len);
+#include <string.h>
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	char	*res;
-	int		len;
+	size_t	i;
+	size_t	j;
+	char	*r;
 
-	len = (int)ft_strlen(s1) + (int)ft_strlen(s2);
-	res = (char *) malloc (len + 1);
-	if (!res)
+	if (!s1 || !s2)
 		return (NULL);
-	ft_res(s1, s2, res, len);
-	return (res);
-}
-
-static char	*ft_res(char const *s1, char const *s2, char *res, int len)
-{
-	int	index;
-	int	j;
-
-	index = 0;
+	r = (char *)malloc((ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (!r)
+		return (NULL);
+	i = -1;
 	j = 0;
-	while (index < len)
+	while (s1[++i])
 	{
-		while (j < (int)ft_strlen(s1))
-		{
-			res[index] = s1[j];
-			index++;
-			j++;
-		}
-		j = 0;
-		while (j < (int)ft_strlen(s2))
-		{
-			res[index] = s2[j];
-			index++;
-			j++;
-		}
+		r[j] = s1[i];
+		j++;
 	}
-	res[index] = '\0';
-	return (res);
+	i = -1;
+	while (s2[++i])
+	{
+		r[j] = s2[i];
+		j++;
+	}
+	r[j] = 0;
+	return (r);
 }

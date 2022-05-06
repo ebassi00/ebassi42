@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   init_environ.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dripanuc <dripanuc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mpatrini <mpatrini@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/15 15:58:36 by ebassi            #+#    #+#             */
-/*   Updated: 2022/04/20 17:22:27 by dripanuc         ###   ########.fr       */
+/*   Updated: 2022/04/27 16:59:50 by mpatrini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int		is_valid_env(const char *env)
+int	is_valid_env(const char *env)
 {
 	int		i;
 
@@ -47,19 +47,24 @@ void	take_elem_env(t_env *env, int i, char *envp[])
 	}
 }
 
-void	take_environ(t_env *env, char *envp[])
+void	take_environ(t_env **env, char *envp[])
 {
 	int		i;
-	t_env	*next;
+	t_env	*prev;
+	t_env	*curr;
 
 	i = 0;
+	curr = NULL;
 	while (envp[i])
 	{
-		next = malloc (sizeof(t_env));
-		take_elem_env(env, i, envp);
-		env->next = next;
-		env = env->next;
+		prev = curr;
+		curr = malloc (sizeof(t_env));
+		if (prev)
+			prev->next = curr;
+		take_elem_env(curr, i, envp);
+		if (!*env)
+			*env = curr;
 		i++;
 	}
-	env->next = NULL;
+	curr->next = NULL;
 }

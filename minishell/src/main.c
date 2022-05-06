@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dripanuc <dripanuc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 18:06:44 by ebassi            #+#    #+#             */
-/*   Updated: 2022/04/26 18:26:59 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/05/06 17:06:56 by dripanuc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void handle_op(t_tok *input_ln, char *op)
+void	handle_op(t_tok *input_ln, char *op)
 {
 	input_ln->type = 1;
 	input_ln->data = op;
@@ -20,10 +20,57 @@ void handle_op(t_tok *input_ln, char *op)
 	input_ln->exit = 0;
 }
 
-int error(char *str)
+int	error(char *str)
 {
 	ft_putendl_fd(str, 1);
 	return (0);
+}
+
+void	expand_envars(t_tok *input_ln)
+{
+	int		i;
+	int		j;
+	int 	quotes;
+	char	*current_env;
+	char	*new_data;
+
+	i = 0;
+	j = 0;
+	current_env = 0;
+	new_data = 0;
+	while (input_ln)
+	{
+		i = 0;
+		while (input_ln->data[i])
+		{
+			if (input_ln->data[i] == '$' && !count_quotes(input_ln->data, &quotes, i) % 2)
+			{
+				j = i;
+				i++;
+				while (input_ln->data[i] >= 63 && input_ln->data[i] <= 125)
+					i++;
+				current_env = ft_substr(input_ln->data, j + 1, i - j - 1);
+				current_env = getenv(current_env);
+				if (!current_env)
+					current_env = ft_strdup("");
+				new_data = ft_substr(input_ln->data, 0, j);
+				new_data = ft_strjoin(new_data, current_env);
+				new_data = ft_strjoin(new_data, &input_ln->data[i]);
+				input_ln->data = new_data;
+				if (!input_ln->data[i])
+					return ;
+			}
+			if (input_ln->data[i] == '~' && !(count_quotes(input_ln->data, &quotes, i) % 2) && !(quotes % 2))
+			{
+				new_data = ft_substr(input_ln->data, 0, i);
+				new_data = ft_strjoin(new_data, getenv("HOME"));
+				new_data = ft_strjoin(new_data, &input_ln->data[i + 1]);
+				input_ln->data = new_data;
+			}
+			i++;
+		}
+		input_ln = input_ln->next;
+	}
 }
 
 void	get_command(t_tok *input_ln, char *line)
@@ -36,7 +83,8 @@ void	get_command(t_tok *input_ln, char *line)
 	input_ln->id = 0;
 	while (line[i])
 	{
-		if (line[i] == '|' || line[i] == '>' || line[i] == '<' || (line[i] == '&' && line[i + 1] == '&'))
+		if (line[i] == '|' || line[i] == '>' || line[i] == '<' || \
+			(line[i] == '&' && line[i + 1] == '&'))
 		{
 			if (i != 0)
 			{
@@ -66,9 +114,10 @@ void	get_command(t_tok *input_ln, char *line)
 		i++;
 	}
 	input_ln->next = 0;
+	expand_envars(input_ln);
 }
 
-int		ft_find(char **builtin, char *str)
+int	ft_find(char **builtin, char *str)
 {
 	int	i;
 
@@ -102,15 +151,6 @@ char	*find_exec(DIR *stream, char *str, char *dir_name)
 	return (0);
 }
 
-// void	my_handler(int signo)
-// {
-// 	if (signo == SIGINT)
-// 	{
-// 		ft_putchar_fd('\n', 1);
-// 		signal(SIGINT, my_handler);
-// 	}
-// }
-
 char	*last_field(char *env)
 {
 	int	i;
@@ -129,7 +169,7 @@ char	*last_field(char *env)
 
 void	my_exec(char **path, char *str)
 {
-	int 	i;
+	int		i;
 	char	*is_exec;
 	char	**flags;
 	DIR		*stream;
@@ -161,9 +201,12 @@ void	my_exec(char **path, char *str)
 		ft_putendl_fd(str, 1);
 	}
 	i = 0;
-	while (path[i])
-		free(path[i++]);
-	free(path);
+	if (path)
+	{
+		while (path[i])
+			free(path[i++]);
+		free(path);
+	}
 }
 
 void	execute_command_from_system(char *str)
@@ -173,7 +216,6 @@ void	execute_command_from_system(char *str)
 
 	pid = fork();
 	path = ft_split(getenv("PATH"), ':');
-	// signal(SIGINT, my_handler);
 	if (pid == 0)
 		my_exec(path, str);
 	else if (pid < 0)
@@ -185,7 +227,78 @@ void	execute_command_from_system(char *str)
 	wait(&pid);
 }
 
-void	handle_cmd(t_tok *input_ln, t_env *env, char *argv[])
+int	handle_separator(t_tok *input_ln)
+{
+	if (!(ft_strncmp(input_ln->data, "|", 1)))
+		;
+	else if (!(ft_strncmp(input_ln->data, "&&", 2)))
+	{
+		if (g_exit_status == 1)
+			return (0);
+	}
+	else if (!(ft_strncmp(">>", input_ln->data, 2)))
+		ft_echo(input_ln);
+	else if (!(ft_strncmp("<<", input_ln->data, 2)))
+		ft_echo(input_ln);
+	else if (!(ft_strncmp(">", input_ln->data, 1)))
+		ft_echo(input_ln);
+	else if (!(ft_strncmp("<", input_ln->data, 1)))
+		ft_echo(input_ln);
+	// printf("%s\n", input_ln->data);
+	return (1);
+}
+
+void first_pipe(t_mini *minishell)
+{
+	int			piped[2];
+
+	if (pipe(piped) == -1)
+		;
+
+	minishell->saved_stdout = dup(STDOUT_FILENO);
+	minishell->saved_stdin = dup(STDIN_FILENO);
+	minishell->pipe = 1;
+	minishell->output_fd = piped[1];
+	minishell->input_fd = piped[0];
+	close(STDOUT_FILENO);
+	dup2(minishell->output_fd, STDOUT_FILENO);
+	close(minishell->output_fd);
+}
+
+void middle_pipe(t_mini *minishell)
+{
+	int			piped[2];
+
+	if (pipe(piped) == -1)
+		;
+	minishell->output_fd = piped[1];
+	close(STDIN_FILENO);
+	dup2(minishell->input_fd, STDIN_FILENO);
+	close(minishell->input_fd);
+	minishell->input_fd = piped[0];
+	close(STDOUT_FILENO);
+	dup2(minishell->output_fd, STDOUT_FILENO);
+	close(minishell->output_fd);
+}
+
+void last_pipe(t_mini *minishell)
+{
+	dup2(minishell->input_fd, STDIN_FILENO);
+	close(minishell->input_fd);
+	dup2(minishell->saved_stdout, STDOUT_FILENO);
+	close(minishell->saved_stdout);
+}
+
+void reset_fd(t_mini *minishell)
+{
+	minishell->pipe = 0;
+	dup2(minishell->saved_stdin, STDIN_FILENO);
+	close(minishell->saved_stdin);
+	// dup2(minishell->saved_stdout, STDOUT_FILENO);
+	// close(minishell->saved_stdout);
+}
+
+void	handle_cmd(t_mini *minishell, t_env **env, char *argv[], t_tok *input_ln)
 {
 	int		i;
 	char	*str;
@@ -198,42 +311,97 @@ void	handle_cmd(t_tok *input_ln, t_env *env, char *argv[])
 	while (input_ln)
 	{
 		i = 0;
-		while (1)
+		while (1 && !input_ln->type)
 		{
 			if (input_ln->data[i] == ' ' || !input_ln->data[i])
 			{
 				str = ft_substr(input_ln->data, 0, i);
+				if (input_ln->next && !(ft_strncmp("|", input_ln->next->data, 1)) && !minishell->pipe)
+					first_pipe(minishell);
+				else if (minishell->pipe && input_ln->next && !ft_strncmp("|", input_ln->next->data, 1))
+					middle_pipe(minishell);
+				else if (minishell->pipe)
+					last_pipe(minishell);
 				if (ft_find(builtin, str))
 				{
-					if (!(ft_strncmp(str, "pwd", 3)))
+					if (!(ft_strncmp("pwd", str, 3)))
 						get_pwd();
-					else if (!(ft_strncmp(str, "cd", 2)))
+					else if (!(ft_strncmp("cd", str, 2)))
 						change_dir(input_ln);
-					else if (!(ft_strncmp(str, "echo", 4)))
+					else if (!(ft_strncmp("echo", str, 4)))
 						ft_echo(input_ln);
-					else if (!(ft_strncmp(str, "env", 3)))
-						get_env(env);
-					else if (!(ft_strncmp(str, "exit", 4)))
+					else if (!(ft_strncmp("env", str, 3)))
+						get_env(*env);
+					else if (!(ft_strncmp("exit", str, 4)))
 						exit_command();
-					else if (!(ft_strncmp(str, "export", 6)))
-						export_command(env, input_ln);
-					else if (!(ft_strncmp(str, "unset", 5)))
-						get_pwd();
+					else if (!(ft_strncmp("export", str, 6)))
+						export_command(*env, input_ln);
+					else if (!(ft_strncmp("unset", str, 5)))
+						unset_var(env, input_ln);
 				}
 				else
 					execute_command_from_system(input_ln->data);
+				if (minishell->pipe && (!input_ln->next || ft_strncmp("|", input_ln->next->data, 1)))
+					reset_fd(minishell);
 				break ;
 			}
 			i++;
 		}
+		if (input_ln->type)
+			if (handle_separator(input_ln) == 0)
+				return ;
 		input_ln = input_ln->next;
 	}
+}
+
+int	count_quotes(char *line, int *quotes, int n)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	*(quotes) = 0;
+	// printf("%s\n", line);
+	while (line[i] && i < n)
+	{
+		if (line[i] == '\'')
+			j++;
+		else if (line[i] == '\"')
+			(*quotes)++;
+		i++;
+	}
+	return (j);
+}
+
+char	*check_readline(char *line)
+{
+	char	*tmp;
+	int		quotes;
+
+	tmp = 0;
+	quotes = 0;
+	while (count_quotes(line, &quotes, ft_strlen(line)) % 2 != 0)
+	{
+		tmp = readline("quote: ");
+		quotes = 0;
+		line = ft_strjoin(line, tmp);
+	}
+	while (quotes % 2 != 0)
+	{
+		tmp = readline("dquotes: ");
+		line = ft_strjoin(line, tmp);
+		quotes = 0;
+		count_quotes(line, &quotes, ft_strlen(line));
+	}
+	return (line);
 }
 
 void	init_mini(int argc, char *argv[], char *envp[])
 {
 	t_tok	input_ln;
-	t_env	env;
+	t_mini	minishell;
+	t_env	*env;
 	char	*command;
 	char	*line;
 	char	*str;
@@ -242,29 +410,39 @@ void	init_mini(int argc, char *argv[], char *envp[])
 	(void)argv;
 	line = 0;
 	command = 0;
-	init_env(&env);
+	minishell.pipe = 0;
+	minishell.saved_stdout = dup(STDOUT_FILENO);
+	minishell.saved_stdin = dup(STDIN_FILENO);
+	env = NULL;
+	init_env(env);
 	take_environ(&env, envp);
 	/*----------------------DA DECOMMENTARE-----------------------*/
-	// signal(SIGINT, signal_handler);
-	// signal(SIGQUIT, signal_handler);
+	signal(SIGINT, &signal_handler);
+	// signal(SIGQUIT, &exit_command_signal);
 	// signal(SIGTSTP, signal_handler);
 	while (42)
 	{
 		init(&input_ln);
 		str = set_prompt();
 		line = readline(str);
+		if (!line)
+			return ;
+		line = check_readline(line);
 		if (ft_strlen(line) > 0)
 		{
+			minishell.pipe = 0;
 			add_history(line);
 			get_command(&input_ln, line);
-			// print_list(&input_ln);
-			handle_cmd(&input_ln, &env, argv);
+			handle_cmd(&minishell, &env, argv, &input_ln);
 		}
 	}
+	close(minishell.saved_stdout);
+	close(minishell.saved_stdin);
 }
 
 int	main(int argc, char *argv[], char *envp[])
 {
+	g_exit_status = 0;
 	init_mini(argc, argv, envp);
 	return (0);
 }

@@ -3,90 +3,54 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mpatrini <mpatrini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/11 17:03:28 by ebassi            #+#    #+#             */
-/*   Updated: 2022/01/13 12:35:46 by ebassi           ###   ########.fr       */
+/*   Created: 2022/01/10 20:33:41 by mpatrini          #+#    #+#             */
+/*   Updated: 2022/01/19 00:57:42 by mpatrini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static long	is_space(char *str);
-static long	ft_sign(char *str, long int index);
-static long	find_sign(char *str, long int index);
+static int	ft_atoi_sign_check(const char *str, int i)
+{
+	int	s;
+
+	s = 1;
+	if (str[i] == 45 || str[i] == 43)
+	{
+		if (str[i] == 45)
+			s *= -1;
+		i += 1;
+	}
+	if (str[i] == 45 || str[i] == 43)
+		return (0);
+	return (s);
+}
 
 int	ft_atoi(const char *str)
 {
-	long	nbr;
-	long	index;
-	long	index2;
-	int		sign;
+	int					i;
+	int					s;
+	unsigned long long	res;
 
-	nbr = 0;
-	index = is_space(((char *)str));
-	sign = find_sign(((char *)str), index);
-	index2 = ft_sign(((char *)str), index) - index;
-	if (index2 > 1)
+	i = 0;
+	res = 0;
+	while ((str[i] > 8 && str[i] < 14) || str[i] == 32)
+		i++;
+	s = ft_atoi_sign_check(str, i);
+	if (s == 0)
 		return (0);
-	index += index2;
-	while (((char *)str)[index] == '-' || ((char *)str)[index] == '+')
-		index++;
-	while (((char *)str)[index] >= '0' && ((char *)str)[index] <= '9')
+	while (str[i] == 45 || str[i] == 43)
+		i++;
+	while (str[i] > 47 && str[i] < 58)
+		res = (res * 10) + (str[i++] - 48);
+	if (res >= 9223372036854775808ULL)
 	{
-		nbr = nbr * 10 + ((char *)str)[index] - '0';
-		index++;
-	}
-	if (sign)
-		return (nbr);
-	return (nbr * -1);
-}
-
-static long	find_sign(char *str, long int index)
-{
-	long	sign;
-
-	sign = 0;
-	while (str[index] == '+' || str[index] == '-')
-	{
-		if (str[index] == '-')
-		{
-			sign++;
-			index++;
-		}
+		if (s == 1)
+			return (-1);
 		else
-			index++;
+			return (0);
 	}
-	if (sign % 2 == 0)
-		return (1);
-	return (0);
-}
-
-static long	ft_sign(char *str, long int index)
-{
-	long	sign;
-
-	sign = 0;
-	while (str[index] == '+' || str[index] == '-')
-		index++;
-	return (index);
-}
-
-static long	is_space(char *str)
-{
-	long	index;
-
-	index = 0;
-	while (str[index] != '+' || str[index] != '-')
-	{
-		if (str[index] == ' ' || str[index] == '\t')
-			index++;
-		else if (str[index] == '\n' || str[index] == '\r')
-			index++;
-		else if (str[index] == '\f' || str[index] == '\v')
-			index++;
-		else
-			return (index);
-	}
-	return (index);
+	return ((int)res * s);
 }

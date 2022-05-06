@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dripanuc <dripanuc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 18:07:29 by ebassi            #+#    #+#             */
-/*   Updated: 2022/04/26 18:19:19 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/05/06 13:20:30 by dripanuc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 # define MINISHELL_H
 
 # include "../libft/libft.h"
-#include <readline/readline.h>
-#include <readline/history.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 # include <stdio.h>
 # include <string.h>
 # include <fcntl.h>
@@ -63,21 +63,36 @@ typedef struct s_env {
 	struct s_env	*next;
 }	t_env;
 
+typedef struct s_mini {
+	int			pipe;
+	int			output_fd;
+	int			input_fd;
+	int			saved_stdout;
+	int			saved_stdin;
+}	t_mini;
+
+int	g_exit_status;
+
 void	signal_handler(int sig);
-void	get_pwd();
-char	*set_prompt();
+void	get_command(t_tok *input_ln, char *line);
+void	get_pwd(void);
+char	*set_prompt(void);
 void	get_next_lst(t_tok *input_ln);
 void	init(t_tok *x);
 void	init_env(t_env *env);
-void 	print_list(t_tok *x);
+void	print_list(t_tok *x);
 void	change_dir(t_tok *input_ln);
-void	exit_command();
+void	exit_command(void);
 void	ft_echo(t_tok *input_ln);
+int		count_quotes(char *line, int *quotes, int n);
 void	get_env(t_env *env);
 void	take_elem_env(t_env *env, int i, char *envp[]);
-void	take_environ(t_env *env, char *envp[]);
+void	take_environ(t_env **env, char *envp[]);
 int		is_valid_env(const char *env);
 char	*trim_all(char *str, char op);
 void	export_command(t_env *env, t_tok *str);
+void	unset_var(t_env **env, t_tok *input);
+void	ft_free_env(t_env *env);
+void	exit_command_signal(int sig);
 
 #endif

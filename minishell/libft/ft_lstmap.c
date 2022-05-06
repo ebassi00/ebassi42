@@ -3,40 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mpatrini <mpatrini@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/13 14:12:02 by ebassi            #+#    #+#             */
-/*   Updated: 2022/01/17 16:38:14 by ebassi           ###   ########.fr       */
+/*   Created: 2022/01/12 06:57:38 by mpatrini          #+#    #+#             */
+/*   Updated: 2022/01/12 07:29:21 by mpatrini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_list	*ft_lstmap(t_list *lst, void *(f) (void *), void (*del) (void *))
+t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
-	t_list	*new_lst;
-	t_list	*new_elem;
+	t_list	*fi;
+	t_list	*n;
 
 	if (!f || !del)
 		return (NULL);
-	new_lst = NULL;
+	fi = NULL;
 	while (lst)
 	{
-		new_elem = ft_lstnew((*f)(lst->content));
-		if (!new_elem)
+		n = ft_lstnew((*f)(lst->content));
+		if (!n)
 		{
-			while (new_lst)
+			while (fi)
 			{
-				new_elem = new_lst->next;
-				(*del)(new_elem->content);
-				free(new_elem);
-				new_elem = new_lst;
+				n = fi->next;
+				(*del)(fi->content);
+				free(fi);
+				fi = n;
 			}
 			lst = NULL;
 			return (NULL);
 		}
-		ft_lstadd_back(&new_lst, new_elem);
+		ft_lstadd_back(&fi, n);
 		lst = lst->next;
 	}
-	return (new_lst);
+	return (fi);
 }

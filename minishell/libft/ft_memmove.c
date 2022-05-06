@@ -3,40 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mpatrini <mpatrini@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/11 17:04:52 by ebassi            #+#    #+#             */
-/*   Updated: 2022/01/13 11:59:31 by ebassi           ###   ########.fr       */
+/*   Created: 2022/01/10 22:49:15 by mpatrini          #+#    #+#             */
+/*   Updated: 2022/01/24 00:07:30 by mpatrini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static char	*ft_ret(char *fin_dest, char *fin_src, int i, int len);
-
 void	*ft_memmove(void *dst, const void *src, size_t len)
 {
-	char	*fin_src;
-	char	*fin_dest;
-	int		i;
+	int	i;
 
-	if (dst == src)
-		return (dst);
-	fin_src = (char *) src;
-	fin_dest = (char *) dst;
 	i = 0;
-	ft_ret(fin_dest, fin_src, i, len);
-	return (dst);
-}
-
-static char	*ft_ret(char *fin_dest, char *fin_src, int i, int len)
-{
-	if (fin_dest > fin_src)
+	if (!src && !dst && len > 0)
+		return (NULL);
+	if (dst > src)
 	{
 		i = (int)len - 1;
 		while (i >= 0)
 		{
-			fin_dest[i] = fin_src[i];
+			*(char *)(dst + i) = *(char *)(src + i);
 			i--;
 		}
 	}
@@ -45,9 +33,9 @@ static char	*ft_ret(char *fin_dest, char *fin_src, int i, int len)
 		i = 0;
 		while (i < (int)len)
 		{
-			fin_dest[i] = fin_src[i];
+			*(char *)(dst + i) = *(char *)(src + i);
 			i++;
-		}
+		}	
 	}
-	return (fin_dest);
+	return (dst);
 }

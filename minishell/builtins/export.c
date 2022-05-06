@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mpatrini <mpatrini@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 17:01:00 by ebassi            #+#    #+#             */
-/*   Updated: 2022/04/26 18:40:55 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/04/27 17:10:37 by mpatrini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,5 @@ void	export_command(t_env *env, t_tok *input)
 		return ;
 	}
 	new = ft_newenv(input->data);
-	// printf("%s\n",new->key);
-	// printf("%s\n",new->value);
-	// printf("%p\n",new->next);
 	ft_envadd_back(env, new);
 }

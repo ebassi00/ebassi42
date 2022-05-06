@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dripanuc <dripanuc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 15:44:40 by ebassi            #+#    #+#             */
-/*   Updated: 2022/04/15 15:31:18 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/05/06 12:49:23 by dripanuc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,26 @@
 
 void	signal_handler(int sig)
 {
-	if (sig == SIGINT || sig == SIGQUIT || sig == SIGTSTP)
-		write(STDOUT, "\n", 1);
+	if (sig == SIGINT)
+		return ;
 }
 
-char	*set_prompt()
+char	*set_prompt( void )
 {
 	char	*str;
 	char	*tmp;
 
+	// I colori del cazzo bugguno tutta lla history
 	str = 0;
 	tmp = 0;
-	str = ft_strdup(GREEN);
+	str = ft_strdup("\1"GREEN"\2");
 	tmp = getenv("USER");
 	if (!tmp)
 		tmp = ft_strdup("guest");
 	tmp = ft_strjoin(tmp, "@minishell$ ");
 	str = ft_strjoin(str, tmp);
 	free(tmp);
-	tmp = ft_strdup(RESET);
+	tmp = ft_strdup("\1"RESET"\2");
 	str = ft_strjoin(str, tmp);
 	return (str);
 }
@@ -60,13 +61,4 @@ void	init(t_tok *x)
 	x->data = NULL;
 	x->exit = 0;
 	x->next = NULL;
-}
-
-void print_list(t_tok *x)
-{
-	while (x)
-	{
-		printf("TYPE:%d DATA:%s ID: %d\n", x->type, x->data, x->id);
-		x = x->next;
-	}
 }
