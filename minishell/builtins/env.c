@@ -5,23 +5,22 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mpatrini <mpatrini@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/01 17:01:15 by ebassi            #+#    #+#             */
-/*   Updated: 2022/04/27 17:10:07 by mpatrini         ###   ########.fr       */
+/*   Created: 2022/04/01 17:01:15 by mpatrini          #+#    #+#             */
+/*   Updated: 2022/06/13 18:39:24 by mpatrini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	get_env(t_env *env)
+void	get_env(char **env)
 {
-	t_env	*tmp;
+	int	i;
 
-	tmp = env;
-	while (tmp)
+	i = 0;
+	while (env[i])
 	{
-		ft_putstr_fd(tmp->key, STDOUT);
-		ft_putchar_fd('=', STDOUT);
-		ft_putendl_fd(tmp->value, STDOUT);
-		tmp = tmp->next;
+		if (ft_strchr(env[i], '='))
+			ft_putendl_fd(env[i], STDOUT);
+		i++;
 	}
 }

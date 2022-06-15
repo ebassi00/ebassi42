@@ -1,0 +1,11 @@
+make --dry-run --keep-going --print-directory
+make: Entering directory `/Users/mike/Desktop/minishell.tmp'
+gcc -Wall -Wextra -Werror -g -I includes/ -I libft/includes/   -c builtins/echo3.c -o builtins/echo3.o
+ 
+gcc -Wall -Wextra -Werror -g -I includes/ -I libft/includes/   -c builtins/echo4.c -o builtins/echo4.o
+make -C libft/
+printf "\e[92mBuilding minishell...\e[39m\n"
+gcc -Wall -Wextra -Werror -g -I includes/ -I libft/includes/   -o minishell ./libft/libft.a src/main.o src/utils.o src/utils2.o src/init_environ.o src/minishell.o src/minishell2.o src/minishell3.o src/minishell4.o src/minishell5.o src/minishell6.o src/minishell7.o src/pipe.o src/wildcard.o src/wildcard2.o src/wildcard3.o builtins/cd.o builtins/echo.o builtins/echo2.o builtins/echo3.o builtins/echo4.o builtins/pwd.o builtins/env.o builtins/exit.o builtins/export.o builtins/unset.o -L/usr/include -lreadline -I/Users/mike/.brew/opt/readline/include 
+printf "\e[102mEverything has been compiled, use './minishell' to run the program!\e[0m\n"
+make: Leaving directory `/Users/mike/Desktop/minishell.tmp'
+ 

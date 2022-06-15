@@ -3,428 +3,201 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dripanuc <dripanuc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mpatrini <mpatrini@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/28 18:06:44 by ebassi            #+#    #+#             */
-/*   Updated: 2022/05/06 17:06:56 by dripanuc         ###   ########.fr       */
+/*   Created: 2022/05/09 22:47:18 by mpatrini          #+#    #+#             */
+/*   Updated: 2022/06/13 18:20:49 by mpatrini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	handle_op(t_tok *input_ln, char *op)
-{
-	input_ln->type = 1;
-	input_ln->data = op;
-	input_ln->data = ft_strtrim(input_ln->data, " ");
-	input_ln->exit = 0;
-}
-
-int	error(char *str)
-{
-	ft_putendl_fd(str, 1);
-	return (0);
-}
-
-void	expand_envars(t_tok *input_ln)
-{
-	int		i;
-	int		j;
-	int 	quotes;
-	char	*current_env;
-	char	*new_data;
-
-	i = 0;
-	j = 0;
-	current_env = 0;
-	new_data = 0;
-	while (input_ln)
-	{
-		i = 0;
-		while (input_ln->data[i])
-		{
-			if (input_ln->data[i] == '$' && !count_quotes(input_ln->data, &quotes, i) % 2)
-			{
-				j = i;
-				i++;
-				while (input_ln->data[i] >= 63 && input_ln->data[i] <= 125)
-					i++;
-				current_env = ft_substr(input_ln->data, j + 1, i - j - 1);
-				current_env = getenv(current_env);
-				if (!current_env)
-					current_env = ft_strdup("");
-				new_data = ft_substr(input_ln->data, 0, j);
-				new_data = ft_strjoin(new_data, current_env);
-				new_data = ft_strjoin(new_data, &input_ln->data[i]);
-				input_ln->data = new_data;
-				if (!input_ln->data[i])
-					return ;
-			}
-			if (input_ln->data[i] == '~' && !(count_quotes(input_ln->data, &quotes, i) % 2) && !(quotes % 2))
-			{
-				new_data = ft_substr(input_ln->data, 0, i);
-				new_data = ft_strjoin(new_data, getenv("HOME"));
-				new_data = ft_strjoin(new_data, &input_ln->data[i + 1]);
-				input_ln->data = new_data;
-			}
-			i++;
-		}
-		input_ln = input_ln->next;
-	}
-}
-
-void	get_command(t_tok *input_ln, char *line)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	input_ln->id = 0;
-	while (line[i])
-	{
-		if (line[i] == '|' || line[i] == '>' || line[i] == '<' || \
-			(line[i] == '&' && line[i + 1] == '&'))
-		{
-			if (i != 0)
-			{
-				get_next_lst(input_ln);
-				input_ln = input_ln->next;
-			}
-			if (line[i] == line[i + 1])
-			{
-				handle_op(input_ln, ft_substr(line, i, 2));
-				get_next_lst(input_ln);
-				input_ln = input_ln->next;
-				j = i + 2;
-				i++;
-			}
-			else
-			{
-				handle_op(input_ln, ft_substr(line, i, 1));
-				get_next_lst(input_ln);
-				input_ln = input_ln->next;
-				j = i + 1;
-			}
-		}
-		input_ln->type = 0;
-		input_ln->data = ft_substr(line, j, i - j + 1);
-		input_ln->data = ft_strtrim(input_ln->data, " ");
-		input_ln->exit = 0;
-		i++;
-	}
-	input_ln->next = 0;
-	expand_envars(input_ln);
-}
-
-int	ft_find(char **builtin, char *str)
-{
-	int	i;
-
-	i = 0;
-	while (builtin[i])
-	{
-		if (!(ft_strncmp(str, builtin[i], ft_strlen(str))))
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-char	*find_exec(DIR *stream, char *str, char *dir_name)
-{
-	char			*full_path;
-	struct dirent	*dp;
-
-	full_path = 0;
-	dp = readdir(stream);
-	while (dp)
-	{
-		if (!ft_strncmp(dp->d_name, str, ft_strlen(dp->d_name)))
-		{
-			full_path = ft_strjoin(dir_name, "/");
-			full_path = ft_strjoin(full_path, dp->d_name);
-			return (full_path);
-		}
-		dp = readdir(stream);
-	}
-	return (0);
-}
-
-char	*last_field(char *env)
-{
-	int	i;
-	int	j;
-
-	i = ft_strlen(env) - 1;
-	j = i;
-	while (env[j])
-	{
-		if (env[j] == '/')
-			return (ft_substr(env, j + 1, i - j));
-		j--;
-	}
-	return (env);
-}
-
-void	my_exec(char **path, char *str)
-{
-	int		i;
-	char	*is_exec;
-	char	**flags;
-	DIR		*stream;
-
-	i = 0;
-	stream = NULL;
-	while (path[i])
-	{
-		stream = opendir(path[i]);
-		is_exec = find_exec(stream, str, path[i]);
-		if (is_exec)
-		{
-			flags = ft_split(str, ' ');
-			execve(is_exec, flags, NULL);
-			closedir(stream);
-			i = 0;
-			while (path[i])
-				free(path[i++]);
-			free(path);
-			return ;
-		}
-		closedir(stream);
-		i++;
-	}
-	if (!is_exec)
-	{
-		ft_putstr_fd(last_field(getenv("SHELL")), 1);
-		ft_putstr_fd(": command not found: ", 1);
-		ft_putendl_fd(str, 1);
-	}
-	i = 0;
-	if (path)
-	{
-		while (path[i])
-			free(path[i++]);
-		free(path);
-	}
-}
-
-void	execute_command_from_system(char *str)
-{
-	char	**path;
-	pid_t	pid;
-
-	pid = fork();
-	path = ft_split(getenv("PATH"), ':');
-	if (pid == 0)
-		my_exec(path, str);
-	else if (pid < 0)
-	{
-		free(path);
-		ft_putendl_fd("Fork failed to create a new process.", 1);
-		return ;
-	}
-	wait(&pid);
-}
-
 int	handle_separator(t_tok *input_ln)
 {
-	if (!(ft_strncmp(input_ln->data, "|", 1)))
-		;
-	else if (!(ft_strncmp(input_ln->data, "&&", 2)))
+	// if (!(ft_strncmp(input_ln->data, "|", 1)))
+	// 	;
+	if (!(ft_strncmp(input_ln->data, "&&", 2)))
 	{
-		if (g_exit_status == 1)
+		if (g_exit_status == -1)
+		{
 			return (0);
+		}
 	}
-	else if (!(ft_strncmp(">>", input_ln->data, 2)))
+	/*else if (!(ft_strncmp(">>", input_ln->data, 2)))
 		ft_echo(input_ln);
 	else if (!(ft_strncmp("<<", input_ln->data, 2)))
 		ft_echo(input_ln);
 	else if (!(ft_strncmp(">", input_ln->data, 1)))
 		ft_echo(input_ln);
 	else if (!(ft_strncmp("<", input_ln->data, 1)))
-		ft_echo(input_ln);
+		ft_echo(input_ln);*/
 	// printf("%s\n", input_ln->data);
 	return (1);
 }
 
-void first_pipe(t_mini *minishell)
+void	redir(t_mini *minishell, t_tok *input_ln, int flag, int type)
 {
-	int			piped[2];
+	// int		fd;
 
-	if (pipe(piped) == -1)
-		;
-
-	minishell->saved_stdout = dup(STDOUT_FILENO);
-	minishell->saved_stdin = dup(STDIN_FILENO);
-	minishell->pipe = 1;
-	minishell->output_fd = piped[1];
-	minishell->input_fd = piped[0];
-	close(STDOUT_FILENO);
-	dup2(minishell->output_fd, STDOUT_FILENO);
-	close(minishell->output_fd);
-}
-
-void middle_pipe(t_mini *minishell)
-{
-	int			piped[2];
-
-	if (pipe(piped) == -1)
-		;
-	minishell->output_fd = piped[1];
-	close(STDIN_FILENO);
-	dup2(minishell->input_fd, STDIN_FILENO);
-	close(minishell->input_fd);
-	minishell->input_fd = piped[0];
-	close(STDOUT_FILENO);
-	dup2(minishell->output_fd, STDOUT_FILENO);
-	close(minishell->output_fd);
-}
-
-void last_pipe(t_mini *minishell)
-{
-	dup2(minishell->input_fd, STDIN_FILENO);
-	close(minishell->input_fd);
-	dup2(minishell->saved_stdout, STDOUT_FILENO);
-	close(minishell->saved_stdout);
-}
-
-void reset_fd(t_mini *minishell)
-{
-	minishell->pipe = 0;
-	dup2(minishell->saved_stdin, STDIN_FILENO);
-	close(minishell->saved_stdin);
-	// dup2(minishell->saved_stdout, STDOUT_FILENO);
-	// close(minishell->saved_stdout);
-}
-
-void	handle_cmd(t_mini *minishell, t_env **env, char *argv[], t_tok *input_ln)
-{
-	int		i;
-	char	*str;
-	char	**builtin;
-
-	(void)argv;
-	i = 0;
-	str = 0;
-	builtin = ft_split("cd echo env exit export pwd unset", ' ');
-	while (input_ln)
+	// fd = 0;
+	if (!type)
+		minishell->output_fd = open(input_ln->next->next->data, O_WRONLY | O_CREAT | O_TRUNC, 0664);
+	else
+		minishell->output_fd = open(input_ln->next->next->data, O_WRONLY | O_APPEND	, 0664);
+	if (!minishell->redir)
 	{
-		i = 0;
-		while (1 && !input_ln->type)
+		dup2(STDOUT_FILENO, 51);
+		minishell->saved_stdout = 51;
+		close(STDOUT_FILENO);
+	}
+	if (!minishell->redir && !minishell->pipe)
+	{
+		dup2(STDIN_FILENO, 50);
+		minishell->saved_stdin = 50;
+		close(STDIN_FILENO);
+	}
+	else
+		minishell->pipe = 0;
+	minishell->redir = 1;
+	minishell->redir_open = 0;
+	if (flag)
+	{
+		minishell->tmpdirections = input_ln->data;
+		input_ln->data = ft_strjoin_free(ft_strdup("cat "), input_ln->data);
+	}
+	dup2(minishell->output_fd, STDOUT_FILENO);
+	close(minishell->output_fd);
+}
+
+t_tok	change_cmd_redir(t_tok *i_ln, int i, int *flag)
+{
+	t_tok	*tmp;
+	t_tok	*tmp2;
+	t_tok	*tmp3;
+	int		j;
+
+	tmp = i_ln;
+	j = i;
+	if (!i)
+		return (*i_ln);
+	*flag = 1;
+	while (i)
+	{
+		if (i_ln->next)
+			i_ln = i_ln->next->next;
+		i--;
+	}
+	tmp2 = 0;
+	tmp3 = i_ln;
+	if (tmp3)
+	{
+		tmp2 = tmp3->next;
+		tmp3->next = tmp;
+	}
+	while (j)
+	{
+		if (i_ln->next)
+			i_ln = i_ln->next->next;
+		j--;
+	}
+	i_ln->next = tmp2;
+	i_ln = tmp3;
+	return (*tmp3);
+}
+
+void print_list(t_tok *i_ln)
+{
+	t_tok *tmp;
+
+	tmp = i_ln;
+	while (tmp)
+	{
+		printf("Nodo lista: %s -> %p\n", tmp->data, tmp->next);
+		tmp = tmp->next;
+	}
+}
+
+int	check_redir(t_tok *i_ln)
+{
+	int	i;
+	int len;
+	int j;
+	char *tmp2;
+	t_tok *tmp;
+
+	i = 0;
+	j = -1;
+	while (i_ln)
+	{
+		if (!i_ln->type)
+			break ;
+		if (i_ln->data && (i_ln->data[0] == '>' || i_ln->data[0] == '<'))
 		{
-			if (input_ln->data[i] == ' ' || !input_ln->data[i])
+			j = -1;
+			while (i_ln->next->data[++j])
 			{
-				str = ft_substr(input_ln->data, 0, i);
-				if (input_ln->next && !(ft_strncmp("|", input_ln->next->data, 1)) && !minishell->pipe)
-					first_pipe(minishell);
-				else if (minishell->pipe && input_ln->next && !ft_strncmp("|", input_ln->next->data, 1))
-					middle_pipe(minishell);
-				else if (minishell->pipe)
-					last_pipe(minishell);
-				if (ft_find(builtin, str))
+				if (i_ln->next->data[j] == ' ')
 				{
-					if (!(ft_strncmp("pwd", str, 3)))
-						get_pwd();
-					else if (!(ft_strncmp("cd", str, 2)))
-						change_dir(input_ln);
-					else if (!(ft_strncmp("echo", str, 4)))
-						ft_echo(input_ln);
-					else if (!(ft_strncmp("env", str, 3)))
-						get_env(*env);
-					else if (!(ft_strncmp("exit", str, 4)))
-						exit_command();
-					else if (!(ft_strncmp("export", str, 6)))
-						export_command(*env, input_ln);
-					else if (!(ft_strncmp("unset", str, 5)))
-						unset_var(env, input_ln);
+					tmp = i_ln->next->next;
+					tmp2 = ft_strdup(i_ln->next->data);
+					len = ft_strlen(i_ln->next->data);
+					i_ln->next->data = ft_substr_free(i_ln->next->data, 0, j);
+					get_next_lst(i_ln->next);
+					i_ln->next->next->data = ft_substr_free(tmp2, j + 1, len);
+					i_ln->next->next->next = tmp;
 				}
-				else
-					execute_command_from_system(input_ln->data);
-				if (minishell->pipe && (!input_ln->next || ft_strncmp("|", input_ln->next->data, 1)))
-					reset_fd(minishell);
-				break ;
 			}
 			i++;
 		}
-		if (input_ln->type)
-			if (handle_separator(input_ln) == 0)
-				return ;
-		input_ln = input_ln->next;
+		i_ln = i_ln->next->next;
+	}
+	return (i);
+}
+
+void	ft_free_i_ln(t_tok *i_ln)
+{
+	t_tok	*tmp;
+
+	while(i_ln)
+	{
+		// free(i_ln->data);
+		tmp = i_ln->next;
+		free(i_ln);
+		i_ln = tmp;
 	}
 }
 
-int	count_quotes(char *line, int *quotes, int n)
+void	init_mini(char *envp[])
 {
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	*(quotes) = 0;
-	// printf("%s\n", line);
-	while (line[i] && i < n)
-	{
-		if (line[i] == '\'')
-			j++;
-		else if (line[i] == '\"')
-			(*quotes)++;
-		i++;
-	}
-	return (j);
-}
-
-char	*check_readline(char *line)
-{
-	char	*tmp;
-	int		quotes;
-
-	tmp = 0;
-	quotes = 0;
-	while (count_quotes(line, &quotes, ft_strlen(line)) % 2 != 0)
-	{
-		tmp = readline("quote: ");
-		quotes = 0;
-		line = ft_strjoin(line, tmp);
-	}
-	while (quotes % 2 != 0)
-	{
-		tmp = readline("dquotes: ");
-		line = ft_strjoin(line, tmp);
-		quotes = 0;
-		count_quotes(line, &quotes, ft_strlen(line));
-	}
-	return (line);
-}
-
-void	init_mini(int argc, char *argv[], char *envp[])
-{
-	t_tok	input_ln;
+	t_tok	*input_ln;
+	t_tok	tmp;
 	t_mini	minishell;
-	t_env	*env;
-	char	*command;
 	char	*line;
 	char	*str;
+	int		flag;
 
-	(void)argc;
-	(void)argv;
 	line = 0;
-	command = 0;
+	flag = 0;
 	minishell.pipe = 0;
 	minishell.saved_stdout = dup(STDOUT_FILENO);
 	minishell.saved_stdin = dup(STDIN_FILENO);
-	env = NULL;
-	init_env(env);
-	take_environ(&env, envp);
+	minishell.redir = 0;
+	minishell.redir_open = 1;
+	minishell.redir_exec = 0;
+	minishell.env = envp;
+	// init_env(env);
+	// take_environ(&env, envp);
 	/*----------------------DA DECOMMENTARE-----------------------*/
 	signal(SIGINT, &signal_handler);
 	// signal(SIGQUIT, &exit_command_signal);
 	// signal(SIGTSTP, signal_handler);
 	while (42)
 	{
-		init(&input_ln);
-		str = set_prompt();
+		input_ln = malloc(sizeof(t_tok));
+		init(input_ln);
+		str = set_prompt(minishell.env);
 		line = readline(str);
+		free(str);
 		if (!line)
 			return ;
 		line = check_readline(line);
@@ -432,17 +205,51 @@ void	init_mini(int argc, char *argv[], char *envp[])
 		{
 			minishell.pipe = 0;
 			add_history(line);
-			get_command(&input_ln, line);
-			handle_cmd(&minishell, &env, argv, &input_ln);
+			get_command(input_ln, line, minishell.env);
+			tmp = change_cmd_redir(input_ln, check_redir(input_ln), &flag);
+			if (flag)
+				tmp.next = input_ln;
+			handle_cmd(&minishell, &tmp);
 		}
+		free(input_ln);
+		free(line);
 	}
 	close(minishell.saved_stdout);
 	close(minishell.saved_stdin);
 }
 
+char **ft_init_env(char **env, int k)
+{
+	char **tmp;
+	int i;
+	int lvl;
+
+	if (k == 1)
+		lvl = ft_atoi(ft_get_env(env, "SHLVL")) + 1;
+	else
+		lvl = ft_atoi(ft_get_env(env, "SHLVL"));
+	i = ft_strlen_matrix(env);
+	tmp = (char **)malloc(sizeof(char *) * (i + 1));
+	i = 0;
+	while(env[i])
+	{
+		if (ft_strncmp(env[i], "SHLVL=", 6) == 0)
+			tmp[i] = ft_strjoin_free(ft_strdup("SHLVL="), ft_itoa(lvl));
+		else
+			tmp[i] = ft_strdup(env[i]);
+		i++;
+	}
+	tmp[i] = 0;
+	return (tmp);
+}
+
 int	main(int argc, char *argv[], char *envp[])
 {
+	(void)argc;
+	(void)argv;
 	g_exit_status = 0;
-	init_mini(argc, argv, envp);
+	envp = ft_init_env(envp, 1);
+	init_mini(envp);
+	// ft_free_matrix(envp);
 	return (0);
 }

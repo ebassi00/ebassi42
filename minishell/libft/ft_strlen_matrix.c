@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlen_matrix.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpatrini@student.42roma.it <mpatrini>      +#+  +:+       +#+        */
+/*   By: mpatrini <mpatrini@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 03:27:17 by mpatrini@st       #+#    #+#             */
-/*   Updated: 2022/02/21 03:32:28 by mpatrini@st      ###   ########.fr       */
+/*   Updated: 2022/05/17 03:28:43 by mpatrini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

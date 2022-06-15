@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpatrini@student.42roma.it <mpatrini>      +#+  +:+       +#+        */
+/*   By: mpatrini <mpatrini@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 16:56:27 by mpatrini          #+#    #+#             */
-/*   Updated: 2022/03/20 17:25:59 by mpatrini@st      ###   ########.fr       */
+/*   Updated: 2022/06/04 01:16:53 by mpatrini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int			ft_tolower(int c);
 int			ft_toupper(int c);
 size_t		ft_strlcat(char *dst, const char *src, size_t size);
 char		*ft_strchr(const char *s, int c);
+int			ft_strchr_int(const char *s, int c);
 char		*ft_strrchr(const char *s, int c);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
 int			ft_atoi(const char *str);

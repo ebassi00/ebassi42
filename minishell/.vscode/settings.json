@@ -1,0 +1,9 @@
+{
+	"makefile.launchConfigurations": [
+		{
+			"cwd": "/Users/mike/Desktop/minishell.nosync",
+			"binaryPath": "/Users/mike/Desktop/minishell.nosync/minishell",
+			"binaryArgs": []
+		}
+	]
+}

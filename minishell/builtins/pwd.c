@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dripanuc <dripanuc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mpatrini <mpatrini@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 16:57:09 by ebassi            #+#    #+#             */
-/*   Updated: 2022/04/12 22:01:05 by dripanuc         ###   ########.fr       */
+/*   Updated: 2022/06/03 22:49:55 by mpatrini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	get_pwd()
+void	get_pwd( void )
 {
-	char *wd;
+	char	*wd;
 
 	wd = getcwd(NULL, 0);
 	ft_putendl_fd(wd, 1);

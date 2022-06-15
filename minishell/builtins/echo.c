@@ -3,107 +3,127 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dripanuc <dripanuc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mpatrini <mpatrini@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/01 16:57:11 by ebassi            #+#    #+#             */
-/*   Updated: 2022/05/06 11:40:50 by dripanuc         ###   ########.fr       */
+/*   Created: 2022/04/01 16:57:11 by mpatrini          #+#    #+#             */
+/*   Updated: 2022/06/13 19:54:06 by mpatrini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	prev_echo(char *data, int i)
+void	ft_echo_wild(char *str)
 {
-	int	j;
+	char			**files;
+	char			*dir;
+	int				flag_h;
 
-	j = 0;
-	while (data[j] && j < i)
+	dir = getcwd(NULL, 0);
+	files = ft_echo_wild2(str, dir);
+	if (files[0] == 0)
 	{
-		if (data[j] == 'e' && data[j + 1] == 'c' && data[j + 2] == 'h' \
-			&& data[j + 3] == 'o' && data[j + 4] == ' ')
-			return (1);
-		j++;
+		files[0] = ft_strdup(str);
+		files[1] = 0;
 	}
-	return (0);
+	flag_h = 0;
+	if (str[0] == '.')
+		flag_h = 1;
+	ft_echo_wild_h(files, flag_h);
+	ft_free_matrix(files);
+	free(dir);
 }
 
-int	find_flag(char *data)
+void	ft_echo_env(char *echo, int *flag34, int *flag39, char **env)
 {
 	int	i;
 
 	i = 0;
-	while (data[i])
+	while (echo[i])
 	{
-		if (data[i] == '-' && data[i + 1] == 'n' && prev_echo(data, i))
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-int	trim_all2(char *str, char op)
-{
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	while (str[j])
-	{
-		if (str[j] == op)
-			i++;
-		j++;
-	}
-	if (i % 2 != 0)
-		return (-1);
-	return (i);
-}
-
-char	*trim_all(char *str, char op)
-{
-	char	*res;
-	int		i;
-	int		j;
-
-	i = trim_all2(str, op);
-	if (i == -1)
-		return (NULL);
-	res = malloc (ft_strlen(str) - i + 1);
-	i = 0;
-	j = 0;
-	while (str[i])
-	{
-		if (str[i] == op)
-			i++;
+		if (echo[i] == '$' && *flag39 == 0)
+		{
+			if (ft_strlen(echo) == 1)
+				write(STDOUT, "$", 1);
+			else if (echo[i + 1] == '?')
+				ft_putnbr_fd(g_exit_status, STDOUT);
+			else if (echo[i + 1] == '$')
+				ft_putnbr_fd(getpid(), STDOUT);
+			else
+				i = ft_echo_env2(echo, i, env);
+			if (echo[i] == '$')
+				i++;
+		}
 		else
 		{
-			res[j] = str[i];
-			j++;
-			i++;
+			ft_echo_helper(echo[i], flag34, flag39);
 		}
+		i++;
 	}
-	res[j] = '\0';
-	return (res);
 }
 
-void	ft_echo(t_tok *input_ln)
+void	ft_echo2(char **echo, char **env)
 {
 	int		i;
-	int		flag;
-	char	*res;
+	int		flag39;
+	int		flag34;
+	int		j;
+
+	i = -1;
+	flag39 = 0;
+	flag34 = 0;
+	while (echo[++i])
+	{
+		if (i > 0)
+			write(STDOUT, " ", 1);
+		if (ft_strchr(echo[i], '*') && !ft_strrchr(echo[i], 34) \
+			&& !ft_strrchr(echo[i], 39) && flag34 == 0 && flag39 == 0)
+			ft_echo_wild(echo[i]);
+		else if (ft_strchr(echo[i], '$') && flag39 == 0)
+			ft_echo_env(echo[i], &flag34, &flag39, env);
+		else
+		{
+			j = -1;
+			while (echo[i][++j])
+				ft_echo_helper(echo[i][j], &flag34, &flag39);
+		}
+	}
+}
+
+char	**ft_echo_wild2(char *str, char *dir)
+{
+	char			**files;
+	char			*find;
+	char			*last;
+
+	files = ft_echo_wild3(str, dir);
+	str = ft_substr(str, ft_strchr(str, '*') - str + 1, ft_strlen(str));
+	find = malloc(ft_strlen(str) + 1);
+	last = NULL;
+	files = ft_echo_wild2_help(files, str, find, &last);
+	files = ft_check_last_echo(files, last, -1, 0);
+	if (!last)
+		free(last);
+	free(find);
+	free(str);
+	return (files);
+}
+
+void	ft_echo_wild_h(char **files, int flag_h)
+{
+	int	i;
+	int	j;
 
 	i = 0;
-	flag = 0;
-	res = 0;
-	flag = find_flag(input_ln->data);
-	res = ft_strtrim(&(input_ln->data[4]), " ");
-	if (flag)
-		res = ft_strtrim(&res[3], " ");
-	res = trim_all(res, '\"');
-	res = trim_all(res, '\'');
-	if (flag)
-		ft_putstr_fd(res, STDOUT);
-	else
-		ft_putendl_fd(res, STDOUT);
-	free(res);
+	j = ft_strlen_matrix(files);
+	files[j] = 0;
+	while (i < j)
+	{
+		if ((i > 0 && files[i - 1][0] != '.' && flag_h == 0) || \
+			(i > 0 && files[i - 1][0] == '.' && flag_h == 1))
+			write(STDOUT, " ", 1);
+		if ((files[i][0] != '.' && flag_h == 0) || \
+			(files[i][0] == '.' && flag_h == 1))
+			ft_putstr_fd(files[i], STDOUT);
+		i++;
+	}
 }

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mpatrini@student.42roma.it <mpatrini>      +#+  +:+       +#+         #
+#    By: mpatrini <mpatrini@student.42roma.it>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/10 16:02:33 by mpatrini          #+#    #+#              #
-#    Updated: 2022/03/14 06:41:50 by mpatrini@st      ###   ########.fr        #
+#    Updated: 2022/06/04 01:22:30 by mpatrini         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,6 +73,7 @@ SRC = ft_isalpha.c \
 		ft_strcmp.c \
 		ft_free_matrix.c \
 		ft_abs.c \
+		ft_free_lst.c \
 
 OBJS	= $(SRC:.c=.o)
 
