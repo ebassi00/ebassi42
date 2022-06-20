@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpatrini <mpatrini@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mpatrini <mpatrini@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 20:50:24 by mpatrini          #+#    #+#             */
-/*   Updated: 2022/01/19 01:38:42 by mpatrini         ###   ########.fr       */
+/*   Updated: 2022/05/17 03:15:22 by mpatrini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*ft_strnstr(const char *h, const char *n, size_t len)
 	i = 0;
 	j = 0;
 	a = 0;
-	if (*n == 0)
+	if (*n == 0 || h == NULL)
 		return ((char *)h);
 	while (h[i] && i < len)
 	{

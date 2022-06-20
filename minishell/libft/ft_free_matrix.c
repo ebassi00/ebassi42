@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free_matrix.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpatrini@student.42roma.it <mpatrini>      +#+  +:+       +#+        */
+/*   By: dripanuc <dripanuc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 03:27:17 by mpatrini@st       #+#    #+#             */
-/*   Updated: 2022/02/21 03:32:59 by mpatrini@st      ###   ########.fr       */
+/*   Updated: 2022/05/23 03:35:42 by dripanuc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,11 @@
 void	ft_free_matrix(char **matrix)
 {
 	int	i;
+	int d;
 
+	d = ft_strlen_matrix(matrix);
 	i = 0;
-	while (matrix[i])
+	while (i < d)
 	{
 		free(matrix[i]);
 		i++;

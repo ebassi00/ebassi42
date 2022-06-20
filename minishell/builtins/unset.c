@@ -3,25 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebassi <ebassi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mpatrini <mpatrini@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 17:01:08 by ebassi            #+#    #+#             */
-/*   Updated: 2022/04/27 16:25:14 by ebassi           ###   ########.fr       */
+/*   Updated: 2022/06/13 18:37:09 by mpatrini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	ft_free_env(t_env *env)
-{
-	free(env->key);
-	free(env->value);
-	free(env);
-}
-
 char	*unset_var2(t_tok *input)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (input->data[i] != ' ' && input->data[i])
@@ -29,31 +22,29 @@ char	*unset_var2(t_tok *input)
 	return (ft_strtrim(&input->data[i], " "));
 }
 
-void	unset_var(t_env **env, t_tok *input)
+char	**unset_var(char **env, t_tok *input)
 {
-	t_env	*prev;
-	t_env	*head;
-	t_env	*curr;
+	int		i;
+	char	**tmp;
+	char	*name;
 
-	input->data = unset_var2(input);
-	head = *env;
-	curr = head;
-	prev = NULL;
-	while (curr)
+	name = unset_var2(input);
+	if (ft_get_env(env, name) != NULL)
 	{
-		if (ft_strncmp(curr->key, input->data, ft_strlen(curr->key)) == 0)
+		i = ft_strlen_matrix(env);
+		tmp = (char **)malloc(sizeof(char *) * i);
+		i = 0;
+		while (env[i])
 		{
-			if (!prev)
-				head = head->next;
-			else if (curr->next != NULL)
-				prev->next = curr->next;
-			else
-				prev->next = NULL;
-			break ;
+			if (ft_strncmp(env[i], name, ft_strlen(name)) != 0 \
+				&& env[i][ft_strlen(name)] != '=')
+				tmp[i] = env[i];
+			i++;
 		}
-		prev = curr;
-		curr = curr->next;
+		tmp[i] = 0;
+		ft_free_matrix(env);
+		return (tmp);
 	}
-	ft_free_env(curr);
-	*env = head;
+	free(name);
+	return (env);
 }

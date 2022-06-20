@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dripanuc <dripanuc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mpatrini <mpatrini@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/01 15:44:40 by ebassi            #+#    #+#             */
-/*   Updated: 2022/05/06 12:49:23 by dripanuc         ###   ########.fr       */
+/*   Created: 2022/04/01 15:44:40 by mpatrini          #+#    #+#             */
+/*   Updated: 2022/06/12 04:43:56 by mpatrini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,23 +18,23 @@ void	signal_handler(int sig)
 		return ;
 }
 
-char	*set_prompt( void )
+char	*set_prompt(char **env)
 {
 	char	*str;
 	char	*tmp;
 
-	// I colori del cazzo bugguno tutta lla history
+	//I colori del cazzo bugguno tutta la history
 	str = 0;
 	tmp = 0;
-	str = ft_strdup("\1"GREEN"\2");
-	tmp = getenv("USER");
+	// str = ft_strdup(GREEN);
+	tmp = ft_strdup(ft_get_env(env, "USER"));
 	if (!tmp)
 		tmp = ft_strdup("guest");
-	tmp = ft_strjoin(tmp, "@minishell$ ");
-	str = ft_strjoin(str, tmp);
-	free(tmp);
-	tmp = ft_strdup("\1"RESET"\2");
-	str = ft_strjoin(str, tmp);
+	tmp = ft_strjoin_free(tmp, ft_strdup("@minishell$ "));
+	// str = ft_strjoin_free(str, tmp);
+	// tmp = ft_strdup(RESET);
+	// str = ft_strjoin_free(str, tmp);
+	str = tmp;
 	return (str);
 }
 
@@ -45,14 +45,6 @@ void	get_next_lst(t_tok *input_ln)
 	next_lst = malloc(sizeof(t_tok));
 	next_lst->id = input_ln->id + 1;
 	input_ln->next = next_lst;
-}
-
-void	init_env(t_env *env)
-{
-	env = malloc (sizeof(t_env));
-	env->key = 0;
-	env->value = 0;
-	env->next = 0;
 }
 
 void	init(t_tok *x)
