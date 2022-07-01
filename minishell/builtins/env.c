@@ -6,21 +6,22 @@
 /*   By: mpatrini <mpatrini@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 17:01:15 by mpatrini          #+#    #+#             */
-/*   Updated: 2022/06/13 18:39:24 by mpatrini         ###   ########.fr       */
+/*   Updated: 2022/06/23 00:01:48 by mpatrini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	get_env(char **env)
+void	ft_env(t_mini *mini)
 {
 	int	i;
 
 	i = 0;
-	while (env[i])
+	while (mini->env[i])
 	{
-		if (ft_strchr(env[i], '='))
-			ft_putendl_fd(env[i], STDOUT);
+		if (ft_strchr(mini->env[i], '='))
+			ft_putendl_fd(mini->env[i], STDOUT);
 		i++;
 	}
+	mini->ret = 0;
 }

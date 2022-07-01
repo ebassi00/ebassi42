@@ -3,54 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpatrini <mpatrini@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mpatrini <mpatrini@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 00:45:18 by mpatrini          #+#    #+#             */
-/*   Updated: 2022/01/19 01:19:06 by mpatrini         ###   ########.fr       */
+/*   Updated: 2022/06/29 20:21:15 by mpatrini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	ft_check_set(char c, char const *set)
+static int	check_set(char c, char *set)
 {
-	size_t	i;
+	int	k;
 
-	i = 0;
-	while (set[i])
+	k = 0;
+	while (set[k])
 	{
-		if (set[i] == c)
+		if (c == set[k])
 			return (1);
-		i++;
+		k++;
 	}
 	return (0);
 }
 
 char	*ft_strtrim(char const *s1, char const *set)
 {
-	char	*str;
-	size_t	i;
-	size_t	s;
-	size_t	e;
+	int		c;
+	int		k;
 
-	if (!s1 || !set)
-		return (NULL);
-	s = 0;
-	e = ft_strlen(s1);
-	while (s1[s] && ft_check_set(s1[s], set))
-		s++;
-	while (e > s && ft_check_set(s1[e - 1], set))
-		e--;
-	str = (char *)malloc(e - s + 1);
-	if (!str)
-		return (NULL);
-	i = 0;
-	while (s < e)
-	{
-		str[i] = s1[s];
-		s++;
-		i++;
-	}
-	str[i] = 0;
-	return (str);
+	c = 0;
+	while (check_set(s1[c], (char *)set))
+		c++;
+	k = ft_strlen(s1);
+	while (check_set(s1[k - 1], (char *)set) && k > c)
+		k--;
+	return (ft_substr((char *)s1, c, k - c));
 }

@@ -1,97 +1,97 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell2.c                                       :+:      :+:    :+:   */
+/*   minishell copy 3.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mpatrini <mpatrini@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/10 00:54:34 by mpatrini          #+#    #+#             */
-/*   Updated: 2022/06/12 03:49:02 by mpatrini         ###   ########.fr       */
+/*   Created: 2022/06/28 17:17:10 by dripanuc          #+#    #+#             */
+/*   Updated: 2022/06/29 17:47:16 by mpatrini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	qquotes(char c, int q)
+void	ft_signal_handler_global(int signal)
 {
-
-	if (c == '"' && !q)
-		q = 2;
-	else if (c == '"' && q == 2)
-		q = 0;
-	else if (c == '\'' && !q)
-		q = 1;
-	else if (c == '\'' && q == 1)
-		q = 0;
-	return (q);
+	if ((signal == SIGINT || signal == SIGQUIT) && g_sigs.read == 1)
+	{
+		printf("\r");
+		rl_on_new_line();
+		rl_redisplay();
+	}
+	if (signal == SIGINT && g_sigs.read == 1)
+	{
+		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
 }
 
-void	expand_envars(t_tok *input_ln, char **env)
+char	*ft_new_alloc(char *line)
 {
-	// (void)input_ln;
+	char	*new;
+	int		c;
 	int		i;
-	int		j;
-	int		quotes;
-	char	*current_env;
-	char	*new_data;
+
+	c = 0;
+	i = 0;
+	while (line[i])
+	{
+		if (ft_is_sep(line, i))
+			c++;
+		i++;
+	}
+	new = malloc(sizeof(char) * ((2 * c) + i + 1));
+	if (!new)
+		return (NULL);
+	return (new);
+}
+
+char	*ft_add_spaces2(char *line, int i, int k)
+{
+	char	*new;
+
+	new = ft_new_alloc(line);
+	if (!new)
+		return (NULL);
+	while (line[i])
+	{
+		if (ft_quotes(line, i) == 0 && ft_is_sep(line, i))
+		{
+			new[k++] = 32;
+			new[k++] = line[i++];
+			if (ft_quotes(line, i) == 0 && (line[i] == '<' || line[i] == '>' \
+				|| line[i] == '|' || line[i] == '&'))
+				new[k++] = line[i++];
+			new[k++] = 32;
+		}
+		else
+			new[k++] = line[i++];
+	}
+	new[k] = 0;
+	return (new);
+}
+
+char	*ft_add_spaces(char *line, t_mini *mini)
+{
+	char	*new;
+	int		i;
+	int		k;
 
 	i = 0;
-	j = 0;
-	current_env = 0;
-	new_data = 0;
-	quotes = 0;
-	while (input_ln)
-	{
-		i = 0;
-		if (ft_strncmp(input_ln->data, "echo ", 5))
-		{
-			while (input_ln->data[i])
-			{
-				quotes = qquotes(input_ln->data[i], quotes);
-				if (input_ln->data[i] == '$' && quotes != 1)
-				{
-					j = i++;
-					if (input_ln->data[i++] == '?')
-						current_env = ft_itoa(g_exit_status);
-					else
-					{						while (input_ln->data[i] >= 63 && input_ln->data[i] <= 125)
-							i++;
-						current_env = ft_substr_free(input_ln->data, j + 1, i - j - 1);
-						if (!current_env || !current_env[0])
-							current_env = ft_strdup("");
-						else
-						{
-							current_env = ft_get_env(env, current_env);
-							if (!current_env)
-								current_env = ft_strdup("");
-						}
-					}
-					new_data = ft_substr(input_ln->data, 0, j);
-					new_data = ft_strjoin_free(new_data, current_env);
-					new_data = ft_strjoin_get(new_data, &input_ln->data[i]);
-					input_ln->data = new_data;
-					if (!input_ln->data[i])
-						return ;
-				}
-				if (input_ln->data[i] == '~' && !quotes)
-				{
-					new_data = ft_substr(input_ln->data, 0, i);
-					new_data = ft_strjoin_free(new_data, ft_strdup(ft_get_env(env, "HOME")));
-					new_data = ft_strjoin_get(new_data, &input_ln->data[i + 1]);
-					input_ln->data = new_data;
-				}
-				// if (!ft_strncmp(&input_ln->data[i],"./", 2) && !quotes)
-				// {
-				// 	new_data = ft_substr(input_ln->data, 0, i);
-				// 	new_data = ft_strjoin(new_data, ft_strdup(getcwd(NULL, 0)));
-				// 	new_data = ft_strjoin_get(new_data, &input_ln->data[i + 1]);
-				// 	input_ln->data = new_data;
-				// }
-				i++;
-			}
-		}
-		// if (!input_ln->next)
-		// 	printf("%s\n", input_ln->data);
-		input_ln = input_ln->next;
-	}
+	k = 0;
+	line = ft_expand(line, mini);
+	new = ft_add_spaces2(line, i, k);
+	free(line);
+	return (new);
+}
+
+void	ft_init_signals( void )
+{
+	g_sigs.sigint = 0;
+	g_sigs.sigquit = 0;
+	g_sigs.pid = 0;
+	g_sigs.exit_status = 0;
 }

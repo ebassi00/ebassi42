@@ -6,45 +6,53 @@
 /*   By: mpatrini <mpatrini@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 17:01:08 by ebassi            #+#    #+#             */
-/*   Updated: 2022/06/13 18:37:09 by mpatrini         ###   ########.fr       */
+/*   Updated: 2022/06/28 17:03:13 by mpatrini         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*unset_var2(t_tok *input)
-{
-	int	i;
-
-	i = 0;
-	while (input->data[i] != ' ' && input->data[i])
-		i++;
-	return (ft_strtrim(&input->data[i], " "));
-}
-
-char	**unset_var(char **env, t_tok *input)
+char	**ft_unset_var2(char **env, char *str)
 {
 	int		i;
+	int		j;
 	char	**tmp;
-	char	*name;
 
-	name = unset_var2(input);
-	if (ft_get_env(env, name) != NULL)
+	i = ft_strlen_matrix(env);
+	tmp = (char **)malloc(sizeof(char *) * i);
+	i = 0;
+	j = 0;
+	while (env[i])
 	{
-		i = ft_strlen_matrix(env);
-		tmp = (char **)malloc(sizeof(char *) * i);
-		i = 0;
-		while (env[i])
+		if (ft_strncmp(env[i], str, ft_strlen(str)) == 0 \
+			&& env[i][ft_strlen(str)] == '=')
+			;
+		else
 		{
-			if (ft_strncmp(env[i], name, ft_strlen(name)) != 0 \
-				&& env[i][ft_strlen(name)] != '=')
-				tmp[i] = env[i];
-			i++;
+			tmp[j] = ft_strdup(env[i]);
+			j++;
 		}
-		tmp[i] = 0;
-		ft_free_matrix(env);
-		return (tmp);
+		i++;
 	}
-	free(name);
-	return (env);
+	tmp[j] = 0;
+	ft_free_matrix(env);
+	return (tmp);
+}
+
+void	ft_unset_var(t_mini *mini, char **cmd)
+{
+	int		k;
+	char	*e;
+
+	k = 0;
+	while (cmd[++k])
+	{
+		e = ft_get_env(mini->env, cmd[k]);
+		if (e != NULL)
+		{
+			mini->env = ft_unset_var2(mini->env, cmd[k]);
+		}
+		free(e);
+	}
+	mini->ret = 0;
 }

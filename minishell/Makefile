@@ -6,7 +6,7 @@
 #    By: mpatrini <mpatrini@student.42roma.it>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/12 16:02:33 by mpatrini          #+#    #+#              #
-#    Updated: 2022/06/13 19:09:44 by mpatrini         ###   ########.fr        #
+#    Updated: 2022/06/29 20:52:45 by mpatrini         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,37 +16,42 @@ LIBFT	=	./libft/libft.a
 
 CC		=	gcc
 
-CFLAGS	=	-Wall -Wextra -Werror -g -I includes/ -I libft/#-fsanitize=address -fno-omit-frame-pointer
+CFLAGS	=	-Wall -Wextra -Werror -g -I includes/ -I libft/
 
-READLINE	= -L/usr/include -lreadline -I$(HOME)/.brew/opt/readline/include #-L$(HOME)/.brew/opt/readline/lib
+READLINE	= -L/usr/include -lreadline -lcurses -L /Users/$(USER)/.brew/opt/readline/lib -I /Users/$(USER)/.brew/opt/readline/include
 
 RM		=	rm -f
 
 SRCSFLS = main.c \
-			utils.c \
-			utils2.c \
-			init_environ.c \
 			minishell.c \
 			minishell2.c \
 			minishell3.c \
-			minishell4.c \
-			minishell5.c \
-			minishell6.c \
-			minishell7.c \
-			pipe.c \
+			brackets.c \
+			check_command.c \
+			cmd_list.c \
+			cmd_list2.c \
+			env.c \
+			exec.c \
+			exec2.c \
+			expand_env.c \
+			expand_env2.c \
+			get_command.c \
+			heredoc-pipe.c \
+			mini.c \
+			redirections-fd.c \
+			utility.c \
+			quotes.c \
 			wildcard.c \
 			wildcard2.c \
 			wildcard3.c \
-			
+
 BUILTINS = cd.c \
-			echo.c \
-			echo2.c \
-			echo3.c \
-			echo4.c \
 			pwd.c \
 			env.c \
 			exit.c \
+			echo.c \
 			export.c \
+			export2.c \
 			unset.c \
 
 SRCS = $(addprefix src/, $(SRCSFLS)) $(addprefix builtins/, $(BUILTINS))
@@ -80,4 +85,16 @@ fclean	:	clean
 
 re		:	fclean all
 
-.PHONY	:	all clean fclean re
+test	:	all
+			@./$(NAME)
+			
+leaks	:	all
+			@leaks --atExit -- ./$(NAME)
+			
+l		:
+			@leaks --atExit -- ./$(NAME)
+
+norma	:
+			@norminette
+
+.PHONY	:	all clean fclean re test
